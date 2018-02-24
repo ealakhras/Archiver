@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Archiver")]
-[assembly: AssemblyDescription("Image Archiving Program")]
+[assembly: AssemblyTitle("dal")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Eyad Al-Akhras")]
-[assembly: AssemblyProduct("Archiver")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("dal")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("62c7d47d-8880-49a0-bee8-4885a6f2eb04")]
+[assembly: Guid("0b12e121-be44-4e2b-8638-bbbd18b6f0d2")]
 
 // Version information for an assembly consists of the following four values:
 //
