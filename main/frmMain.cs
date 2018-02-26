@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using dal;
+using bal;
 
 namespace main
 {
@@ -20,6 +15,7 @@ namespace main
             listView1.Items[0].Selected = true;
             listView2.Items[0].Selected = true;
 
+            DataDome.ConnectTo("Integrated Security=SSPI;Persist Security Info=False;User ID='';Initial Catalog=archiver;Data Source=.;Initial File Name=''");
         }
 
         public frmMain(string[] args) : this()
@@ -52,6 +48,15 @@ namespace main
         private void mniViewActions_Click(object sender, EventArgs e)
         {
             spcHorizontalRight.Panel2Collapsed = !mniViewPreview.Checked;
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            Folder folder = new Folder(9);
+
+            folder.ParentID = 7;
+            folder.Name = "Jojo";
+            folder.Save();
         }
     }
 }

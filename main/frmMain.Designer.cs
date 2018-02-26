@@ -155,7 +155,7 @@
             this.mniViewToolbar.CheckOnClick = true;
             this.mniViewToolbar.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mniViewToolbar.Name = "mniViewToolbar";
-            this.mniViewToolbar.Size = new System.Drawing.Size(152, 22);
+            this.mniViewToolbar.Size = new System.Drawing.Size(123, 22);
             this.mniViewToolbar.Text = "&Toolbar";
             this.mniViewToolbar.Click += new System.EventHandler(this.mniViewToolbar_Click);
             // 
@@ -165,7 +165,7 @@
             this.mniViewFolders.CheckOnClick = true;
             this.mniViewFolders.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mniViewFolders.Name = "mniViewFolders";
-            this.mniViewFolders.Size = new System.Drawing.Size(152, 22);
+            this.mniViewFolders.Size = new System.Drawing.Size(123, 22);
             this.mniViewFolders.Text = "&Folders";
             this.mniViewFolders.Click += new System.EventHandler(this.mniViewFolders_Click);
             // 
@@ -175,7 +175,7 @@
             this.mniViewPreview.CheckOnClick = true;
             this.mniViewPreview.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mniViewPreview.Name = "mniViewPreview";
-            this.mniViewPreview.Size = new System.Drawing.Size(152, 22);
+            this.mniViewPreview.Size = new System.Drawing.Size(123, 22);
             this.mniViewPreview.Text = "&Preview";
             this.mniViewPreview.Click += new System.EventHandler(this.mniViewActions_Click);
             // 
@@ -185,7 +185,7 @@
             this.mniViewStatusbar.CheckOnClick = true;
             this.mniViewStatusbar.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mniViewStatusbar.Name = "mniViewStatusbar";
-            this.mniViewStatusbar.Size = new System.Drawing.Size(152, 22);
+            this.mniViewStatusbar.Size = new System.Drawing.Size(123, 22);
             this.mniViewStatusbar.Text = "&Statusbar";
             this.mniViewStatusbar.Click += new System.EventHandler(this.statusBarToolStripMenuItem_Click);
             // 
@@ -233,6 +233,7 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripButton2
             // 

@@ -11,8 +11,3 @@ AS
 	set @id = @@IDENTITY;
 
 	return @id;
-
-
-
-
-select * from folders

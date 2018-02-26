@@ -40,12 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Document.cs" />
-    <Compile Include="Documents.cs" />
+    <Compile Include="BaseObject.cs" />
+    <Compile Include="BusinessDome.cs" />
     <Compile Include="Folder.cs" />
-    <Compile Include="Folders.cs" />
-    <Compile Include="Image.cs" />
-    <Compile Include="Images.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

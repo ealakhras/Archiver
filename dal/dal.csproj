@@ -40,8 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database.cs" />
+    <Compile Include="DataDome.cs" />
     <Compile Include="Documents.cs" />
+    <Compile Include="BaseTable.cs" />
     <Compile Include="Folders.cs" />
     <Compile Include="Images.cs" />
     <Compile Include="Options.cs" />
