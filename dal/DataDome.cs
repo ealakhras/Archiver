@@ -30,15 +30,15 @@ namespace dal
             mFolders = new Folders();
         }
 
-        public static SqlDataReader ExecuteDataReader(string sql)
+        public static SqlDataReader ExecuteDataReader(string sql, params object[] parameters)
         {
-            mCommand.CommandText = sql;
+            mCommand.CommandText = string.Format(sql, parameters);
             return mCommand.ExecuteReader();
         }
 
-        public static int ExecuteNonQuery(string sql)
+        public static int ExecuteNonQuery(string sql, params object[] parameters)
         {
-            mCommand.CommandText = sql;
+            mCommand.CommandText = string.Format(sql, parameters);
             return mCommand.ExecuteNonQuery();
         }
     }

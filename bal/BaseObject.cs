@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 using dal;
 
 namespace bal
 {
-    public class BaseObject
+    public abstract class BaseObject
     {
         protected bool mIsDirty;
-        protected BaseTable mBaseTable;
 
         public bool IsDirty
         {
@@ -25,7 +25,19 @@ namespace bal
             mIsDirty = true;
         }
 
+        protected abstract void InitFromDataReader(SqlDataReader dr);
+
         public virtual void Save()
+        {
+            mIsDirty = false;
+        }
+
+        public virtual void Delete()
+        {
+            mIsDirty = true;
+        }
+
+        public virtual void Refresh()
         {
             mIsDirty = false;
         }

@@ -101,14 +101,14 @@ namespace bal
         public Folder(int id)
             : this()
         {
-            SqlDataReader dr = DataDome.Folders.Select(id);
-            PopulateFromDataReader(dr);
+            SqlDataReader dr = DataDome.Folders.Read(id);
+            InitFromDataReader(dr);
             dr.Close();
         }
 
-        protected void PopulateFromDataReader(SqlDataReader dr)
+        protected override void InitFromDataReader(SqlDataReader dr)
         {
-            if (dr.HasRows && dr.Read())
+            if ((dr != null) && (dr.Read()))
             {
                 mID = int.Parse(dr["id"].ToString());
                 mParentID = int.Parse(dr["parentID"].ToString());
@@ -116,24 +116,30 @@ namespace bal
                 mDescription = dr["description"].ToString();
                 mCreator = dr["creator"].ToString();
                 mCreationDate = DateTime.Parse(dr["creationDate"].ToString());
+                mIsDirty = false;
             }
         }
 
         public override void Save()
         {
-            SqlDataReader dr;
-
-            if (mID == 0)
-            {
-                dr = DataDome.Folders.Insert(mParentID, mName, mDescription);
-            }
-            else
-            {
-                dr = DataDome.Folders.Update(mID, mParentID, mName, mDescription);
-            }
-            PopulateFromDataReader(dr);
+            SqlDataReader dr = DataDome.Folders.Save(mID, mParentID, mName, mDescription);
+            InitFromDataReader(dr);
             dr.Close();
             base.Save();
+        }
+
+        public override void Delete()
+        {
+            DataDome.Folders.Delete(mID);
+            base.Delete();
+        }
+
+        public override void Refresh()
+        {
+            SqlDataReader dr = DataDome.Folders.Read(mID);
+            InitFromDataReader(dr);
+            dr.Close();
+            base.Refresh();
         }
     }
 }

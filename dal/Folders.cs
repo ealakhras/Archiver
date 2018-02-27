@@ -14,24 +14,24 @@ namespace dal
         {
         }
 
-        public SqlDataReader Insert(int parentID, string name, string description = null)
+        public SqlDataReader Save(int id, int parentID, string name, string description = null)
         {
-            return base.Insert(parentID, name, description);
+            return base.Save(id, parentID, name, description);
         }
 
-        public int Delete(int id)
+        public void Delete(int id)
         {
-            return base.Delete(id);
+            base.Delete(id);
         }
 
-        public SqlDataReader Update(int id, int parentID, string name, string description = null)
+        public SqlDataReader Read(int id = 0, int parentID = 0)
         {
-            return base.Update(id, parentID, name, description);
+            return base.Read(id, parentID);
         }
 
-        public SqlDataReader Select(int id = 0, int parentID = 0)
+        public SqlDataReader Tree()
         {
-            return base.Select(id, parentID);
+            return base.ExecuteDataReader("exec prcFolders_tree");
         }
     }
 }

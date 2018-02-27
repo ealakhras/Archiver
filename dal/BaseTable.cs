@@ -16,7 +16,7 @@ namespace dal
             mTableName = tableName;
         }
 
-        protected string PrepareParameters(params object[] parameters)
+        private string FormatParameters(params object[] parameters)
         {
             string result = "";
             foreach (object parameter in parameters)
@@ -37,28 +37,29 @@ namespace dal
             return result == "" ? "" : result.Substring(0, result.Length - 1).Trim();
         }
 
-        protected SqlDataReader Insert(params object[] parameters)
+        protected SqlDataReader Read(params object[] parameters)
         {
-            string sql = string.Format("exec prc{0}_insert {1}", mTableName, PrepareParameters(parameters));
-            return DataDome.ExecuteDataReader(sql);
+            return DataDome.ExecuteDataReader("exec prc{0}_read {1}", mTableName, FormatParameters(parameters));
         }
 
-        protected int Delete(params object[] parameters)
+        protected SqlDataReader Save(params object[] parameters)
         {
-            string sql = string.Format("exec prc{0}_delete {1}", mTableName, PrepareParameters(parameters));
-            return DataDome.ExecuteNonQuery(sql);
+            return DataDome.ExecuteDataReader("exec prc{0}_save {1}", mTableName, FormatParameters(parameters));
         }
 
-        protected SqlDataReader Update(params object[] parameters)
+        protected void Delete(params object[] parameters)
         {
-            string sql = string.Format("exec prc{0}_update {1}", mTableName, PrepareParameters(parameters));
-            return DataDome.ExecuteDataReader(sql);
+            DataDome.ExecuteNonQuery("exec prc{0}_delete {1}", mTableName, FormatParameters(parameters));
         }
 
-        protected SqlDataReader Select(params object[] parameters)
+        protected SqlDataReader ExecuteDataReader(string sql, params object[] parameters)
         {
-            string sql = string.Format("exec prc{0}_select {1}", mTableName, PrepareParameters(parameters));
-            return DataDome.ExecuteDataReader(sql);
+            return DataDome.ExecuteDataReader(sql, parameters);
+        }
+
+        protected int ExecuteNonQuery(string sql, params object[] parameters)
+        {
+            return DataDome.ExecuteNonQuery(sql, parameters);
         }
     }
 }

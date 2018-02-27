@@ -58,5 +58,12 @@ namespace main
             folder.Name = "Jojo";
             folder.Save();
         }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            Folder f = new Folder(1);
+
+
+        }
     }
 }

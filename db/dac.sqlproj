@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>db</Name>
+    <Name>dac</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{e79745d2-6c23-41ae-a70c-ac56c95a61cf}</ProjectGuid>
@@ -23,6 +23,7 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <TargetDatabase>dac</TargetDatabase>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -62,12 +63,15 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\folders.sql" />
-    <Build Include="Procedures\prcFolders_insert.sql" />
     <Build Include="procedures\prcFolders_delete.sql" />
-    <Build Include="procedures\prcFolders_update.sql" />
-    <Build Include="procedures\prcFolders_select.sql" />
+    <Build Include="procedures\prcFolders_tree.sql" />
+    <Build Include="procedures\prcFolders_read.sql" />
+    <Build Include="procedures\prcFolders_save.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="db.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SchemaCompare.scmp" />
   </ItemGroup>
 </Project>

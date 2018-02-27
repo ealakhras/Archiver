@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dal", "dal\dal.csproj", "{0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bal", "bal\bal.csproj", "{D16A8577-5B7F-4DE0-B4E9-FD5AC38286E6}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "db", "db\db.sqlproj", "{E79745D2-6C23-41AE-A70C-AC56C95A61CF}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "dac", "db\dac.sqlproj", "{E79745D2-6C23-41AE-A70C-AC56C95A61CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

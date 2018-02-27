@@ -41,11 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataDome.cs" />
-    <Compile Include="Documents.cs" />
     <Compile Include="BaseTable.cs" />
     <Compile Include="Folders.cs" />
-    <Compile Include="Images.cs" />
-    <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
