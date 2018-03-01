@@ -9,13 +9,18 @@ namespace dal
 {
     public class BaseTable
     {
-        protected string mTableName;
-
+        #region constructors
         public BaseTable(string tableName)
         {
             mTableName = tableName;
         }
+        #endregion
 
+        #region members
+        protected string mTableName;
+        #endregion
+
+        #region methods
         private string FormatParameters(params object[] parameters)
         {
             string result = "";
@@ -61,5 +66,6 @@ namespace dal
         {
             return DataDome.ExecuteNonQuery(sql, parameters);
         }
+        #endregion
     }
 }

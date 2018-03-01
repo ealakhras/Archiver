@@ -5,11 +5,14 @@
 	@description nvarchar(MAX) = null
 AS
 
-	if (@id is null)
+	if (isnull(@id, 0) = 0)
 	begin
 		-- insert records:
 		insert into folders(parentID, name, description)
-			select @parentID, @name, @description;
+			select
+				case isnull(@parentID, 0) when 0 then null else @parentID end,
+				@name,
+				@description;
 
 		set @id = @@IDENTITY;
 

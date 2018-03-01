@@ -10,8 +10,18 @@ namespace bal
 {
     public abstract class BaseObject
     {
-        protected bool mIsDirty;
+        #region constructors
+        public BaseObject()
+        {
+            mIsDirty = true;
+        }
+        #endregion
 
+        #region members
+        protected bool mIsDirty;
+        #endregion
+
+        #region properties
         public bool IsDirty
         {
             get
@@ -19,13 +29,34 @@ namespace bal
                 return mIsDirty;
             }
         }
+        #endregion
 
-        public BaseObject()
+        #region methods
+        protected abstract void InitFromDataReader(SqlDataReader dr);
+
+        protected int GetIntFromDataReader(object drField)
         {
-            mIsDirty = true;
+            if ((drField != null) && (int.TryParse(drField.ToString(), out int result)))
+                return result;
+
+            return 0;
         }
 
-        protected abstract void InitFromDataReader(SqlDataReader dr);
+        protected string GetStringFromDataReader(object drField)
+        {
+            if (drField != null)
+                return drField.ToString();
+
+            return string.Empty;
+        }
+
+        protected DateTime GetDateTimeFromDataReader(object drField)
+        {
+            if ((drField != null) && (DateTime.TryParse(drField.ToString(), out DateTime result)))
+                return result;
+
+            return DateTime.MinValue;
+        }
 
         public virtual void Save()
         {
@@ -41,5 +72,6 @@ namespace bal
         {
             mIsDirty = false;
         }
+        #endregion
     }
 }

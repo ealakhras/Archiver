@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
 namespace dal
 {
     public class Folders : BaseTable
     {
+        #region constructors
         public Folders()
             : base("Folders")
         {
         }
+        #endregion
 
+        #region methods
         public SqlDataReader Save(int id, int parentID, string name, string description = null)
         {
             return base.Save(id, parentID, name, description);
@@ -29,9 +27,10 @@ namespace dal
             return base.Read(id, parentID);
         }
 
-        public SqlDataReader Tree()
+        public SqlDataReader Children(object id = null)
         {
-            return base.ExecuteDataReader("exec prcFolders_tree");
+            return base.ExecuteDataReader("exec prcFolders_children {0}", id);
         }
+        #endregion
     }
 }

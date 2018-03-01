@@ -9,10 +9,13 @@ namespace dal
 {
     public static class DataDome
     {
+        #region members
         private static SqlConnection mConnection;
         private static SqlCommand mCommand;
         private static Folders mFolders;
+        #endregion
 
+        #region methods
         public static Folders Folders
         {
             get
@@ -41,5 +44,6 @@ namespace dal
             mCommand.CommandText = string.Format(sql, parameters);
             return mCommand.ExecuteNonQuery();
         }
+        #endregion
     }
 }

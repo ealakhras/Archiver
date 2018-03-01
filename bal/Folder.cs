@@ -1,23 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using dal;
 
 
 namespace bal
 {
-    public class Folder: BaseObject
+    public class Folder : BaseObject
     {
-        protected int mID;
-        protected int mParentID;
-        protected string mName;
-        protected string mDescription;
-        protected string mCreator;
-        protected DateTime mCreationDate;
+        #region constructors
+        public Folder()
+            : base()
+        {
+            mSubFolders = new FoldersCollection(this);
+            mName = "<new>";
+        }
 
+        public Folder(int id)
+            : this()
+        {
+            SqlDataReader dr = DataDome.Folders.Read(id);
+            if (dr.Read())
+            {
+                InitFromDataReader(dr);
+            }
+            dr.Close();
+        }
+
+        public Folder(SqlDataReader dr)
+            : this()
+        {
+            InitFromDataReader(dr);
+        }
+        #endregion
+        
+        #region members
+        private int mID;
+        private int mParentID;
+        private string mName;
+        private string mDescription;
+        private string mCreator;
+        private DateTime mCreationDate;
+        private FoldersCollection mSubFolders;
+        protected Folder mParentFolder;
+        #endregion
+
+        #region properties
         public int ID
         {
             get
@@ -93,37 +120,55 @@ namespace bal
             }
         }
 
-        public Folder()
-            : base()
+        public Folder ParentFolder
         {
+            get
+            {
+                return mParentFolder;
+            }
+            set
+            {
+                if (mParentFolder == value)
+                {
+                    return;
+                }
+                mParentFolder = value;
+                mParentID = value.mID;
+                mIsDirty = true;
+            }
         }
 
-        public Folder(int id)
-            : this()
+        public FoldersCollection SubFolders
         {
-            SqlDataReader dr = DataDome.Folders.Read(id);
-            InitFromDataReader(dr);
-            dr.Close();
+            get
+            {
+                return mSubFolders;
+            }
         }
+        #endregion
 
+        #region methods
         protected override void InitFromDataReader(SqlDataReader dr)
         {
-            if ((dr != null) && (dr.Read()))
-            {
-                mID = int.Parse(dr["id"].ToString());
-                mParentID = int.Parse(dr["parentID"].ToString());
-                mName = dr["name"].ToString();
-                mDescription = dr["description"].ToString();
-                mCreator = dr["creator"].ToString();
-                mCreationDate = DateTime.Parse(dr["creationDate"].ToString());
-                mIsDirty = false;
-            }
+            mID = GetIntFromDataReader(dr["id"]);
+            mParentID = GetIntFromDataReader(dr["parentID"]);
+            mName = GetStringFromDataReader(dr["name"]);
+            mDescription = GetStringFromDataReader(dr["description"]);
+            mCreator = GetStringFromDataReader(dr["creator"]);
+            mCreationDate = GetDateTimeFromDataReader(dr["creationDate"]);
+            mIsDirty = false;
         }
 
         public override void Save()
         {
+            if (!mIsDirty)
+                return;
+
             SqlDataReader dr = DataDome.Folders.Save(mID, mParentID, mName, mDescription);
-            InitFromDataReader(dr);
+            if (dr.Read())
+            {
+                InitFromDataReader(dr);
+            }
             dr.Close();
             base.Save();
         }
@@ -137,9 +182,41 @@ namespace bal
         public override void Refresh()
         {
             SqlDataReader dr = DataDome.Folders.Read(mID);
-            InitFromDataReader(dr);
+            if (dr.Read())
+            {
+                InitFromDataReader(dr);
+            }
             dr.Close();
             base.Refresh();
         }
+
+        public override string ToString()
+        {
+            string result = string.Format("Name: '{0}'", mName) + '\n';
+            result += string.Format("ID: {0}", mID) + '\n';
+            result += string.Format("ParentID: {0}", mParentID) + '\n';
+            result += string.Format("Description: '{0}'", mDescription) + '\n';
+            result += string.Format("Creator: '{0}'", mCreator) + '\n';
+            result += string.Format("CreationDate: {0}", mCreationDate) + '\n';
+            return result;
+        }
+
+        public Folder FindParent(int parentID)
+        {
+            Folder f = mParentFolder;
+            while (f != null)
+            {
+                if (f.ID == parentID)
+                {
+                    break;
+                }
+                else
+                {
+                    f = f.FindParent(parentID);
+                }
+            }
+            return f;
+        }
+        #endregion
     }
 }

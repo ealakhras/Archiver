@@ -29,29 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Node1");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Node4");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Node5");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Node2", new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Node6");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Node7");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Node9");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Node10");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Node11");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Node8", new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8,
-            treeNode9});
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Node3", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6,
-            treeNode10});
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode4,
-            treeNode11});
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "c11",
             "c12",
@@ -80,11 +57,9 @@
             this.stsMain = new System.Windows.Forms.StatusStrip();
             this.tstMain = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.spcHorizontalLeft = new System.Windows.Forms.SplitContainer();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.ftvFolders = new cont.FoldersTreeview();
             this.spcHorizontalRight = new System.Windows.Forms.SplitContainer();
             this.spcVertical = new System.Windows.Forms.SplitContainer();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -216,8 +191,6 @@
             // 
             this.tstMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripSeparator1,
             this.toolStripButton3});
             this.tstMain.Location = new System.Drawing.Point(0, 24);
             this.tstMain.Name = "tstMain";
@@ -235,21 +208,6 @@
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
             // toolStripButton3
             // 
             this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -258,6 +216,7 @@
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // spcHorizontalLeft
             // 
@@ -268,7 +227,7 @@
             // spcHorizontalLeft.Panel1
             // 
             this.spcHorizontalLeft.Panel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.spcHorizontalLeft.Panel1.Controls.Add(this.treeView1);
+            this.spcHorizontalLeft.Panel1.Controls.Add(this.ftvFolders);
             // 
             // spcHorizontalLeft.Panel2
             // 
@@ -277,42 +236,15 @@
             this.spcHorizontalLeft.SplitterDistance = 135;
             this.spcHorizontalLeft.TabIndex = 5;
             // 
-            // treeView1
+            // ftvFolders
             // 
-            this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.HideSelection = false;
-            this.treeView1.Indent = 15;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            treeNode1.Name = "Node1";
-            treeNode1.Text = "Node1";
-            treeNode2.Name = "Node4";
-            treeNode2.Text = "Node4";
-            treeNode3.Name = "Node5";
-            treeNode3.Text = "Node5";
-            treeNode4.Name = "Node2";
-            treeNode4.Text = "Node2";
-            treeNode5.Name = "Node6";
-            treeNode5.Text = "Node6";
-            treeNode6.Name = "Node7";
-            treeNode6.Text = "Node7";
-            treeNode7.Name = "Node9";
-            treeNode7.Text = "Node9";
-            treeNode8.Name = "Node10";
-            treeNode8.Text = "Node10";
-            treeNode9.Name = "Node11";
-            treeNode9.Text = "Node11";
-            treeNode10.Name = "Node8";
-            treeNode10.Text = "Node8";
-            treeNode11.Name = "Node3";
-            treeNode11.Text = "Node3";
-            treeNode12.Name = "Node0";
-            treeNode12.Text = "Node0";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode12});
-            this.treeView1.Size = new System.Drawing.Size(135, 313);
-            this.treeView1.TabIndex = 0;
+            this.ftvFolders.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ftvFolders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftvFolders.HideSelection = false;
+            this.ftvFolders.Location = new System.Drawing.Point(0, 0);
+            this.ftvFolders.Name = "ftvFolders";
+            this.ftvFolders.Size = new System.Drawing.Size(135, 313);
+            this.ftvFolders.TabIndex = 0;
             // 
             // spcHorizontalRight
             // 
@@ -462,20 +394,18 @@
         private System.Windows.Forms.ToolStripMenuItem mniView;
         private System.Windows.Forms.ToolStripMenuItem mniViewToolbar;
         private System.Windows.Forms.ToolStripMenuItem mniViewStatusbar;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripMenuItem mniViewFolders;
         private System.Windows.Forms.SplitContainer spcHorizontalRight;
         private System.Windows.Forms.SplitContainer spcVertical;
         private System.Windows.Forms.ToolStripMenuItem mniViewPreview;
-        private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.ColumnHeader column1;
         private System.Windows.Forms.ColumnHeader column2;
         private System.Windows.Forms.ColumnHeader column3;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private cont.FoldersTreeview ftvFolders;
     }
 }
 

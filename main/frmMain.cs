@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using dal;
 using bal;
+using dal;
 
 namespace main
 {
@@ -10,11 +10,8 @@ namespace main
         public frmMain()
         {
             InitializeComponent();
-            treeView1.ExpandAll();
-            treeView1.SelectedNode = treeView1.Nodes[0];
             listView1.Items[0].Selected = true;
             listView2.Items[0].Selected = true;
-
             DataDome.ConnectTo("Integrated Security=SSPI;Persist Security Info=False;User ID='';Initial Catalog=archiver;Data Source=.;Initial File Name=''");
         }
 
@@ -52,18 +49,16 @@ namespace main
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            Folder folder = new Folder(9);
-
-            folder.ParentID = 7;
-            folder.Name = "Jojo";
-            folder.Save();
+            Folder f = new Folder(1);
+            f.SubFolders.Populate();
+            ftvFolders.Populate(f);
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Folder f = new Folder(1);
-
-
+            Folder f = new Folder(14);
+            f.SubFolders.Populate();
+            ftvFolders.Populate(f);
         }
     }
 }

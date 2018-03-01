@@ -64,9 +64,9 @@
   <ItemGroup>
     <Build Include="Tables\folders.sql" />
     <Build Include="procedures\prcFolders_delete.sql" />
-    <Build Include="procedures\prcFolders_tree.sql" />
     <Build Include="procedures\prcFolders_read.sql" />
     <Build Include="procedures\prcFolders_save.sql" />
+    <Build Include="procedures\prcFolders_children.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="db.refactorlog" />

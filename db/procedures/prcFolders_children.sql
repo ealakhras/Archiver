@@ -1,8 +1,10 @@
-﻿create procedure prcFolders_tree as
+﻿create procedure prcFolders_children(
+	@parentID int = null) as
+
 with cte as(
     select
         fr.id,
-        fr.ParentID,
+        fr.parentID,
         fr.name,
 		fr.description,
 		fr.creator,
@@ -12,7 +14,8 @@ with cte as(
     from
 		folders fr
     where
-		fr.parentID IS NULL
+		(@parentID is null and fr.parentID is null)
+		or (@parentID is not null and fr.parentID = @parentID)
     
     union all select
         fc.id,
@@ -26,7 +29,9 @@ with cte as(
     from
 		folders fc inner join cte on cte.id = fc.parentID
     where
-		fc.parentID is not null)
+		(@parentID is null and fc.parentID is not null)
+		or (@parentID is not null and fc.parentID != @parentID)
+	)
 
 select
 	cte.id,
