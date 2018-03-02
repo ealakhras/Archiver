@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using bal;
 using dal;
+using set;
 
 namespace main
 {
@@ -12,11 +13,59 @@ namespace main
             InitializeComponent();
             listView1.Items[0].Selected = true;
             listView2.Items[0].Selected = true;
-            DataDome.ConnectTo("Integrated Security=SSPI;Persist Security Info=False;User ID='';Initial Catalog=archiver;Data Source=.;Initial File Name=''");
         }
 
-        public frmMain(string[] args) : this()
+        public frmMain(string[] args)
+            : this()
         {
+            ParseStartupArgs(args);
+            try
+            {
+                DataDome.Connect();
+                tslDBEngine.Text = DataDome.DBEngine;
+                tslDBName.Text = DataDome.DBName;
+                ftvFolders.Populate();
+            }
+            catch
+            {
+
+            }
+        }
+
+        private string GetStartupArgsHelp()
+        {
+            string result = "startup arguments:" + '\n' + '\n';
+            result += @"/? or -help   " + '\t' + "shows this message box." + '\n';
+            result += @"/cs:""<connStr>""" + '\t' + "passes db connStr and auto-connects." + '\n';
+            result += @"/d or /debug" + '\t' + "set debug mode ON." + '\n';
+            result += @"/-d or /-debug" + '\t' + "set debug mode OFF." + '\n';
+            return result;
+        }
+
+        private void ParseStartupArgs(string[] args)
+        {
+            if (args.Length == 0)
+                return;
+
+            foreach (string arg in args)
+            {
+                if (arg == "/?" || arg == "/help")
+                {
+                    MessageBox.Show(GetStartupArgsHelp(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (arg.StartsWith("/cs:"))
+                {
+                    RegistryDome.DBConnectionString = arg.Substring(4);
+                }
+                else if (arg == "/d" || arg == "/debug")
+                {
+                    RegistryDome.Debug = true;
+                }
+                else if (arg == "/-d" || arg == "/-debug")
+                {
+                    RegistryDome.Debug = false;
+                }
+            }
         }
 
         private void mniClose_Click(object sender, EventArgs e) => Close();

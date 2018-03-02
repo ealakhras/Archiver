@@ -4,15 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using set;
+
 
 namespace dal
 {
     public static class DataDome
     {
+        #region constructor
+        static DataDome()
+        {
+            mConnection = new SqlConnection();
+            mCommand = new SqlCommand { Connection = mConnection };
+            mFolders = new Folders();
+        }
+        #endregion
+
         #region members
         private static SqlConnection mConnection;
         private static SqlCommand mCommand;
         private static Folders mFolders;
+        #endregion
+
+        #region properties
+        public static string DBName
+        {
+            get
+            {
+                return mConnection.Database;
+            }
+        }
+
+        public static string DBEngine
+        {
+            get
+            {
+                return string.Format("{0} (SQLServer ver {1})", mConnection.DataSource, mConnection.ServerVersion);
+            }
+        }
         #endregion
 
         #region methods
@@ -24,13 +53,15 @@ namespace dal
             }
         }
 
-        public static void ConnectTo(string connectionString)
+        public static void Connect()
         {
-            mConnection = new SqlConnection(connectionString);
-            mConnection.Open();
+            Connect(RegistryDome.DBConnectionString);
+        }
 
-            mCommand = new SqlCommand { Connection = mConnection };
-            mFolders = new Folders();
+        public static void Connect(string connectionString)
+        {
+            mConnection.ConnectionString = connectionString;
+            mConnection.Open();
         }
 
         public static SqlDataReader ExecuteDataReader(string sql, params object[] parameters)

@@ -20,6 +20,12 @@ namespace cont
             ShowNodeToolTips = true;
         }
 
+        public void Populate()
+        {
+            //FoldersCollection fc = new FoldersCollection();
+            //fc.
+        }
+
         public void Populate(Folder rootFolder)
         {
             BeginUpdate();
