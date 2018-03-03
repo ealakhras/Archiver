@@ -1,40 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using bal;
 
 namespace cont
 {
     public partial class FoldersTreeview : TreeView
     {
+        #region constructors
         public FoldersTreeview()
         {
             InitializeComponent();
             HideSelection = false;
             ShowNodeToolTips = true;
         }
+        #endregion
 
+        #region methods
         public void Populate()
         {
-            //FoldersCollection fc = new FoldersCollection();
-            //fc.
+            FoldersCollection rootsFolders = new FoldersCollection(null);
+            rootsFolders.Populate();
+
+            BeginUpdate();
+            Nodes.Clear();
+            foreach (Folder rootFolder in rootsFolders)
+            {
+                FolderTreeNode root = new FolderTreeNode(rootFolder);
+                Populate(root);
+                Nodes.Add(root);
+            }
+            EndUpdate();
+        }
+
+        public void Populate(int folderID)
+        {
+            Folder rootFolder = new Folder(folderID);
+            rootFolder.SubFolders.Populate();
+            Populate(rootFolder);
         }
 
         public void Populate(Folder rootFolder)
         {
             BeginUpdate();
             Nodes.Clear();
-            FolderTreeNode root = new FolderTreeNode(rootFolder);
-            Populate(root);
-            Nodes.Add(root);
-            SelectedNode = root;
-            root.EnsureVisible();
+            FolderTreeNode rootNode = new FolderTreeNode(rootFolder);
+            Populate(rootNode);
+            Nodes.Add(rootNode);
+            SelectedNode = rootNode;
+            rootNode.EnsureVisible();
             EndUpdate();
         }
 
@@ -42,25 +54,31 @@ namespace cont
         {
             foreach (Folder folder in parentNode.Folder.SubFolders)
             {
-                FolderTreeNode tn = new FolderTreeNode(folder);
-                Populate(tn);
-                parentNode.Nodes.Add(tn);
+                FolderTreeNode node = new FolderTreeNode(folder);
+                Populate(node);
+                parentNode.Nodes.Add(node);
             }
             parentNode.Expand();
         }
+        #endregion
     }
 
     public class FolderTreeNode : TreeNode
     {
+        #region constructors
         public FolderTreeNode(Folder folder)
         {
             mFolder = folder;
             Text = folder.Name;
             ToolTipText = folder.Description;
         }
+        #endregion
 
+        #region members
         private Folder mFolder;
+        #endregion
 
+        #region properties
         public Folder Folder
         {
             get
@@ -68,5 +86,6 @@ namespace cont
                 return mFolder;
             }
         }
+        #endregion
     }
 }

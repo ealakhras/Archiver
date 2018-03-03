@@ -46,36 +46,29 @@ namespace bal
             folder.ParentFolder = Owner;
         }
 
-        public int IndexOf(int folderID)
-        {
-            int index = -1;
-
-            for (int i = 0; i < Count; i++)
-            {
-                if (this[i].ID == folderID)
-                {
-                    index = i;
-                    break;
-                }
-            }
-
-            return index;
-        }
-
         public override void Populate()
         {
             Clear();
-            SqlDataReader dr = DataDome.Folders.Children(Owner.ID);
-            Populate(dr);
+            int id = Owner == null ? 0 : Owner.ID;
+            SqlDataReader dr = DataDome.Folders.Children(id);
+            Populate(dr, this);
             dr.Close();
         }
 
-        protected override void Populate(SqlDataReader dr)
+        protected virtual void Populate(SqlDataReader dr, FoldersCollection rootCollection)
         {
             while (dr.Read())
             {
                 Folder f = new Folder(dr);
-                if (Owner.ID == f.ParentID)
+                if(Owner == null && f.ParentID == 0)
+                {
+                    Add(f);
+                }
+                else if (Owner != null && f.ParentID == 0)
+                {
+                    rootCollection.Add(f);
+                }
+                else if (Owner.ID == f.ParentID)
                 {
                     Add(f);
                 }
@@ -87,7 +80,7 @@ namespace bal
                         parent.SubFolders.Add(f);                        
                     }
                 }
-                f.SubFolders.Populate(dr);
+                f.SubFolders.Populate(dr, rootCollection);
             }
         }
 
