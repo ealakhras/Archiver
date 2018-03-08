@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
-using dal;
 
-namespace bal
+namespace ARCengine
 {
     public class FoldersCollection : BaseCollection
     {

@@ -5,18 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using set;
 
-namespace dal
+namespace ARCengine
 {
-    public static class DataDome
+    public static class Dome
     {
-        static DataDome()
+        static Dome()
         {
-            mDatabases = new Databases();
+            //mDatabases = new Databases();
         }
 
-        private static Databases mDatabases;
+        //private static Databases mDatabases;
         private static Database mDefaultDatabase;
-
+        /*
         public static Databases Databases
         {
             get
@@ -24,7 +24,7 @@ namespace dal
                 return mDatabases;
             }
         }
-
+        */
         public static Database DefaultDatabase
         {
             get
@@ -41,10 +41,10 @@ namespace dal
         {
             string[] connectionStrings = RegistryDome.DBCS;
 
-            mDatabases.Clear();
+            //mDatabases.Clear();
             foreach (string conStr in connectionStrings)
             {
-                mDatabases.Add(conStr);
+                //mDatabases.Add(conStr);
             }
         }
     }

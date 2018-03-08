@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "c11",
             "c12",
@@ -44,7 +45,6 @@
             System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("image1");
             System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("image2");
             System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("image3");
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.mnsMain = new System.Windows.Forms.MenuStrip();
             this.mniFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mniClose = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,35 +56,36 @@
             this.mniHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mniAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.stsMain = new System.Windows.Forms.StatusStrip();
+            this.tslGeneral = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tslSpring = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tslDBEngine = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tslDBName = new System.Windows.Forms.ToolStripStatusLabel();
             this.tstMain = new System.Windows.Forms.ToolStrip();
-            this.spcHorizontalLeft = new System.Windows.Forms.SplitContainer();
-            this.spcHorizontalRight = new System.Windows.Forms.SplitContainer();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.spcLeft = new System.Windows.Forms.SplitContainer();
+            this.ftvFolders = new cont.FoldersTreeview();
+            this.spcRight = new System.Windows.Forms.SplitContainer();
             this.spcVertical = new System.Windows.Forms.SplitContainer();
             this.listView1 = new System.Windows.Forms.ListView();
             this.column1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.column2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.column3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listView2 = new System.Windows.Forms.ListView();
-            this.tslSpring = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tslGeneral = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ftvFolders = new cont.FoldersTreeview();
-            this.ilMain = new System.Windows.Forms.ImageList(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.tslDBEngine = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tslDBName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ilMain = new System.Windows.Forms.ImageList(this.components);
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.mnsMain.SuspendLayout();
             this.stsMain.SuspendLayout();
             this.tstMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spcHorizontalLeft)).BeginInit();
-            this.spcHorizontalLeft.Panel1.SuspendLayout();
-            this.spcHorizontalLeft.Panel2.SuspendLayout();
-            this.spcHorizontalLeft.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spcHorizontalRight)).BeginInit();
-            this.spcHorizontalRight.Panel1.SuspendLayout();
-            this.spcHorizontalRight.Panel2.SuspendLayout();
-            this.spcHorizontalRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spcLeft)).BeginInit();
+            this.spcLeft.Panel1.SuspendLayout();
+            this.spcLeft.Panel2.SuspendLayout();
+            this.spcLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spcRight)).BeginInit();
+            this.spcRight.Panel1.SuspendLayout();
+            this.spcRight.Panel2.SuspendLayout();
+            this.spcRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spcVertical)).BeginInit();
             this.spcVertical.Panel1.SuspendLayout();
             this.spcVertical.Panel2.SuspendLayout();
@@ -100,7 +101,7 @@
             this.mniHelp});
             this.mnsMain.Location = new System.Drawing.Point(0, 0);
             this.mnsMain.Name = "mnsMain";
-            this.mnsMain.Size = new System.Drawing.Size(549, 24);
+            this.mnsMain.Size = new System.Drawing.Size(815, 24);
             this.mnsMain.TabIndex = 2;
             this.mnsMain.Text = "menuStrip1";
             // 
@@ -195,56 +196,116 @@
             this.tslDBName});
             this.stsMain.Location = new System.Drawing.Point(0, 362);
             this.stsMain.Name = "stsMain";
-            this.stsMain.Size = new System.Drawing.Size(549, 22);
+            this.stsMain.Size = new System.Drawing.Size(815, 22);
             this.stsMain.TabIndex = 1;
             this.stsMain.Text = "statusStrip1";
+            // 
+            // tslGeneral
+            // 
+            this.tslGeneral.Name = "tslGeneral";
+            this.tslGeneral.Size = new System.Drawing.Size(39, 17);
+            this.tslGeneral.Text = "Ready";
+            // 
+            // tslSpring
+            // 
+            this.tslSpring.Name = "tslSpring";
+            this.tslSpring.Size = new System.Drawing.Size(585, 17);
+            this.tslSpring.Spring = true;
+            // 
+            // tslDBEngine
+            // 
+            this.tslDBEngine.Image = global::main.Properties.Resources.SQLServer;
+            this.tslDBEngine.ImageTransparentColor = System.Drawing.Color.White;
+            this.tslDBEngine.Name = "tslDBEngine";
+            this.tslDBEngine.Size = new System.Drawing.Size(90, 17);
+            this.tslDBEngine.Text = "<DBEngine>";
+            // 
+            // tslDBName
+            // 
+            this.tslDBName.Image = global::main.Properties.Resources.Database;
+            this.tslDBName.ImageTransparentColor = System.Drawing.Color.White;
+            this.tslDBName.Name = "tslDBName";
+            this.tslDBName.Size = new System.Drawing.Size(86, 17);
+            this.tslDBName.Text = "<DBName>";
             // 
             // tstMain
             // 
             this.tstMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripButton3});
+            this.toolStripButton3,
+            this.toolStripButton2});
             this.tstMain.Location = new System.Drawing.Point(0, 24);
             this.tstMain.Name = "tstMain";
-            this.tstMain.Size = new System.Drawing.Size(549, 25);
+            this.tstMain.Size = new System.Drawing.Size(815, 25);
             this.tstMain.TabIndex = 4;
             this.tstMain.Text = "toolStrip1";
             // 
-            // spcHorizontalLeft
+            // toolStripButton1
             // 
-            this.spcHorizontalLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spcHorizontalLeft.Location = new System.Drawing.Point(0, 49);
-            this.spcHorizontalLeft.Name = "spcHorizontalLeft";
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // spcHorizontalLeft.Panel1
+            // toolStripButton3
             // 
-            this.spcHorizontalLeft.Panel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.spcHorizontalLeft.Panel1.Controls.Add(this.ftvFolders);
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
-            // spcHorizontalLeft.Panel2
+            // spcLeft
             // 
-            this.spcHorizontalLeft.Panel2.Controls.Add(this.spcHorizontalRight);
-            this.spcHorizontalLeft.Size = new System.Drawing.Size(549, 313);
-            this.spcHorizontalLeft.SplitterDistance = 135;
-            this.spcHorizontalLeft.TabIndex = 5;
+            this.spcLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spcLeft.Location = new System.Drawing.Point(0, 49);
+            this.spcLeft.Name = "spcLeft";
             // 
-            // spcHorizontalRight
+            // spcLeft.Panel1
             // 
-            this.spcHorizontalRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spcHorizontalRight.Location = new System.Drawing.Point(0, 0);
-            this.spcHorizontalRight.Name = "spcHorizontalRight";
+            this.spcLeft.Panel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.spcLeft.Panel1.Controls.Add(this.ftvFolders);
             // 
-            // spcHorizontalRight.Panel1
+            // spcLeft.Panel2
             // 
-            this.spcHorizontalRight.Panel1.Controls.Add(this.spcVertical);
+            this.spcLeft.Panel2.Controls.Add(this.spcRight);
+            this.spcLeft.Size = new System.Drawing.Size(815, 313);
+            this.spcLeft.SplitterDistance = 100;
+            this.spcLeft.TabIndex = 5;
             // 
-            // spcHorizontalRight.Panel2
+            // ftvFolders
             // 
-            this.spcHorizontalRight.Panel2.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.spcHorizontalRight.Panel2.Controls.Add(this.pictureBox1);
-            this.spcHorizontalRight.Size = new System.Drawing.Size(410, 313);
-            this.spcHorizontalRight.SplitterDistance = 275;
-            this.spcHorizontalRight.TabIndex = 0;
+            this.ftvFolders.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ftvFolders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftvFolders.HideSelection = false;
+            this.ftvFolders.Location = new System.Drawing.Point(0, 0);
+            this.ftvFolders.Name = "ftvFolders";
+            this.ftvFolders.ShowNodeToolTips = true;
+            this.ftvFolders.Size = new System.Drawing.Size(100, 313);
+            this.ftvFolders.TabIndex = 0;
+            // 
+            // spcRight
+            // 
+            this.spcRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spcRight.Location = new System.Drawing.Point(0, 0);
+            this.spcRight.Name = "spcRight";
+            // 
+            // spcRight.Panel1
+            // 
+            this.spcRight.Panel1.Controls.Add(this.spcVertical);
+            // 
+            // spcRight.Panel2
+            // 
+            this.spcRight.Panel2.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.spcRight.Panel2.Controls.Add(this.pictureBox1);
+            this.spcRight.Size = new System.Drawing.Size(711, 313);
+            this.spcRight.SplitterDistance = 465;
+            this.spcRight.TabIndex = 0;
             // 
             // spcVertical
             // 
@@ -262,7 +323,7 @@
             // 
             this.spcVertical.Panel2.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.spcVertical.Panel2.Controls.Add(this.listView2);
-            this.spcVertical.Size = new System.Drawing.Size(275, 313);
+            this.spcVertical.Size = new System.Drawing.Size(465, 313);
             this.spcVertical.SplitterDistance = 207;
             this.spcVertical.TabIndex = 1;
             // 
@@ -282,7 +343,7 @@
             listViewItem3});
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(275, 207);
+            this.listView1.Size = new System.Drawing.Size(465, 207);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -313,32 +374,19 @@
             listViewItem6});
             this.listView2.Location = new System.Drawing.Point(0, 0);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(275, 102);
+            this.listView2.Size = new System.Drawing.Size(465, 102);
             this.listView2.TabIndex = 0;
             this.listView2.UseCompatibleStateImageBehavior = false;
             // 
-            // tslSpring
+            // pictureBox1
             // 
-            this.tslSpring.Name = "tslSpring";
-            this.tslSpring.Size = new System.Drawing.Size(288, 17);
-            this.tslSpring.Spring = true;
-            // 
-            // tslGeneral
-            // 
-            this.tslGeneral.Name = "tslGeneral";
-            this.tslGeneral.Size = new System.Drawing.Size(39, 17);
-            this.tslGeneral.Text = "Ready";
-            // 
-            // ftvFolders
-            // 
-            this.ftvFolders.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ftvFolders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ftvFolders.HideSelection = false;
-            this.ftvFolders.Location = new System.Drawing.Point(0, 0);
-            this.ftvFolders.Name = "ftvFolders";
-            this.ftvFolders.ShowNodeToolTips = true;
-            this.ftvFolders.Size = new System.Drawing.Size(135, 313);
-            this.ftvFolders.TabIndex = 0;
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(242, 313);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // ilMain
             // 
@@ -347,79 +395,41 @@
             this.ilMain.Images.SetKeyName(0, "SQLServer.png");
             this.ilMain.Images.SetKeyName(1, "Database.png");
             // 
-            // pictureBox1
+            // toolStripButton2
             // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(131, 313);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "toolStripButton3";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
-            // 
-            // tslDBEngine
-            // 
-            this.tslDBEngine.Image = global::main.Properties.Resources.SQLServer;
-            this.tslDBEngine.ImageTransparentColor = System.Drawing.Color.White;
-            this.tslDBEngine.Name = "tslDBEngine";
-            this.tslDBEngine.Size = new System.Drawing.Size(90, 17);
-            this.tslDBEngine.Text = "<DBEngine>";
-            // 
-            // tslDBName
-            // 
-            this.tslDBName.Image = global::main.Properties.Resources.Database;
-            this.tslDBName.ImageTransparentColor = System.Drawing.Color.White;
-            this.tslDBName.Name = "tslDBName";
-            this.tslDBName.Size = new System.Drawing.Size(86, 17);
-            this.tslDBName.Text = "<DBName>";
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "toolStripButton2";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(549, 384);
-            this.Controls.Add(this.spcHorizontalLeft);
+            this.ClientSize = new System.Drawing.Size(815, 384);
+            this.Controls.Add(this.spcLeft);
             this.Controls.Add(this.tstMain);
             this.Controls.Add(this.stsMain);
             this.Controls.Add(this.mnsMain);
             this.MainMenuStrip = this.mnsMain;
             this.Name = "frmMain";
             this.Text = "Archiver";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.mnsMain.ResumeLayout(false);
             this.mnsMain.PerformLayout();
             this.stsMain.ResumeLayout(false);
             this.stsMain.PerformLayout();
             this.tstMain.ResumeLayout(false);
             this.tstMain.PerformLayout();
-            this.spcHorizontalLeft.Panel1.ResumeLayout(false);
-            this.spcHorizontalLeft.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.spcHorizontalLeft)).EndInit();
-            this.spcHorizontalLeft.ResumeLayout(false);
-            this.spcHorizontalRight.Panel1.ResumeLayout(false);
-            this.spcHorizontalRight.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.spcHorizontalRight)).EndInit();
-            this.spcHorizontalRight.ResumeLayout(false);
+            this.spcLeft.Panel1.ResumeLayout(false);
+            this.spcLeft.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.spcLeft)).EndInit();
+            this.spcLeft.ResumeLayout(false);
+            this.spcRight.Panel1.ResumeLayout(false);
+            this.spcRight.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.spcRight)).EndInit();
+            this.spcRight.ResumeLayout(false);
             this.spcVertical.Panel1.ResumeLayout(false);
             this.spcVertical.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spcVertical)).EndInit();
@@ -440,13 +450,13 @@
         private System.Windows.Forms.ToolStripMenuItem mniAbout;
         private System.Windows.Forms.ToolStrip tstMain;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.SplitContainer spcHorizontalLeft;
+        private System.Windows.Forms.SplitContainer spcLeft;
         private System.Windows.Forms.ToolStripMenuItem mniView;
         private System.Windows.Forms.ToolStripMenuItem mniViewToolbar;
         private System.Windows.Forms.ToolStripMenuItem mniViewStatusbar;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripMenuItem mniViewFolders;
-        private System.Windows.Forms.SplitContainer spcHorizontalRight;
+        private System.Windows.Forms.SplitContainer spcRight;
         private System.Windows.Forms.SplitContainer spcVertical;
         private System.Windows.Forms.ToolStripMenuItem mniViewPreview;
         private System.Windows.Forms.ListView listView1;
@@ -461,6 +471,7 @@
         private System.Windows.Forms.ToolStripStatusLabel tslDBEngine;
         private System.Windows.Forms.ToolStripStatusLabel tslDBName;
         private System.Windows.Forms.ImageList ilMain;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
     }
 }
 

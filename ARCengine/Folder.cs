@@ -1,38 +1,53 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Data.SqlClient;
-using dal;
 
-
-namespace bal
+namespace ARCengine
 {
-    public class Folder : BaseObject
+    class Folder : BaseTable
     {
         #region constructors
         public Folder()
-            : base()
+            : base("Folders")
         {
-            mSubFolders = new FoldersCollection(this);
+            //mSubFolders = new FoldersCollection(this);
             mName = "<new>";
         }
 
         public Folder(int id)
             : this()
         {
-            SqlDataReader dr = DataDome.Folders.Read(id);
-            if (dr.Read())
-            {
-                InitFromDataReader(dr);
-            }
-            dr.Close();
+            Read(id);
         }
 
         public Folder(SqlDataReader dr)
             : this()
         {
-            InitFromDataReader(dr);
+            Read(dr);
+        }
+
+        public Folder(Database database)
+            : this()
+        {
+            mDatabase = database;
+        }
+
+        public Folder(Database database, int id)
+            : this(database)
+        {
+            Read(id);
+        }
+
+        public Folder(Database database, SqlDataReader dr)
+            : this(database)
+        {
+            Read(dr);
         }
         #endregion
-        
+
         #region members
         private int mID;
         private int mParentID;
@@ -40,8 +55,8 @@ namespace bal
         private string mDescription;
         private string mCreator;
         private DateTime mCreationDate;
-        private FoldersCollection mSubFolders;
-        protected Folder mParentFolder;
+        //private FoldersCollection mSubFolders;
+        private Folder mParentFolder;
         #endregion
 
         #region properties
@@ -61,7 +76,7 @@ namespace bal
             }
             set
             {
-                if(mParentID == value)
+                if (mParentID == value)
                 {
                     return;
                 }
@@ -95,7 +110,7 @@ namespace bal
             }
             set
             {
-                if(mDescription == value)
+                if (mDescription == value)
                 {
                     return;
                 }
@@ -138,17 +153,24 @@ namespace bal
             }
         }
 
-        public FoldersCollection SubFolders
-        {
-            get
-            {
-                return mSubFolders;
-            }
-        }
+        /*
+                public FoldersCollection SubFolders
+                {
+                    get
+                    {
+                        return mSubFolders;
+                    }
+                }
+        */
         #endregion
 
         #region methods
-        protected override void InitFromDataReader(SqlDataReader dr)
+        public new void Read(int id)
+        {
+            base.Read(id);
+        }
+
+        public override void Read(SqlDataReader dr)
         {
             mID = GetIntFromDataReader(dr["id"]);
             mParentID = GetIntFromDataReader(dr["parentID"]);
@@ -156,38 +178,27 @@ namespace bal
             mDescription = GetStringFromDataReader(dr["description"]);
             mCreator = GetStringFromDataReader(dr["creator"]);
             mCreationDate = GetDateTimeFromDataReader(dr["creationDate"]);
-            mIsDirty = false;
+            base.Read(dr);
         }
 
-        public override void Save()
+        protected override object[] GetReadParameters()
         {
-            if (!mIsDirty)
-                return;
-
-            SqlDataReader dr = DataDome.Folders.Save(mID, mParentID, mName, mDescription);
-            if (dr.Read())
-            {
-                InitFromDataReader(dr);
-            }
-            dr.Close();
-            base.Save();
+            return new object[] { mID };
         }
 
-        public override void Delete()
+        protected override object[] GetSaveParameters()
         {
-            DataDome.Folders.Delete(mID);
-            base.Delete();
+            return new object[] { mID, mParentFolder, mName, mDescription };
         }
 
-        public override void Refresh()
+        protected override object[] GetDeleteParameters()
         {
-            SqlDataReader dr = DataDome.Folders.Read(mID);
-            if (dr.Read())
-            {
-                InitFromDataReader(dr);
-            }
-            dr.Close();
-            base.Refresh();
+            return new object[] { mID };
+        }
+
+        public SqlDataReader Children(object id = null)
+        {
+            return base.DoExecuteDataReader("exec prcFolders_children {0}", id);
         }
 
         public override string ToString()

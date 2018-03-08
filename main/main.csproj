@@ -104,17 +104,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\bal\bal.csproj">
-      <Project>{d16a8577-5b7f-4de0-b4e9-fd5ac38286e6}</Project>
-      <Name>bal</Name>
-    </ProjectReference>
     <ProjectReference Include="..\cont\cont.csproj">
       <Project>{62c6da06-815f-433e-94bb-77dbb85ee245}</Project>
       <Name>cont</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\dal\dal.csproj">
-      <Project>{0b12e121-be44-4e2b-8638-bbbd18b6f0d2}</Project>
-      <Name>dal</Name>
     </ProjectReference>
     <ProjectReference Include="..\reg\set.csproj">
       <Project>{ec111ecd-8d4b-418d-aa74-ff38fc72f794}</Project>

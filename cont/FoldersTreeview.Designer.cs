@@ -8,7 +8,7 @@ namespace cont
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private AutoScaleMode AutoScaleMode;
+        //private AutoScaleMode AutoScaleMode;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -32,7 +32,7 @@ namespace cont
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         }
 
         #endregion

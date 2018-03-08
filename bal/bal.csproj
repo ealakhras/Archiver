@@ -41,16 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseCollection.cs" />
-    <Compile Include="BaseObject.cs" />
-    <Compile Include="Folder.cs" />
     <Compile Include="FoldersCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\dal\dal.csproj">
-      <Project>{0b12e121-be44-4e2b-8638-bbbd18b6f0d2}</Project>
-      <Name>dal</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

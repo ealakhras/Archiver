@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataDome.cs" />
     <Compile Include="FoldersTreeview.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -51,10 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\bal\bal.csproj">
-      <Project>{d16a8577-5b7f-4de0-b4e9-fd5ac38286e6}</Project>
-      <Name>bal</Name>
-    </ProjectReference>
     <ProjectReference Include="..\reg\set.csproj">
       <Project>{ec111ecd-8d4b-418d-aa74-ff38fc72f794}</Project>
       <Name>set</Name>

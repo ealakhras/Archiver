@@ -17,6 +17,7 @@ namespace cont
         #region methods
         public void Populate()
         {
+            /*
             FoldersCollection rootsFolders = new FoldersCollection(null);
             rootsFolders.Populate();
 
@@ -29,13 +30,7 @@ namespace cont
                 Nodes.Add(root);
             }
             EndUpdate();
-        }
-
-        public void Populate(int folderID)
-        {
-            Folder rootFolder = new Folder(folderID);
-            rootFolder.SubFolders.Populate();
-            Populate(rootFolder);
+            */
         }
 
         public void Populate(Folder rootFolder)
@@ -61,6 +56,15 @@ namespace cont
             parentNode.Expand();
         }
         #endregion
+    }
+
+
+    public class DatabaseTreeNode : TreeNode
+    {
+        public DatabaseTreeNode(Daa)
+        {
+
+        }
     }
 
     public class FolderTreeNode : TreeNode

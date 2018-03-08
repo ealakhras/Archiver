@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using bal;
 using dal;
@@ -11,8 +12,6 @@ namespace main
         public frmMain()
         {
             InitializeComponent();
-            listView1.Items[0].Selected = true;
-            listView2.Items[0].Selected = true;
         }
 
         public frmMain(string[] args)
@@ -21,15 +20,25 @@ namespace main
             ParseStartupArgs(args);
             try
             {
-                DataDome.Connect();
-                tslDBEngine.Text = DataDome.DBEngine;
-                tslDBName.Text = DataDome.DBName;
+                DataDome.Init();
                 ftvFolders.Populate();
             }
             catch
             {
-
+                throw;
             }
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            LoadUI();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            SaveUI();
         }
 
         private string GetStartupArgsHelp()
@@ -55,7 +64,7 @@ namespace main
                 }
                 else if (arg.StartsWith("/cs:"))
                 {
-                    RegistryDome.DBConnectionString = arg.Substring(4);
+                    //RegistryDome.DBConnectionString = arg.Substring(4);
                 }
                 else if (arg == "/d" || arg == "/debug")
                 {
@@ -88,26 +97,65 @@ namespace main
 
         private void mniViewFolders_Click(object sender, EventArgs e)
         {
-            spcHorizontalLeft.Panel1Collapsed = !mniViewFolders.Checked;
+            spcLeft.Panel1Collapsed = !mniViewFolders.Checked;
         }
 
         private void mniViewActions_Click(object sender, EventArgs e)
         {
-            spcHorizontalRight.Panel2Collapsed = !mniViewPreview.Checked;
+            spcRight.Panel2Collapsed = !mniViewPreview.Checked;
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            /*
             Folder f = new Folder(1);
             f.SubFolders.Populate();
             ftvFolders.Populate(f);
+            */
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
+            /*
             Folder f = new Folder(14);
             f.SubFolders.Populate();
             ftvFolders.Populate(f);
+            */
+        }
+
+        private void LoadUI()
+        {
+            WindowState = RegistryDome.WindowsState;
+            if (WindowState == FormWindowState.Normal)
+            {
+                Size = RegistryDome.WindowSize;
+            }
+            spcLeft.SplitterDistance = RegistryDome.SplitLeftDist;
+            spcRight.SplitterDistance = RegistryDome.SplitRightDist;
+            spcVertical.SplitterDistance = RegistryDome.SplitVertDist;
+            mniViewToolbar.Checked = RegistryDome.ViewToolbar;
+            mniViewFolders.Checked = RegistryDome.ViewFolders;
+            mniViewPreview.Checked = RegistryDome.ViewPreview;
+            mniViewStatusbar.Checked = RegistryDome.ViewStatusBar;
+            spcLeft.SplitterWidth = RegistryDome.SplitterWidth;
+            spcRight.SplitterWidth = spcLeft.SplitterWidth;
+            spcVertical.SplitterWidth = spcLeft.SplitterWidth;
+        }
+
+        private void SaveUI()
+        {
+            RegistryDome.WindowsState = WindowState;
+            if (WindowState == FormWindowState.Normal)
+            {
+                RegistryDome.WindowSize = Size;
+            }
+            RegistryDome.SplitLeftDist = spcLeft.SplitterDistance;
+            RegistryDome.SplitRightDist = spcRight.SplitterDistance;
+            RegistryDome.SplitVertDist = spcVertical.SplitterDistance;
+            RegistryDome.ViewToolbar = mniViewToolbar.Checked;
+            RegistryDome.ViewFolders = mniViewFolders.Checked;
+            RegistryDome.ViewPreview = mniViewPreview.Checked;
+            RegistryDome.ViewStatusBar = mniViewStatusbar.Checked;
         }
     }
 }
