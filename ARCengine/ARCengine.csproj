@@ -40,13 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseCollection.cs" />
+    <Compile Include="DatabaseCollection.cs" />
     <Compile Include="BaseTable.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Dome.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Folder.cs" />
-    <Compile Include="FoldersCollection.cs" />
+    <Compile Include="FolderCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

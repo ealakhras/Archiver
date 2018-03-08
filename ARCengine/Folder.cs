@@ -7,13 +7,13 @@ using System.Data.SqlClient;
 
 namespace ARCengine
 {
-    class Folder : BaseTable
+    public class Folder : BaseTable
     {
         #region constructors
         public Folder()
             : base("Folders")
         {
-            //mSubFolders = new FoldersCollection(this);
+            mSubFolders = new FolderCollection(this);
             mName = "<new>";
         }
 
@@ -55,7 +55,7 @@ namespace ARCengine
         private string mDescription;
         private string mCreator;
         private DateTime mCreationDate;
-        //private FoldersCollection mSubFolders;
+        private FolderCollection mSubFolders;
         private Folder mParentFolder;
         #endregion
 
@@ -152,16 +152,14 @@ namespace ARCengine
                 mIsDirty = true;
             }
         }
-
-        /*
-                public FoldersCollection SubFolders
-                {
-                    get
-                    {
-                        return mSubFolders;
-                    }
-                }
-        */
+        public FolderCollection SubFolders
+        {
+            get
+            {
+                return mSubFolders;
+            }
+        }
+        
         #endregion
 
         #region methods

@@ -1,38 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using System.Data.SqlClient;
 
 namespace ARCengine
 {
-    public class FoldersCollection : BaseCollection
+    public class FolderCollection : CollectionBase
     {
         #region constructors
-        public FoldersCollection(Folder owner)
-            : base(owner)
+        public FolderCollection(Folder owner)
+            : base()
         {
+            mOwner = owner;
         }
         #endregion
-        
+
+        #region members
+        Folder mOwner;
+        #endregion
+
         #region properties
-        public new Folder this[int index]
+        public Folder this[int index]
         {
             get
             {
-                return (Folder)base[index];
+                return (Folder)List[index];
             }
             set
             {
-                base[index] = value;
+                List[index] = value;
             }
         }
         public Folder Owner
         {
             get
             {
-                return (Folder)mOwner;
+                return mOwner;
             }
         }
 
@@ -41,11 +42,11 @@ namespace ARCengine
         #region methods
         public void Add(Folder folder)
         {
-            base.Add(folder);
+            List.Add(folder);
             folder.ParentFolder = Owner;
         }
 
-        public override void Populate()
+        public void Populate()
         {
             Clear();
             int id = Owner == null ? 0 : Owner.ID;
@@ -54,7 +55,7 @@ namespace ARCengine
             dr.Close();
         }
 
-        protected virtual void Populate(SqlDataReader dr, FoldersCollection rootCollection)
+        protected virtual void Populate(SqlDataReader dr, FolderCollection rootCollection)
         {
             while (dr.Read())
             {

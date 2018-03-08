@@ -14,7 +14,7 @@ namespace ARCengine
         {
             mSqlConnection = new SqlConnection();
             mSqlCommand = new SqlCommand { Connection = mSqlConnection };
-            //mFolders = new Folders(this);
+            mFolders = new FolderCollection(this);
         }
 
         public Database(string connectionString)
@@ -29,7 +29,7 @@ namespace ARCengine
         private SqlCommand mSqlCommand;
         private string mFriendlyName;
         private bool mAutoConnect;
-        //private Folders mFolders;
+        private FolderCollection mFolders;
         #endregion
 
         #region properties
@@ -146,15 +146,14 @@ namespace ARCengine
             mSqlCommand.CommandText = string.Format(sql, parameters);
             return mSqlCommand.ExecuteNonQuery();
         }
-/*
-        public Folders Folders
+
+        public FolderCollection Folders
         {
             get
             {
                 return mFolders;
             }
         }
-*/
         #endregion
-            }
+    }
 }

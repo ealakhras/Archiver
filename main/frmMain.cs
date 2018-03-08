@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using bal;
-using dal;
+using ARCengine;
 using set;
 
 namespace main
@@ -20,7 +19,6 @@ namespace main
             ParseStartupArgs(args);
             try
             {
-                DataDome.Init();
                 ftvFolders.Populate();
             }
             catch

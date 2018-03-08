@@ -104,6 +104,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ARCengine\ARCengine.csproj">
+      <Project>{6292cfa6-a442-4729-8bea-47b2e6a149ae}</Project>
+      <Name>ARCengine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\cont\cont.csproj">
       <Project>{62c6da06-815f-433e-94bb-77dbb85ee245}</Project>
       <Name>cont</Name>

@@ -52,6 +52,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ARCengine\ARCengine.csproj">
+      <Project>{6292cfa6-a442-4729-8bea-47b2e6a149ae}</Project>
+      <Name>ARCengine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\reg\set.csproj">
       <Project>{ec111ecd-8d4b-418d-aa74-ff38fc72f794}</Project>
       <Name>set</Name>

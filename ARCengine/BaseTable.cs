@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace ARCengine
 {
-    internal abstract class BaseTable
+    public abstract class BaseTable
     {
         #region constructors
         public BaseTable(string tableName)
@@ -28,7 +28,6 @@ namespace ARCengine
         protected Database mDatabase;
         protected string mTableName;
         protected bool mIsDirty;
-        protected bool
         #endregion
 
         #region properties

@@ -14,7 +14,7 @@ namespace set
         #region constants
         const string REG_KEY_ROOT = @"Software\Archiver";
         const string REG_KEY_UI = REG_KEY_ROOT + @"\ui";
-        const string REG_KEY_DAL = REG_KEY_ROOT + @"\dal";
+        const string REG_KEY_DB = REG_KEY_ROOT + @"\db";
 
         const string REG_VAL_DEBUG_MODE = "DebugMode";
         const string REG_VAL_SPLIT_LEFT_DIST = "SplitterLeftDist";
@@ -27,94 +27,8 @@ namespace set
         const string REG_VAL_VIEW_TOOLBAR = "ViewToolbar";
         const string REG_VAL_WINDOWS_SIZE = "WindowSize";
         const string REG_VAL_WINDOWS_STATE = "WindowState";
-
-        const string REG_VAL_DBSC = "DBCS";
-        #endregion
-
-        #region methods
-        private static string GetString(string key, string name, string defVal = "")
-        {
-            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
-            {
-                object val = regKey.GetValue(name);
-                if (val == null)
-                {
-                    regKey.SetValue(name, defVal);
-                    return defVal;
-                }
-                return val.ToString();
-            }
-        }
-
-        private static string[] GetStringArray(string key, string nameStart)
-        {
-            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
-            {
-                string[] items = regKey.GetValueNames();
-                List<string> result = new List<string>();
-                foreach (string item in items)
-                {
-                    if(item.StartsWith(nameStart))
-                    {
-                        result.Add(regKey.GetValue(item).ToString());
-                    }
-                }
-                return result.ToArray();
-            }
-
-        }
-
-        private static void SetString(string key, string name, string value)
-        {
-            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
-            {
-                regKey.SetValue(name, value);
-            }
-        }
-
-        private static bool GetBool(string key, string name, bool defVal = false)
-        {
-            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
-            {
-                object val = regKey.GetValue(name);
-                if (val == null)
-                {
-                    regKey.SetValue(name, defVal ? 1 : 0, RegistryValueKind.DWord);
-                    return defVal;
-                }
-                return val.ToString() == "0" ? false: true;
-            }
-        }
-
-        private static void SetBool(string key, string name, bool value)
-        {
-            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
-            {
-                regKey.SetValue(name, value, RegistryValueKind.DWord);
-            }
-        }
-
-        private static int GetInt(string key, string name, int defVal = 0)
-        {
-            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
-            {
-                object val = regKey.GetValue(name);
-                if (val == null)
-                {
-                    regKey.SetValue(name, defVal, RegistryValueKind.DWord);
-                    return defVal;
-                }
-                return int.Parse(val.ToString());
-            }
-        }
-
-        private static void SetInt(string key, string name, int value)
-        {
-            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
-            {
-                regKey.SetValue(name, value, RegistryValueKind.DWord);
-            }
-        }
+    
+        const string REG_VAL_DBCS = "DBCS";
         #endregion
 
         #region properties
@@ -266,10 +180,95 @@ namespace set
         {
             get
             {
-                return GetStringArray(REG_KEY_DAL, REG_VAL_DBSC);
+                return GetStringArray(REG_KEY_DB, REG_VAL_DBCS);
+            }
+        }
+        #endregion
+        
+        #region methods
+        private static string GetString(string key, string name, string defVal = "")
+        {
+            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
+            {
+                object val = regKey.GetValue(name);
+                if (val == null)
+                {
+                    regKey.SetValue(name, defVal);
+                    return defVal;
+                }
+                return val.ToString();
             }
         }
 
+        private static string[] GetStringArray(string key, string nameStart)
+        {
+            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
+            {
+                string[] items = regKey.GetValueNames();
+                List<string> result = new List<string>();
+                foreach (string item in items)
+                {
+                    if(item.StartsWith(nameStart))
+                    {
+                        result.Add(regKey.GetValue(item).ToString());
+                    }
+                }
+                return result.ToArray();
+            }
+
+        }
+
+        private static void SetString(string key, string name, string value)
+        {
+            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
+            {
+                regKey.SetValue(name, value);
+            }
+        }
+
+        private static bool GetBool(string key, string name, bool defVal = false)
+        {
+            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
+            {
+                object val = regKey.GetValue(name);
+                if (val == null)
+                {
+                    regKey.SetValue(name, defVal ? 1 : 0, RegistryValueKind.DWord);
+                    return defVal;
+                }
+                return val.ToString() == "0" ? false: true;
+            }
+        }
+
+        private static void SetBool(string key, string name, bool value)
+        {
+            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
+            {
+                regKey.SetValue(name, value, RegistryValueKind.DWord);
+            }
+        }
+
+        private static int GetInt(string key, string name, int defVal = 0)
+        {
+            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
+            {
+                object val = regKey.GetValue(name);
+                if (val == null)
+                {
+                    regKey.SetValue(name, defVal, RegistryValueKind.DWord);
+                    return defVal;
+                }
+                return int.Parse(val.ToString());
+            }
+        }
+
+        private static void SetInt(string key, string name, int value)
+        {
+            using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
+            {
+                regKey.SetValue(name, value, RegistryValueKind.DWord);
+            }
+        }
         #endregion
     }
 }

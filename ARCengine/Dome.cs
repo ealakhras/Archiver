@@ -11,20 +11,21 @@ namespace ARCengine
     {
         static Dome()
         {
-            //mDatabases = new Databases();
+            mDatabases = new DatabaseCollection();
+            mDatabases.Init();
         }
 
-        //private static Databases mDatabases;
+        private static DatabaseCollection mDatabases;
         private static Database mDefaultDatabase;
-        /*
-        public static Databases Databases
+        
+        public static DatabaseCollection Databases
         {
             get
             {
                 return mDatabases;
             }
         }
-        */
+        
         public static Database DefaultDatabase
         {
             get
@@ -34,17 +35,6 @@ namespace ARCengine
             set
             {
                 mDefaultDatabase = value;
-            }
-        }
-
-        public static void Init()
-        {
-            string[] connectionStrings = RegistryDome.DBCS;
-
-            //mDatabases.Clear();
-            foreach (string conStr in connectionStrings)
-            {
-                //mDatabases.Add(conStr);
             }
         }
     }
