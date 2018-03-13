@@ -28,6 +28,11 @@ namespace ARCengine
             List.Add(item);
         }
 
+        public void Remove(Database item)
+        {
+            List.Remove(item);
+        }
+
         public void Init()
         {
             string[] connectionStrings = RegistryDome.DBCS;
@@ -35,15 +40,9 @@ namespace ARCengine
             Clear();
             foreach (string conStr in connectionStrings)
             {
-                this.Add(new Database(conStr));
+                Add(new Database(conStr));
             }
         }
-
-        public void Remove(Database item)
-        {
-            List.Remove(item);
-        }
-
         #endregion
     }
 }

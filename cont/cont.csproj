@@ -42,13 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataDome.cs" />
-    <Compile Include="FoldersTreeview.cs">
+    <Compile Include="ftv\DatabaseTreeNode.cs" />
+    <Compile Include="ftv\FoldersTreeview.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FoldersTreeview.Designer.cs">
+    <Compile Include="ftv\FoldersTreeview.Designer.cs">
       <DependentUpon>FoldersTreeview.cs</DependentUpon>
     </Compile>
+    <Compile Include="ftv\FolderTreeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

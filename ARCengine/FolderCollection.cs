@@ -6,7 +6,7 @@ namespace ARCengine
     public class FolderCollection : CollectionBase
     {
         #region constructors
-        public FolderCollection(Folder owner)
+        public FolderCollection(ICollectionOwner owner)
             : base()
         {
             mOwner = owner;
@@ -14,7 +14,7 @@ namespace ARCengine
         #endregion
 
         #region members
-        Folder mOwner;
+        ICollectionOwner mOwner;
         #endregion
 
         #region properties
@@ -29,66 +29,83 @@ namespace ARCengine
                 List[index] = value;
             }
         }
-        public Folder Owner
+
+        public ICollectionOwner Owner
         {
             get
             {
                 return mOwner;
             }
         }
+        
+        public Database Database
+        {
+            get
+            {
+                if (mOwner is Database)
+                {
+                    return (Database)mOwner;
+                }
+                if(mOwner is Folder)
+                {
+                    return ((Folder)mOwner).Database;
+                }
 
+                return null;
+            }
+        }
         #endregion
 
         #region methods
         public void Add(Folder folder)
         {
             List.Add(folder);
-            folder.ParentFolder = Owner;
+            folder.Parent = mOwner;
         }
 
         public void Populate()
         {
             Clear();
-            int id = Owner == null ? 0 : Owner.ID;
-            SqlDataReader dr = Owner.Database.Folders.Children(id);
-            Populate(dr, this);
-            dr.Close();
+            if ((mOwner == null) || (mOwner is Database))
+            {
+                SqlDataReader dr = Database.prcFolders_children();
+                Populate(dr);
+                dr.Close();
+            }
         }
 
-        protected virtual void Populate(SqlDataReader dr, FolderCollection rootCollection)
+        protected virtual void Populate(SqlDataReader dr)
         {
             while (dr.Read())
             {
                 Folder f = new Folder(dr);
-                if(Owner == null && f.ParentID == 0)
+                if ((mOwner is Database) && (f.ParentID == 0))
                 {
                     Add(f);
                 }
-                else if (Owner != null && f.ParentID == 0)
-                {
-                    rootCollection.Add(f);
-                }
-                else if (Owner.ID == f.ParentID)
+                else if (((Folder)Owner).ID == f.ParentID)
                 {
                     Add(f);
                 }
                 else
                 {
-                    Folder parent = Owner.FindParent(f.ParentID);
-                    if (parent != null)
+                    ICollectionOwner parent = ((Folder)Owner).FindParent(f.ParentID);
+                    if (parent is Database)
                     {
-                        parent.SubFolders.Add(f);                        
+                        ((Database)parent).Folders.Add(f);
+                    }
+                    else if(parent is Folder)
+                    {
+                        ((Folder)parent).SubFolders.Add(f);
                     }
                 }
-                f.SubFolders.Populate(dr, rootCollection);
+                f.SubFolders.Populate(dr);
             }
         }
 
         public override string ToString()
         {
-            string result = Owner.Name + '\n';
-            result += ToString(1);
-            return result;
+            return ToString(1);
         }
 
         private string ToString(int level)

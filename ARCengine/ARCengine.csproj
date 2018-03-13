@@ -47,6 +47,7 @@
     <Compile Include="Exceptions.cs" />
     <Compile Include="Folder.cs" />
     <Compile Include="FolderCollection.cs" />
+    <Compile Include="ICollectionOwner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

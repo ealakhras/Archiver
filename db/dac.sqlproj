@@ -73,5 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SchemaCompare.scmp" />
+    <None Include="dac.publish.xml" />
   </ItemGroup>
 </Project>

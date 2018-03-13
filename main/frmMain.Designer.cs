@@ -47,6 +47,8 @@
             System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("image3");
             this.mnsMain = new System.Windows.Forms.MenuStrip();
             this.mniFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.mniOpenDatabase = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.mniClose = new System.Windows.Forms.ToolStripMenuItem();
             this.mniView = new System.Windows.Forms.ToolStripMenuItem();
             this.mniViewToolbar = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,8 +65,10 @@
             this.tstMain = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.spcLeft = new System.Windows.Forms.SplitContainer();
             this.ftvFolders = new cont.FoldersTreeview();
+            this.ilMain = new System.Windows.Forms.ImageList(this.components);
             this.spcRight = new System.Windows.Forms.SplitContainer();
             this.spcVertical = new System.Windows.Forms.SplitContainer();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -73,8 +77,6 @@
             this.column3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listView2 = new System.Windows.Forms.ListView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.ilMain = new System.Windows.Forms.ImageList(this.components);
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.mnsMain.SuspendLayout();
             this.stsMain.SuspendLayout();
             this.tstMain.SuspendLayout();
@@ -108,16 +110,31 @@
             // mniFile
             // 
             this.mniFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mniOpenDatabase,
+            this.toolStripMenuItem1,
             this.mniClose});
             this.mniFile.Name = "mniFile";
             this.mniFile.Size = new System.Drawing.Size(37, 20);
             this.mniFile.Text = "&File";
             // 
+            // mniOpenDatabase
+            // 
+            this.mniOpenDatabase.Name = "mniOpenDatabase";
+            this.mniOpenDatabase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.mniOpenDatabase.Size = new System.Drawing.Size(206, 22);
+            this.mniOpenDatabase.Text = "&Open Database...";
+            this.mniOpenDatabase.Click += new System.EventHandler(this.mniOpenDatabase_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(203, 6);
+            // 
             // mniClose
             // 
             this.mniClose.Name = "mniClose";
             this.mniClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.mniClose.Size = new System.Drawing.Size(145, 22);
+            this.mniClose.Size = new System.Drawing.Size(206, 22);
             this.mniClose.Text = "&Close";
             this.mniClose.Click += new System.EventHandler(this.mniClose_Click);
             // 
@@ -260,6 +277,15 @@
             this.toolStripButton3.Text = "toolStripButton3";
             this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "toolStripButton2";
+            // 
             // spcLeft
             // 
             this.spcLeft.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -283,11 +309,24 @@
             this.ftvFolders.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ftvFolders.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ftvFolders.HideSelection = false;
+            this.ftvFolders.ImageIndex = 0;
+            this.ftvFolders.ImageList = this.ilMain;
             this.ftvFolders.Location = new System.Drawing.Point(0, 0);
             this.ftvFolders.Name = "ftvFolders";
+            this.ftvFolders.SelectedImageIndex = 0;
             this.ftvFolders.ShowNodeToolTips = true;
             this.ftvFolders.Size = new System.Drawing.Size(100, 313);
             this.ftvFolders.TabIndex = 0;
+            // 
+            // ilMain
+            // 
+            this.ilMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilMain.ImageStream")));
+            this.ilMain.TransparentColor = System.Drawing.Color.Transparent;
+            this.ilMain.Images.SetKeyName(0, "Database Blue.png");
+            this.ilMain.Images.SetKeyName(1, "Database Blue Plus.png");
+            this.ilMain.Images.SetKeyName(2, "icons8-folder-16.png");
+            this.ilMain.Images.SetKeyName(3, "icons8-folder-16 (1).png");
+            this.ilMain.Images.SetKeyName(4, "icons8-archive-folder-16 (2).png");
             // 
             // spcRight
             // 
@@ -388,22 +427,6 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // ilMain
-            // 
-            this.ilMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilMain.ImageStream")));
-            this.ilMain.TransparentColor = System.Drawing.Color.Transparent;
-            this.ilMain.Images.SetKeyName(0, "SQLServer.png");
-            this.ilMain.Images.SetKeyName(1, "Database.png");
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -472,6 +495,8 @@
         private System.Windows.Forms.ToolStripStatusLabel tslDBName;
         private System.Windows.Forms.ImageList ilMain;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripMenuItem mniOpenDatabase;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
     }
 }
 

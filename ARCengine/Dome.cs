@@ -16,7 +16,7 @@ namespace ARCengine
         }
 
         private static DatabaseCollection mDatabases;
-        private static Database mDefaultDatabase;
+        private static Database mCurrentDatabase;
         
         public static DatabaseCollection Databases
         {
@@ -26,15 +26,15 @@ namespace ARCengine
             }
         }
         
-        public static Database DefaultDatabase
+        public static Database CurrentDatabase
         {
             get
             {
-                return mDefaultDatabase;
+                return mCurrentDatabase;
             }
             set
             {
-                mDefaultDatabase = value;
+                mCurrentDatabase = value;
             }
         }
     }

@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace ARCengine
 {
-    public class Folder : BaseTable
+    public class Folder : BaseTable, ICollectionOwner
     {
         #region constructors
         public Folder()
@@ -15,6 +15,7 @@ namespace ARCengine
         {
             mSubFolders = new FolderCollection(this);
             mName = "<new>";
+            mDatabase = Dome.CurrentDatabase;
         }
 
         public Folder(int id)
@@ -28,24 +29,6 @@ namespace ARCengine
         {
             Read(dr);
         }
-
-        public Folder(Database database)
-            : this()
-        {
-            mDatabase = database;
-        }
-
-        public Folder(Database database, int id)
-            : this(database)
-        {
-            Read(id);
-        }
-
-        public Folder(Database database, SqlDataReader dr)
-            : this(database)
-        {
-            Read(dr);
-        }
         #endregion
 
         #region members
@@ -53,10 +36,11 @@ namespace ARCengine
         private int mParentID;
         private string mName;
         private string mDescription;
+        private int mImageIndex;
         private string mCreator;
         private DateTime mCreationDate;
         private FolderCollection mSubFolders;
-        private Folder mParentFolder;
+        private ICollectionOwner mParent;
         #endregion
 
         #region properties
@@ -119,6 +103,23 @@ namespace ARCengine
             }
         }
 
+        public int ImageIndex
+        {
+            get
+            {
+                return mImageIndex;
+            }
+            set
+            {
+                if (mImageIndex == value)
+                {
+                    return;
+                }
+                mImageIndex = value;
+                mIsDirty = true;
+            }
+        }
+
         public string Creator
         {
             get
@@ -135,23 +136,31 @@ namespace ARCengine
             }
         }
 
-        public Folder ParentFolder
+        public ICollectionOwner Parent
         {
             get
             {
-                return mParentFolder;
+                return mParent;
             }
             set
             {
-                if (mParentFolder == value)
+                if (mParent == value)
                 {
                     return;
                 }
-                mParentFolder = value;
-                mParentID = value.mID;
+                mParent = value;
+                if((value == null) || (value is Database))
+                {
+                    mParentID = 0;
+                }
+                else
+                {
+                    mParentID = ((Folder)value).mID;
+                }
                 mIsDirty = true;
             }
         }
+
         public FolderCollection SubFolders
         {
             get
@@ -159,7 +168,6 @@ namespace ARCengine
                 return mSubFolders;
             }
         }
-        
         #endregion
 
         #region methods
@@ -174,6 +182,7 @@ namespace ARCengine
             mParentID = GetIntFromDataReader(dr["parentID"]);
             mName = GetStringFromDataReader(dr["name"]);
             mDescription = GetStringFromDataReader(dr["description"]);
+            mImageIndex = GetIntFromDataReader(dr["imageIndex"]);
             mCreator = GetStringFromDataReader(dr["creator"]);
             mCreationDate = GetDateTimeFromDataReader(dr["creationDate"]);
             base.Read(dr);
@@ -186,7 +195,7 @@ namespace ARCengine
 
         protected override object[] GetSaveParameters()
         {
-            return new object[] { mID, mParentFolder, mName, mDescription };
+            return new object[] { mID, mParent, mName, mDescription };
         }
 
         protected override object[] GetDeleteParameters()
@@ -196,7 +205,7 @@ namespace ARCengine
 
         public SqlDataReader Children(object id = null)
         {
-            return base.DoExecuteDataReader("exec prcFolders_children {0}", id);
+            return mDatabase.ExecuteDataReader("exec prcFolders_children {0}", id);
         }
 
         public override string ToString()
@@ -210,21 +219,21 @@ namespace ARCengine
             return result;
         }
 
-        public Folder FindParent(int parentID)
+        public ICollectionOwner FindParent(int parentID)
         {
-            Folder f = mParentFolder;
-            while (f != null)
+            ICollectionOwner parent = mParent;
+            while ((parent != null) && !(parent is Database))
             {
-                if (f.ID == parentID)
+                if (((Folder)parent).ID == parentID)
                 {
                     break;
                 }
                 else
                 {
-                    f = f.FindParent(parentID);
+                    parent = ((Folder)parent).FindParent(parentID);
                 }
             }
-            return f;
+            return parent;
         }
         #endregion
     }

@@ -12,7 +12,7 @@ namespace ARCengine
         #region constructors
         public BaseTable(string tableName)
         {
-            mDatabase = Dome.DefaultDatabase;
+            mDatabase = Dome.CurrentDatabase;
             mTableName = tableName;
             mIsDirty = true;
         }
@@ -99,24 +99,6 @@ namespace ARCengine
                 throw new MissingDatabaseException();
             }
             mDatabase.ExecuteNonQuery("exec prc{0}_delete {1}", mTableName, PrepareParameters(parameters));
-        }
-
-        protected SqlDataReader DoExecuteDataReader(string sql, params object[] parameters)
-        {
-            if (mDatabase == null)
-            {
-                throw new MissingDatabaseException();
-            }
-            return mDatabase.ExecuteDataReader(sql, parameters);
-        }
-
-        protected int DoExecuteNonQuery(string sql, params object[] parameters)
-        {
-            if (mDatabase == null)
-            {
-                throw new MissingDatabaseException();
-            }
-            return mDatabase.ExecuteNonQuery(sql, parameters);
         }
 
         protected int GetIntFromDataReader(object drField)

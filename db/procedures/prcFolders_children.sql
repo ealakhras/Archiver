@@ -1,5 +1,5 @@
-﻿create procedure prcFolders_children(
-	@parentID int = null) as
+﻿CREATE procedure [dbo].[prcFolders_children](
+	@parentID int = 0) as
 
 with cte as(
     select
@@ -7,6 +7,7 @@ with cte as(
         fr.parentID,
         fr.name,
 		fr.description,
+		fr.imageIndex,
 		fr.creator,
 		fr.creationDate,
         0 lev,
@@ -14,14 +15,15 @@ with cte as(
     from
 		folders fr
     where
-		(@parentID is null and fr.parentID is null)
-		or (@parentID is not null and fr.parentID = @parentID)
+		(isnull(@parentID, 0) = 0 and fr.parentID is null)
+		or (isnull(@parentID, 0) != 0 and fr.parentID = @parentID)
     
     union all select
         fc.id,
         fc.parentID,
         fc.name,
 		fc.description,
+		fc.imageIndex,
 		fc.creator,
 		fc.creationDate,
         cte.lev + 1,
@@ -29,8 +31,8 @@ with cte as(
     from
 		folders fc inner join cte on cte.id = fc.parentID
     where
-		(@parentID is null and fc.parentID is not null)
-		or (@parentID is not null and fc.parentID != @parentID)
+		(isnull(@parentID, 0) = 0 and fc.parentID is not null)
+		or (isnull(@parentID, 0) != 0 and fc.parentID != @parentID)
 	)
 
 select
@@ -38,6 +40,7 @@ select
 	cte.parentID,
 	cte.name,
 	cte.description,
+	cte.imageIndex,
 	cte.creator,
 	cte.creationDate,
 	cte.lev,

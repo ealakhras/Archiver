@@ -18,20 +18,15 @@ namespace cont
         #region methods
         public void Populate()
         {
-            /*
-            FoldersCollection rootsFolders = new FoldersCollection(null);
-            rootsFolders.Populate();
-
             BeginUpdate();
             Nodes.Clear();
-            foreach (Folder rootFolder in rootsFolders)
+
+            foreach (Database database in Dome.Databases)
             {
-                FolderTreeNode root = new FolderTreeNode(rootFolder);
-                Populate(root);
-                Nodes.Add(root);
+                DatabaseTreeNode dbTreeNode = new DatabaseTreeNode(database);
+                Nodes.Add(dbTreeNode);
             }
             EndUpdate();
-            */
         }
 
         public void Populate(Folder rootFolder)
@@ -55,40 +50,6 @@ namespace cont
                 parentNode.Nodes.Add(node);
             }
             parentNode.Expand();
-        }
-        #endregion
-    }
-
-
-    public class DatabaseTreeNode : TreeNode
-    {
-        public DatabaseTreeNode()
-        {
-        }
-    }
-
-    public class FolderTreeNode : TreeNode
-    {
-        #region constructors
-        public FolderTreeNode(Folder folder)
-        {
-            mFolder = folder;
-            Text = folder.Name;
-            ToolTipText = folder.Description;
-        }
-        #endregion
-
-        #region members
-        private Folder mFolder;
-        #endregion
-
-        #region properties
-        public Folder Folder
-        {
-            get
-            {
-                return mFolder;
-            }
         }
         #endregion
     }

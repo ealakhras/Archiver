@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace ARCengine
 {
-    public class Database
+    public class Database: ICollectionOwner
     {
         #region constructor
         public Database()
@@ -15,12 +16,17 @@ namespace ARCengine
             mSqlConnection = new SqlConnection();
             mSqlCommand = new SqlCommand { Connection = mSqlConnection };
             mFolders = new FolderCollection(this);
+            Dome.CurrentDatabase = this;
         }
 
         public Database(string connectionString)
             : this()
         {
             ConnectionString = connectionString;
+            if (AutoConnect)
+            {
+                Connect();
+            }
         }
         #endregion
 
@@ -74,7 +80,17 @@ namespace ARCengine
         {
             get
             {
-                return string.Format("{0} (SQLServer ver {1})", mSqlConnection.DataSource, mSqlConnection.ServerVersion);
+                string conStr = mSqlConnection.ConnectionString;
+                string[] keywords = conStr.Split(';');
+                foreach (string keyword in keywords)
+                {
+                    if(keyword.StartsWith("Data Source"))
+                    {
+                        return keyword.Substring(keyword.IndexOf("=") + 1).Trim();
+                    }
+                }
+                return string.Empty;
+                //return string.Format("{0} (SQLServer ver {1})", mSqlConnection.DataSource, mSqlConnection.ServerVersion);
             }
         }
 
@@ -121,18 +137,46 @@ namespace ARCengine
                 }
             }
         }
+
+        public FolderCollection Folders
+        {
+            get
+            {
+                return mFolders;
+            }
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Engine: {0}, Database: {1}", Engine, Name);
+        }
+
+        public ConnectionState State
+        {
+            get
+            {
+                return mSqlConnection.State;
+            }
+        }
         #endregion
 
         #region methods
         public void Connect()
         {
             mSqlConnection.Open();
+            mFolders.Populate();
         }
 
         public void Connect(string connectionString)
         {
             ConnectionString = connectionString;
-            mSqlConnection.Open();
+            Connect();
+        }
+
+        public void Disconnect()
+        {
+            mSqlConnection.Close();
+            mFolders.Clear();
         }
 
         public SqlDataReader ExecuteDataReader(string sql, params object[] parameters)
@@ -147,13 +191,16 @@ namespace ARCengine
             return mSqlCommand.ExecuteNonQuery();
         }
 
-        public FolderCollection Folders
+        public SqlDataReader prcFolders_children(int id = 0)
         {
-            get
-            {
-                return mFolders;
-            }
+            return ExecuteDataReader("exec prcFolders_children {0}", id);
         }
+
+        public void Refresh()
+        {
+
+        }
+        
         #endregion
     }
 }

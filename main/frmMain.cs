@@ -11,6 +11,9 @@ namespace main
         public frmMain()
         {
             InitializeComponent();
+
+            Dome.Databases.Init();
+            ftvFolders.Populate();
         }
 
         public frmMain(string[] args)
@@ -19,7 +22,6 @@ namespace main
             ParseStartupArgs(args);
             try
             {
-                ftvFolders.Populate();
             }
             catch
             {
@@ -154,6 +156,12 @@ namespace main
             RegistryDome.ViewFolders = mniViewFolders.Checked;
             RegistryDome.ViewPreview = mniViewPreview.Checked;
             RegistryDome.ViewStatusBar = mniViewStatusbar.Checked;
+        }
+
+        private void mniOpenDatabase_Click(object sender, EventArgs e)
+        {
+            frmDatabasePicker f = new frmDatabasePicker();
+            f.ShowDialog();
         }
     }
 }
