@@ -57,12 +57,19 @@ namespace ARCengine
         #endregion
 
         #region methods
+        /// <summary>
+        /// adds folder to the collection
+        /// </summary>
+        /// <param name="folder">new folder to add</param>
         public void Add(Folder folder)
         {
             List.Add(folder);
             folder.Parent = mOwner;
         }
 
+        /// <summary>
+        /// populates folders by calling Database.prcFolders_children() for roots.
+        /// </summary>
         public void Populate()
         {
             Clear();
@@ -74,21 +81,31 @@ namespace ARCengine
             }
         }
 
+        /// <summary>
+        /// populates folders reculsivelly.
+        /// </summary>
+        /// <param name="dr"></param>
         protected virtual void Populate(SqlDataReader dr)
         {
             while (dr.Read())
             {
+                // create a folder for current dr record:
                 Folder f = new Folder(dr);
+
+                // if owner is a Database, or parentID is 0, then it's a root:
                 if ((mOwner is Database) && (f.ParentID == 0))
                 {
                     Add(f);
                 }
+
+                // if current folder is the new folder's parent, add it to it:
                 else if (((Folder)Owner).ID == f.ParentID)
                 {
                     Add(f);
                 }
                 else
                 {
+                    // search for the parent:
                     ICollectionOwner parent = ((Folder)Owner).FindParent(f.ParentID);
                     if (parent is Database)
                     {
@@ -99,6 +116,7 @@ namespace ARCengine
                         ((Folder)parent).SubFolders.Add(f);
                     }
                 }
+                // call reculsivelly:
                 f.SubFolders.Populate(dr);
             }
         }

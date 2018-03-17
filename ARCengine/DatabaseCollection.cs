@@ -26,11 +26,22 @@ namespace ARCengine
         public void Add(Database item)
         {
             List.Add(item);
+            Dome.CurrentDatabase = item;
         }
 
         public void Remove(Database item)
         {
             List.Remove(item);
+            if(Count != 0)
+            {
+                Dome.CurrentDatabase = (Database)List[Count];
+            }
+        }
+
+        public new void Clear()
+        {
+            base.Clear();
+            Dome.CurrentDatabase = null;
         }
 
         public void Init()

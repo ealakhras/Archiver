@@ -16,7 +16,7 @@ namespace ARCengine
             mSqlConnection = new SqlConnection();
             mSqlCommand = new SqlCommand { Connection = mSqlConnection };
             mFolders = new FolderCollection(this);
-            Dome.CurrentDatabase = this;
+            Dome.Databases.Add(this);
         }
 
         public Database(string connectionString)
@@ -53,8 +53,9 @@ namespace ARCengine
                 {
                     return;
                 }
-
+                // reset:
                 mSqlConnection.Close();
+                mAutoConnect = false;
                 string conStr = "";
                 string[] keywords = value.Split(';');
                 foreach (string keyword in keywords)
@@ -80,6 +81,11 @@ namespace ARCengine
         {
             get
             {
+                if(mSqlConnection.State == ConnectionState.Open)
+                {
+                    return string.Format("{0} ver {1}", mSqlConnection.DataSource, mSqlConnection.ServerVersion);
+                }
+
                 string conStr = mSqlConnection.ConnectionString;
                 string[] keywords = conStr.Split(';');
                 foreach (string keyword in keywords)
@@ -90,7 +96,6 @@ namespace ARCengine
                     }
                 }
                 return string.Empty;
-                //return string.Format("{0} (SQLServer ver {1})", mSqlConnection.DataSource, mSqlConnection.ServerVersion);
             }
         }
 
@@ -161,46 +166,78 @@ namespace ARCengine
         #endregion
 
         #region methods
+        /// <summary>
+        /// Connects database object by activating embedded mSQLConnection
+        /// </summary>
         public void Connect()
         {
             mSqlConnection.Open();
             mFolders.Populate();
         }
 
+        /// <summary>
+        /// Connects database object by activating embedded mSqlConnection
+        /// using given connectionString
+        /// </summary>
+        /// <param name="connectionString"></param>
         public void Connect(string connectionString)
         {
             ConnectionString = connectionString;
             Connect();
         }
 
+        /// <summary>
+        /// Closes mSqlConnection and dispose of Database components
+        /// </summary>
         public void Disconnect()
         {
             mSqlConnection.Close();
             mFolders.Clear();
         }
 
+        /// <summary>
+        /// Generic ExecuteDataReader at embedded mSqlCommand
+        /// using given sql script and optional parameters
+        /// </summary>
+        /// <param name="sql">sql script to execute</param>
+        /// <param name="parameters">optional sql script parameters</param>
+        /// <returns></returns>
         public SqlDataReader ExecuteDataReader(string sql, params object[] parameters)
         {
             mSqlCommand.CommandText = string.Format(sql, parameters);
             return mSqlCommand.ExecuteReader();
         }
 
+        /// <summary>
+        /// Generic ExecuteNonReader at embedded mSqlCommand
+        /// using given sql script and optional paramters
+        /// </summary>
+        /// <param name="sql">sql script to execute</param>
+        /// <param name="parameters">optional sql script parameters</param>
+        /// <returns></returns>
         public int ExecuteNonQuery(string sql, params object[] parameters)
         {
             mSqlCommand.CommandText = string.Format(sql, parameters);
             return mSqlCommand.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// direct call to sql stored procedure with same name
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public SqlDataReader prcFolders_children(int id = 0)
         {
             return ExecuteDataReader("exec prcFolders_children {0}", id);
         }
 
+        /// <summary>
+        /// Refreshes the Database object with all its internal components.
+        /// </summary>
         public void Refresh()
         {
 
-        }
-        
+        }   
         #endregion
     }
 }
