@@ -58,15 +58,20 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="tables" />
-    <Folder Include="procedures" />
+    <Folder Include="Procedures" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\folders.sql" />
     <Build Include="procedures\prcFolders_delete.sql" />
     <Build Include="procedures\prcFolders_read.sql" />
     <Build Include="procedures\prcFolders_save.sql" />
     <Build Include="procedures\prcFolders_children.sql" />
+    <Build Include="dbo\Tables\images.sql" />
+    <Build Include="dbo\Tables\fieldsValues.sql" />
+    <Build Include="dbo\Tables\fields.sql" />
+    <Build Include="dbo\Tables\documents.sql" />
+    <Build Include="dbo\Tables\folders.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="db.refactorlog" />

@@ -7,13 +7,13 @@ using System.Data.SqlClient;
 
 namespace ARCengine
 {
-    public abstract class BaseTable
+    public abstract class BaseTable: DatabaseObject
     {
         #region constructors
         public BaseTable(string tableName)
+            : base()
         {
-            mDatabase = Dome.CurrentDatabase;
-            mTableName = tableName;
+            mName = tableName;
             mIsDirty = true;
         }
 
@@ -21,30 +21,6 @@ namespace ARCengine
             : this(tableName)
         {
             mDatabase = database;
-        }
-        #endregion
-
-        #region members
-        protected Database mDatabase;
-        protected string mTableName;
-        protected bool mIsDirty;
-        #endregion
-
-        #region properties
-        public Database Database
-        {
-            get
-            {
-                return mDatabase;
-            }
-        }
-
-        public bool IsDirty
-        {
-            get
-            {
-                return mIsDirty;
-            }
         }
         #endregion
 
@@ -80,7 +56,7 @@ namespace ARCengine
             {
                 throw new MissingDatabaseException();
             }
-            return mDatabase.ExecuteDataReader("exec prc{0}_read {1}", mTableName, PrepareParameters(parameters));
+            return mDatabase.ExecuteDataReader("exec prc{0}_read {1}", mName, PrepareParameters(parameters));
         }
 
         protected SqlDataReader DoSave(params object[] parameters)
@@ -89,7 +65,7 @@ namespace ARCengine
             {
                 throw new MissingDatabaseException();
             }
-            return mDatabase.ExecuteDataReader("exec prc{0}_save {1}", mTableName, PrepareParameters(parameters));
+            return mDatabase.ExecuteDataReader("exec prc{0}_save {1}", mName, PrepareParameters(parameters));
         }
 
         protected void DoDelete(params object[] parameters)
@@ -98,35 +74,10 @@ namespace ARCengine
             {
                 throw new MissingDatabaseException();
             }
-            mDatabase.ExecuteNonQuery("exec prc{0}_delete {1}", mTableName, PrepareParameters(parameters));
+            mDatabase.ExecuteNonQuery("exec prc{0}_delete {1}", mName, PrepareParameters(parameters));
         }
 
-        protected int GetIntFromDataReader(object drField)
-        {
-            if ((drField != null) && (int.TryParse(drField.ToString(), out int result)))
-                return result;
-
-            return 0;
-        }
-
-        protected string GetStringFromDataReader(object drField)
-        {
-            if (drField != null)
-                return drField.ToString();
-
-            return string.Empty;
-        }
-
-        protected DateTime GetDateTimeFromDataReader(object drField)
-        {
-            if ((drField != null) && (DateTime.TryParse(drField.ToString(), out DateTime result)))
-                return result;
-
-            return DateTime.MinValue;
-        }
-
-
-        public virtual void Read()
+        public override void Read()
         {
             SqlDataReader dr = DoRead(GetReadParameters());
             if (dr.Read())
@@ -167,11 +118,6 @@ namespace ARCengine
         {
             DoDelete(GetDeleteParameters());
             mIsDirty = true;
-        }
-
-        public virtual void Refresh()
-        {
-            Read();
         }
         #endregion
     }

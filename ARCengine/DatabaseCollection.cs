@@ -25,7 +25,11 @@ namespace ARCengine
         #region methods
         public void Add(Database item)
         {
-            List.Add(item);
+            // add if not already there:
+            if (List.IndexOf(item) == -1)
+            {
+                List.Add(item);
+            }
             Dome.CurrentDatabase = item;
         }
 

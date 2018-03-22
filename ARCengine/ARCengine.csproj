@@ -43,6 +43,7 @@
     <Compile Include="DatabaseCollection.cs" />
     <Compile Include="BaseTable.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="DatabaseObject.cs" />
     <Compile Include="Dome.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Folder.cs" />

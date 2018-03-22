@@ -4,10 +4,11 @@ using ARCengine;
 
 namespace cont
 {
-    public class FolderTreeNode:TreeNode
+    public class FolderTreeNode: DatabaseObjectTreeNode
     {
         #region constructors
         public FolderTreeNode(Folder folder)
+            : base(folder.Database)
         {
             mFolder = folder;
             Init();

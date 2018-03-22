@@ -317,6 +317,8 @@
             this.ftvFolders.ShowNodeToolTips = true;
             this.ftvFolders.Size = new System.Drawing.Size(100, 313);
             this.ftvFolders.TabIndex = 0;
+            this.ftvFolders.FolderChanged += new System.Windows.Forms.TreeViewEventHandler(this.ftvFolders_FolderChanged);
+            this.ftvFolders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ftvFolders_AfterSelect);
             // 
             // ilMain
             // 

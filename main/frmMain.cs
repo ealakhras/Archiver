@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using ARCengine;
+using cont;
 using set;
 
 namespace main
@@ -162,6 +163,17 @@ namespace main
         {
             frmDatabasePicker f = new frmDatabasePicker();
             f.ShowDialog();
+        }
+
+        private void ftvFolders_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            tslDBEngine.Text = ((DatabaseObjectTreeNode)e.Node).Database.Engine;
+            tslDBName.Text = ((DatabaseObjectTreeNode)e.Node).Database.Name;
+        }
+
+        private void ftvFolders_FolderChanged(object sender, TreeViewEventArgs e)
+        {
+            MessageBox.Show(e.Node.Text);
         }
     }
 }

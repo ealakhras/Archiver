@@ -27,7 +27,8 @@ namespace set
         const string REG_VAL_VIEW_TOOLBAR = "ViewToolbar";
         const string REG_VAL_WINDOWS_SIZE = "WindowSize";
         const string REG_VAL_WINDOWS_STATE = "WindowState";
-    
+        const string REG_VAL_FOLDERSTREEVIEW_INTERVAL = "FoldersTreeViewInterval";
+
         const string REG_VAL_DBCS = "DBCS";
         #endregion
 
@@ -183,8 +184,20 @@ namespace set
                 return GetStringArray(REG_KEY_DB, REG_VAL_DBCS);
             }
         }
+
+        public static int FoldersTreeViewInterval
+        {
+            get
+            {
+                return GetInt(REG_KEY_UI, REG_VAL_FOLDERSTREEVIEW_INTERVAL, 200);
+            }
+            set
+            {
+                SetInt(REG_KEY_UI, REG_VAL_FOLDERSTREEVIEW_INTERVAL, value);
+            }
+        }
         #endregion
-        
+
         #region methods
         private static string GetString(string key, string name, string defVal = "")
         {

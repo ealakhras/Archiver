@@ -4,15 +4,13 @@ using ARCengine;
 
 namespace cont
 {
-    public class DatabaseTreeNode : TreeNode
+    public class DatabaseTreeNode : DatabaseObjectTreeNode
     {
         public DatabaseTreeNode(Database database)
+            : base(database)
         {
-            mDatabase = database;
             Init();
         }
-
-        private Database mDatabase;
 
         private void Init()
         {
@@ -24,14 +22,6 @@ namespace cont
             foreach (Folder folder in mDatabase.Folders)
             {
                 Nodes.Add(new FolderTreeNode(folder));
-            }
-        }
-
-        public Database Database
-        {
-            get
-            {
-                return mDatabase;
             }
         }
 
