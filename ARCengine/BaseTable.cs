@@ -13,7 +13,8 @@ namespace ARCengine
         public BaseTable(string tableName)
             : base()
         {
-            mName = tableName;
+            mTableName = tableName;
+            mDatabase = Dome.CurrentDatabase;
             mIsDirty = true;
         }
 
@@ -21,6 +22,20 @@ namespace ARCengine
             : this(tableName)
         {
             mDatabase = database;
+        }
+        #endregion
+
+        #region members
+        protected string mTableName;
+        #endregion
+
+        #region properties
+        public string TableName
+        {
+            get
+            {
+                return mTableName;
+            }
         }
         #endregion
 
@@ -56,7 +71,7 @@ namespace ARCengine
             {
                 throw new MissingDatabaseException();
             }
-            return mDatabase.ExecuteDataReader("exec prc{0}_read {1}", mName, PrepareParameters(parameters));
+            return mDatabase.ExecuteDataReader("exec prc{0}_read {1}", mTableName, PrepareParameters(parameters));
         }
 
         protected SqlDataReader DoSave(params object[] parameters)
@@ -65,7 +80,7 @@ namespace ARCengine
             {
                 throw new MissingDatabaseException();
             }
-            return mDatabase.ExecuteDataReader("exec prc{0}_save {1}", mName, PrepareParameters(parameters));
+            return mDatabase.ExecuteDataReader("exec prc{0}_save {1}", mTableName, PrepareParameters(parameters));
         }
 
         protected void DoDelete(params object[] parameters)
@@ -74,7 +89,7 @@ namespace ARCengine
             {
                 throw new MissingDatabaseException();
             }
-            mDatabase.ExecuteNonQuery("exec prc{0}_delete {1}", mName, PrepareParameters(parameters));
+            mDatabase.ExecuteNonQuery("exec prc{0}_delete {1}", mTableName, PrepareParameters(parameters));
         }
 
         public override void Read()

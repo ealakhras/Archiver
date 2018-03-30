@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 
 namespace ARCengine
@@ -14,8 +10,8 @@ namespace ARCengine
             : base("Folders")
         {
             mSubFolders = new FolderCollection(this);
+            mFields = null; // new FieldsCollection(this);
             mName = "<new>";
-            mDatabase = Dome.CurrentDatabase;
         }
 
         public Folder(int id)
@@ -37,10 +33,12 @@ namespace ARCengine
         private string mName;
         private string mDescription;
         private int mImageIndex;
+        private bool mInheritsFields;
         private string mCreator;
         private DateTime mCreationDate;
         private FolderCollection mSubFolders;
         private ICollectionOwner mParent;
+        private FieldsCollection mFields;
         #endregion
 
         #region properties
@@ -120,6 +118,23 @@ namespace ARCengine
             }
         }
 
+        public bool InheritsFields
+        {
+            get
+            {
+                return mInheritsFields;
+            }
+            set
+            {
+                if (mInheritsFields = value)
+                {
+                    return;
+                }
+                mInheritsFields = value;
+                mIsDirty = true;
+            }
+        }
+
         public string Creator
         {
             get
@@ -168,6 +183,14 @@ namespace ARCengine
                 return mSubFolders;
             }
         }
+
+        public FieldsCollection Fields
+        {
+            get
+            {
+                return mFields;
+            }
+        }
         #endregion
 
         #region methods
@@ -183,6 +206,7 @@ namespace ARCengine
             mName = GetStringFromDataReader(dr["name"]);
             mDescription = GetStringFromDataReader(dr["description"]);
             mImageIndex = GetIntFromDataReader(dr["imageIndex"]);
+            mInheritsFields = GetBoolFromDataReader(dr["inheritsFields"]);
             mCreator = GetStringFromDataReader(dr["creator"]);
             mCreationDate = GetDateTimeFromDataReader(dr["creationDate"]);
             base.Read(dr);
@@ -203,9 +227,9 @@ namespace ARCengine
             return new object[] { mID };
         }
 
-        public SqlDataReader Children(object id = null)
+        public SqlDataReader Tree(object id = null)
         {
-            return mDatabase.ExecuteDataReader("exec prcFolders_children {0}", id);
+            return mDatabase.ExecuteDataReader("exec prcFolders_tree {0}", id);
         }
 
         public override string ToString()
@@ -234,6 +258,18 @@ namespace ARCengine
                 }
             }
             return parent;
+        }
+
+        public override void Save()
+        {
+            base.Save();
+            foreach (Field subfolder in mSubFolders)
+            {
+                if(subfolder.IsDirty)
+                {
+                    subfolder.Save();
+                }
+            }
         }
         #endregion
     }

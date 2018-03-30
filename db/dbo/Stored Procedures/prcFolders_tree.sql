@@ -1,4 +1,4 @@
-﻿CREATE procedure [dbo].[prcFolders_children](
+﻿CREATE procedure [dbo].[prcFolders_tree](
 	@parentID int = 0) as
 
 with cte as(
@@ -8,6 +8,7 @@ with cte as(
         fr.name,
 		fr.description,
 		fr.imageIndex,
+		fr.inheritsFields,
 		fr.creator,
 		fr.creationDate,
         0 lev,
@@ -24,6 +25,7 @@ with cte as(
         fc.name,
 		fc.description,
 		fc.imageIndex,
+		fc.inheritsFields,
 		fc.creator,
 		fc.creationDate,
         cte.lev + 1,
@@ -41,6 +43,7 @@ select
 	cte.name,
 	cte.description,
 	cte.imageIndex,
+	cte.inheritsFields,
 	cte.creator,
 	cte.creationDate,
 	cte.lev,

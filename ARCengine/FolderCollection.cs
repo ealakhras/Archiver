@@ -14,7 +14,7 @@ namespace ARCengine
         #endregion
 
         #region members
-        ICollectionOwner mOwner;
+        private ICollectionOwner mOwner;
         #endregion
 
         #region properties
@@ -75,7 +75,7 @@ namespace ARCengine
             Clear();
             if ((mOwner == null) || (mOwner is Database))
             {
-                SqlDataReader dr = Database.prcFolders_children();
+                SqlDataReader dr = Database.ExecuteDataReader("exec prcFolders_tree");
                 Populate(dr);
                 dr.Close();
             }

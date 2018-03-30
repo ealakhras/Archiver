@@ -221,14 +221,10 @@ namespace ARCengine
             return mSqlCommand.ExecuteNonQuery();
         }
 
-        /// <summary>
-        /// direct call to sql stored procedure with same name
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public SqlDataReader prcFolders_children(int id = 0)
+        public void ExecuteNonQueryAsync(string sql, params object[] parameters)
         {
-            return ExecuteDataReader("exec prcFolders_children {0}", id);
+            mSqlCommand.CommandText = string.Format(sql, parameters);
+            mSqlCommand.ExecuteNonQueryAsync();
         }
 
         /// <summary>

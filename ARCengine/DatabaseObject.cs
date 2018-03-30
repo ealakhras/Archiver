@@ -18,7 +18,6 @@ namespace ARCengine
         #region members
         protected Database mDatabase;
         protected bool mIsDirty;
-        protected string mName;
         #endregion
 
         #region properties
@@ -59,9 +58,19 @@ namespace ARCengine
         protected DateTime GetDateTimeFromDataReader(object drField)
         {
             if ((drField != null) && (DateTime.TryParse(drField.ToString(), out DateTime result)))
+            {
                 return result;
-
+            }
             return DateTime.MinValue;
+        }
+
+        protected bool GetBoolFromDataReader(object drField)
+        {
+            if ((drField != null) && (bool.TryParse(drField.ToString(), out bool result)))
+            {
+                return result;
+            }
+            return false;
         }
 
         public abstract void Read();

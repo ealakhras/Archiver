@@ -58,20 +58,23 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Procedures" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\Functions\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="procedures\prcFolders_delete.sql" />
-    <Build Include="procedures\prcFolders_read.sql" />
-    <Build Include="procedures\prcFolders_save.sql" />
-    <Build Include="procedures\prcFolders_children.sql" />
     <Build Include="dbo\Tables\images.sql" />
     <Build Include="dbo\Tables\fieldsValues.sql" />
     <Build Include="dbo\Tables\fields.sql" />
     <Build Include="dbo\Tables\documents.sql" />
     <Build Include="dbo\Tables\folders.sql" />
+    <Build Include="dbo\Stored Procedures\prcFields_save.sql" />
+    <Build Include="dbo\Stored Procedures\prcFields_read.sql" />
+    <Build Include="dbo\Stored Procedures\prcFields_delete.sql" />
+    <Build Include="dbo\Stored Procedures\prcFolders_delete.sql" />
+    <Build Include="dbo\Tables\options.sql" />
+    <Build Include="dbo\Functions\fn_fields_inheritsFrom.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="db.refactorlog" />
@@ -79,5 +82,10 @@
   <ItemGroup>
     <None Include="SchemaCompare.scmp" />
     <None Include="dac.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Stored Procedures\prcFolders_read.sql" />
+    <Build Include="dbo\Stored Procedures\prcFolders_save.sql" />
+    <Build Include="dbo\Stored Procedures\prcFolders_tree.sql" />
   </ItemGroup>
 </Project>
