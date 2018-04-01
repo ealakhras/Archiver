@@ -5,7 +5,7 @@ as begin
 	declare @inheritsFields bit
 	
 	select
-		@result = f.ID,
+		@result = f.id,
 		@parentID = f.parentID,
 		@inheritsFields = f.inheritsFields
 	from

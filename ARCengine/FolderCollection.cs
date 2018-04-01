@@ -61,6 +61,32 @@ namespace ARCengine
         /// adds folder to the collection
         /// </summary>
         /// <param name="folder">new folder to add</param>
+
+        public override string ToString()
+        {
+            return ToString(1);
+        }
+
+        /// <summary>
+        /// Converts Folder to a string including SubFolders till designated level.
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        public string ToString(int level)
+        {
+            string result = string.Empty;
+            foreach (Folder folder in List)
+            {
+                result += new string('-', level) + folder.Name + '\n';
+                result += folder.SubFolders.ToString(level + 1);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Adds a Folder to teh collection, assigning it's parent to the owner of the collection.
+        /// </summary>
+        /// <param name="folder"></param>
         public void Add(Folder folder)
         {
             List.Add(folder);
@@ -70,13 +96,13 @@ namespace ARCengine
         /// <summary>
         /// populates folders by calling Database.prcFolders_children() for roots.
         /// </summary>
-        public void Populate()
+        public void Read()
         {
             Clear();
             if ((mOwner == null) || (mOwner is Database))
             {
                 SqlDataReader dr = Database.ExecuteDataReader("exec prcFolders_tree");
-                Populate(dr);
+                Read(dr);
                 dr.Close();
             }
         }
@@ -85,7 +111,7 @@ namespace ARCengine
         /// populates folders reculsivelly.
         /// </summary>
         /// <param name="dr"></param>
-        protected virtual void Populate(SqlDataReader dr)
+        private void Read(SqlDataReader dr)
         {
             while (dr.Read())
             {
@@ -117,24 +143,27 @@ namespace ARCengine
                     }
                 }
                 // call reculsivelly:
-                f.SubFolders.Populate(dr);
+                f.SubFolders.Read(dr);
             }
         }
 
-        public override string ToString()
+        /// <summary>
+        /// Saves Collection to the Database.
+        /// </summary>
+        public void Save()
         {
-            return ToString(1);
-        }
-
-        private string ToString(int level)
-        {
-            string result = string.Empty;
-            foreach (Folder f in List)
+            foreach (Field subfolder in List)
             {
-                result += new string('-', level) + f.Name + '\n';
-                result += f.SubFolders.ToString(level + 1);
+                if (subfolder.NeedsSaving)
+                {
+                    subfolder.Save();
+                }
             }
-            return result;
+        }
+ 
+        public void Refresh()
+        {
+            Read();
         }
         #endregion
     }

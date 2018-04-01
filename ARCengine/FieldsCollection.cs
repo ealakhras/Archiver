@@ -6,23 +6,23 @@ namespace ARCengine
 {
     public class FieldsCollection : CollectionBase
     {
-        public FieldsCollection(Folder owner)
+        public FieldsCollection(Folder folder)
         {
-            mOwner = owner;
-            mIsDirty = true;
+            mFolder = folder;
+            mNeedsRefreshing = true;
         }
 
         #region members
-        private Folder mOwner;
-        private bool mIsDirty;
+        private Folder mFolder;
+        private bool mNeedsRefreshing;
         #endregion
 
         #region properties
-        public Folder Owner
+        public Folder Folder
         {
             get
             {
-                return mOwner;
+                return mFolder;
             }
         }
 
@@ -30,7 +30,7 @@ namespace ARCengine
         {
             get
             {
-                return mOwner.Database;
+                return mFolder.Database;
             }
         }
 
@@ -38,9 +38,9 @@ namespace ARCengine
         {
             get
             {
-                if (mIsDirty)
+                if (mNeedsRefreshing)
                 {
-                    Populate();
+                    Read();
                 }
                 return (Field)List[index];
             }
@@ -52,45 +52,50 @@ namespace ARCengine
         #endregion
 
         #region methods
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
         public void Add(Field field)
         {
             List.Add(field);
         }
 
         /// <summary>
-        /// populates fields.
+        /// populates fields from Database.
         /// </summary>
-        public void Populate()
+        public void Read()
         {
             Clear();
-            SqlDataReader dr = Database.ExecuteDataReader("exec prcFields_read @folderID = {0}", mOwner.ID);
-            Populate(dr);
+            SqlDataReader dr = Database.ExecuteDataReader("exec prcFields_read @folderID = {0}", mFolder.ID);
+            Read(dr);
             dr.Close();
-            mIsDirty = false;
         }
 
-        protected virtual void Populate(SqlDataReader dr)
+        private void Read(SqlDataReader dr)
         {
             while (dr.Read())
             {
-                Add(new Field(mOwner, dr));
+                Add(new Field(mFolder, dr));
             }
+            mNeedsRefreshing = false;
         }
 
-        protected virtual void Save()
+        public void Save()
         {
             foreach (Field field in List)
             {
-                if(field.IsDirty)
+                if(field.NeedsSaving)
                 {
                     field.Save();
                 }
             }
         }
 
-        public override string ToString()
+        public void Refresh()
         {
-            return base.ToString();
+            Read();
         }
         #endregion
     }

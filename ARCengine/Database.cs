@@ -172,7 +172,7 @@ namespace ARCengine
         public void Connect()
         {
             mSqlConnection.Open();
-            mFolders.Populate();
+            mFolders.Read();
         }
 
         /// <summary>

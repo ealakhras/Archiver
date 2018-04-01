@@ -70,7 +70,7 @@ namespace ARCengine
                 }
                 mFolder = value;
                 mFolderID = value.ID;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -87,7 +87,7 @@ namespace ARCengine
                     return;
                 }
                 mName = value;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -104,7 +104,7 @@ namespace ARCengine
                     return;
                 }
                 mDescription = value;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -121,7 +121,7 @@ namespace ARCengine
                     return;
                 }
                 mType = value;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -138,7 +138,7 @@ namespace ARCengine
                     return;
                 }
                 mDefVal = value;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -155,7 +155,7 @@ namespace ARCengine
                     return;
                 }
                 mOrd = value;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -222,6 +222,10 @@ namespace ARCengine
 
     public enum FieldType { Text, Number, DateTime, YesNo, Lookup };
 
+
+    /// <summary>
+    /// static class dedicated for FieldType from/to castings
+    /// </summary>
     public static class FieldTypeUtil
     {
         public static string ToChar(FieldType fieldtype)

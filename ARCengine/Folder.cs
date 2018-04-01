@@ -10,7 +10,7 @@ namespace ARCengine
             : base("Folders")
         {
             mSubFolders = new FolderCollection(this);
-            mFields = null; // new FieldsCollection(this);
+            mFields = new FieldsCollection(this);
             mName = "<new>";
         }
 
@@ -63,7 +63,7 @@ namespace ARCengine
                     return;
                 }
                 mParentID = value;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -80,7 +80,7 @@ namespace ARCengine
                     return;
                 }
                 mName = value;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -97,7 +97,7 @@ namespace ARCengine
                     return;
                 }
                 mDescription = value;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -114,7 +114,7 @@ namespace ARCengine
                     return;
                 }
                 mImageIndex = value;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -131,7 +131,7 @@ namespace ARCengine
                     return;
                 }
                 mInheritsFields = value;
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -172,7 +172,7 @@ namespace ARCengine
                 {
                     mParentID = ((Folder)value).mID;
                 }
-                mIsDirty = true;
+                mNeedsSaving = true;
             }
         }
 
@@ -194,11 +194,6 @@ namespace ARCengine
         #endregion
 
         #region methods
-        public new void Read(int id)
-        {
-            base.Read(id);
-        }
-
         public override void Read(SqlDataReader dr)
         {
             mID = GetIntFromDataReader(dr["id"]);
@@ -263,13 +258,15 @@ namespace ARCengine
         public override void Save()
         {
             base.Save();
-            foreach (Field subfolder in mSubFolders)
-            {
-                if(subfolder.IsDirty)
-                {
-                    subfolder.Save();
-                }
-            }
+            mFields.Save();
+            mSubFolders.Save();
+        }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+            mFields.Refresh();
+            mSubFolders.Refresh();
         }
         #endregion
     }
