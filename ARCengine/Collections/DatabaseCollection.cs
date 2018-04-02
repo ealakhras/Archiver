@@ -1,7 +1,8 @@
 ﻿using System.Collections;
-using set;
+using ARCettings;
 
-namespace ARCengine
+
+namespace ARCengine.Collections
 {
     public class DatabaseCollection : CollectionBase
     {

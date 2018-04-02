@@ -2,9 +2,9 @@
 using System.Windows.Forms;
 using System.ComponentModel;
 using ARCengine;
-using set;
+using ARCettings;
 
-namespace cont
+namespace ARControls
 {
     public partial class FoldersTreeview : TreeView
     {
@@ -22,6 +22,7 @@ namespace cont
 
         #region members
         Timer mTimer;
+        TreeNode mOldNode;
 
         [Category("Action")]
         [Description("Fires after Interval passes from last Folder Change")]
@@ -50,7 +51,11 @@ namespace cont
             mTimer.Stop();
 
             // trigger event:
-            OnFolderChanged(new TreeViewEventArgs(SelectedNode));
+            if ((mOldNode is null) || (mOldNode != SelectedNode))
+            {
+                mOldNode = SelectedNode;
+                OnFolderChanged(new TreeViewEventArgs(SelectedNode));
+            }
         }
 
         public void Populate()

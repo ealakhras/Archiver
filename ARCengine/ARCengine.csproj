@@ -40,22 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseCollection.cs" />
+    <Compile Include="Collections\DatabaseCollection.cs" />
     <Compile Include="BaseTable.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Dome.cs" />
-    <Compile Include="Exceptions.cs" />
+    <Compile Include="Exceptions\MissingDatabaseException.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="FieldsCollection.cs" />
+    <Compile Include="Collections\FieldsCollection.cs" />
     <Compile Include="Folder.cs" />
-    <Compile Include="FolderCollection.cs" />
-    <Compile Include="ICollectionOwner.cs" />
+    <Compile Include="Collections\FolderCollection.cs" />
+    <Compile Include="Interfaces\ICollectionOwner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\reg\set.csproj">
+    <ProjectReference Include="..\ARCettings\ARCettings.csproj">
       <Project>{ec111ecd-8d4b-418d-aa74-ff38fc72f794}</Project>
-      <Name>set</Name>
+      <Name>ARCettings</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

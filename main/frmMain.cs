@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using ARCengine;
-using cont;
-using set;
+using ARControls;
+using ARCettings;
 
 namespace main
 {

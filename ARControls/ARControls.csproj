@@ -7,8 +7,8 @@
     <ProjectGuid>{62C6DA06-815F-433E-94BB-77DBB85EE245}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>cont</RootNamespace>
-    <AssemblyName>cont</AssemblyName>
+    <RootNamespace>ARControls</RootNamespace>
+    <AssemblyName>ARControls</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -58,9 +58,9 @@
       <Project>{6292cfa6-a442-4729-8bea-47b2e6a149ae}</Project>
       <Name>ARCengine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\reg\set.csproj">
+    <ProjectReference Include="..\ARCettings\ARCettings.csproj">
       <Project>{ec111ecd-8d4b-418d-aa74-ff38fc72f794}</Project>
-      <Name>set</Name>
+      <Name>ARCettings</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

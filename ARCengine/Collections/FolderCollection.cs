@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Data.SqlClient;
+using ARCengine.Interfaces;
 
-namespace ARCengine
+namespace ARCengine.Collections
 {
     public class FolderCollection : CollectionBase
     {

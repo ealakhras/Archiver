@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>dac</Name>
+    <Name>ARCdb</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{e79745d2-6c23-41ae-a70c-ac56c95a61cf}</ProjectGuid>
@@ -12,8 +12,8 @@
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>db</RootNamespace>
-    <AssemblyName>db</AssemblyName>
+    <RootNamespace>ARCdb</RootNamespace>
+    <AssemblyName>ARCdb</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -24,6 +24,8 @@
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <TargetDatabase>dac</TargetDatabase>
+    <GenerateCreateScript>True</GenerateCreateScript>
+    <RecursiveTriggersEnabled>True</RecursiveTriggersEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -87,5 +89,11 @@
     <Build Include="dbo\Stored Procedures\prcFolders_read.sql" />
     <Build Include="dbo\Stored Procedures\prcFolders_save.sql" />
     <Build Include="dbo\Stored Procedures\prcFolders_tree.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 </Project>

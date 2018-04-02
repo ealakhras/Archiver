@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace cont
+namespace ARControls
 {
     partial class FoldersTreeview
     {

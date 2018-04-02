@@ -7,8 +7,8 @@
     <ProjectGuid>{EC111ECD-8D4B-418D-AA74-FF38FC72F794}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>reg</RootNamespace>
-    <AssemblyName>reg</AssemblyName>
+    <RootNamespace>ARCettings</RootNamespace>
+    <AssemblyName>ARCettings</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

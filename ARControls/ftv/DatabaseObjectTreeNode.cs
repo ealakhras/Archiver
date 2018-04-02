@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using ARCengine;
 
-namespace cont
+namespace ARControls
 {
     public class DatabaseObjectTreeNode: TreeNode
     {
+        #region constructors
         public DatabaseObjectTreeNode(Database database)
         {
             mDatabase = database;
         }
+        #endregion
 
+        #region members
         protected Database mDatabase;
+        #endregion
 
+        #region properties
         public Database Database
         {
             get
@@ -24,7 +24,6 @@ namespace cont
                 return mDatabase;
             }
         }
+        #endregion
     }
-
-
 }

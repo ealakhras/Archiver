@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Data.SqlClient;
 
-namespace ARCengine
+namespace ARCengine.Collections
 {
     public class FieldsCollection : CollectionBase
     {

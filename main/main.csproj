@@ -140,20 +140,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ARCengine\ARCengine.csproj">
-      <Project>{6292cfa6-a442-4729-8bea-47b2e6a149ae}</Project>
-      <Name>ARCengine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\cont\cont.csproj">
-      <Project>{62c6da06-815f-433e-94bb-77dbb85ee245}</Project>
-      <Name>cont</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\reg\set.csproj">
-      <Project>{ec111ecd-8d4b-418d-aa74-ff38fc72f794}</Project>
-      <Name>set</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
@@ -250,6 +236,20 @@
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ARCengine\ARCengine.csproj">
+      <Project>{6292cfa6-a442-4729-8bea-47b2e6a149ae}</Project>
+      <Name>ARCengine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ARCettings\ARCettings.csproj">
+      <Project>{ec111ecd-8d4b-418d-aa74-ff38fc72f794}</Project>
+      <Name>ARCettings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ARControls\ARControls.csproj">
+      <Project>{62c6da06-815f-433e-94bb-77dbb85ee245}</Project>
+      <Name>ARControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -67,7 +67,7 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.spcLeft = new System.Windows.Forms.SplitContainer();
-            this.ftvFolders = new cont.FoldersTreeview();
+            this.ftvFolders = new ARControls.FoldersTreeview();
             this.ilMain = new System.Windows.Forms.ImageList(this.components);
             this.spcRight = new System.Windows.Forms.SplitContainer();
             this.spcVertical = new System.Windows.Forms.SplitContainer();
@@ -490,7 +490,7 @@
         private System.Windows.Forms.ColumnHeader column2;
         private System.Windows.Forms.ColumnHeader column3;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private cont.FoldersTreeview ftvFolders;
+        private ARControls.FoldersTreeview ftvFolders;
         private System.Windows.Forms.ToolStripStatusLabel tslGeneral;
         private System.Windows.Forms.ToolStripStatusLabel tslSpring;
         private System.Windows.Forms.ToolStripStatusLabel tslDBEngine;

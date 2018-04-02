@@ -1,17 +1,19 @@
-﻿using System.Windows.Forms;
-using System.Data;
+﻿using System.Data;
 using ARCengine;
 
-namespace cont
+namespace ARControls
 {
     public class DatabaseTreeNode : DatabaseObjectTreeNode
     {
+        #region constructors
         public DatabaseTreeNode(Database database)
             : base(database)
         {
             Init();
         }
+        #endregion
 
+        #region methods
         private void Init()
         {
             Text = mDatabase.FriendlyName;
@@ -30,5 +32,6 @@ namespace cont
             mDatabase.Refresh();
             Init();
         }
+        #endregion
     }
 }

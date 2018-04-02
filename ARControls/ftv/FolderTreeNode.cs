@@ -2,7 +2,7 @@
 using ARCengine;
 
 
-namespace cont
+namespace ARControls
 {
     public class FolderTreeNode: DatabaseObjectTreeNode
     {
@@ -29,6 +29,7 @@ namespace cont
         }
         #endregion
 
+        #region methods
         private void Init()
         {
             Text = mFolder.Name;
@@ -47,5 +48,6 @@ namespace cont
             mFolder.Refresh();
             Init();
         }
+        #endregion
     }
 }
