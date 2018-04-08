@@ -1,39 +1,36 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Data.SqlClient;
+
 
 namespace ARCengine.Collections
 {
-    public class FieldsCollection : CollectionBase
+
+    public class FieldsValuesCollection : CollectionBase
     {
-        public FieldsCollection(Folder folder)
+        #region constructors
+        public FieldsValuesCollection(Document document)
         {
-            mFolder = folder;
-            mNeedsRefreshing = true;
+            mDocument = document;
+            mNeedsRefreshing = false;
         }
+        #endregion
 
         #region members
-        private Folder mFolder;
+        private Document mDocument;
         private bool mNeedsRefreshing;
         #endregion
 
         #region properties
-        public Folder Folder
+        public Document Document
         {
             get
             {
-                return mFolder;
+                return mDocument;
             }
         }
 
-        public Database Database
-        {
-            get
-            {
-                return mFolder.Database;
-            }
-        }
-
-        public Field this[int index]
+        public FieldValue this[int index]
         {
             get
             {
@@ -41,11 +38,19 @@ namespace ARCengine.Collections
                 {
                     Read();
                 }
-                return (Field)List[index];
+                return (FieldValue)List[index];
             }
             set
             {
                 List[index] = value;
+            }
+        }
+
+        public Database Database
+        {
+            get
+            {
+                return mDocument.Database;
             }
         }
 
@@ -58,15 +63,11 @@ namespace ARCengine.Collections
         }
         #endregion
 
-        #region methods
-        public override string ToString()
-        {
-            return base.ToString();
-        }
 
-        public void Add(Field field)
+        #region methods
+        public void Add(FieldValue fieldValue)
         {
-            List.Add(field);
+            List.Add(fieldValue);
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace ARCengine.Collections
         private void Read()
         {
             Clear();
-            SqlDataReader dr = Database.ExecuteDataReader("exec prcFields_read @folderID = {0}, @showInherited = 1", mFolder.ID);
+            SqlDataReader dr = Database.ExecuteDataReader("exec prcFieldsValues_read @documentID = {0}", mDocument.ID);
             Read(dr);
             dr.Close();
         }
@@ -84,18 +85,18 @@ namespace ARCengine.Collections
         {
             while (dr.Read())
             {
-                Add(new Field(mFolder, dr));
+                Add(new FieldValue(mDocument, dr));
             }
             mNeedsRefreshing = false;
         }
 
         public void Save()
         {
-            foreach (Field field in List)
+            foreach (Document document in List)
             {
-                if(field.NeedsSaving)
+                if (document.NeedsSaving)
                 {
-                    field.Save();
+                    document.Save();
                 }
             }
         }

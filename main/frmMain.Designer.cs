@@ -30,21 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "c11",
-            "c12",
-            "c13"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
-            "c21",
-            "c22",
-            "c23"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
-            "c31",
-            "c32",
-            "c33"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("image1");
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("image2");
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("image3");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("image1");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("image2");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("image3");
             this.mnsMain = new System.Windows.Forms.MenuStrip();
             this.mniFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mniOpenDatabase = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,16 +55,13 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.spcLeft = new System.Windows.Forms.SplitContainer();
-            this.ftvFolders = new ARControls.FoldersTreeview();
             this.ilMain = new System.Windows.Forms.ImageList(this.components);
             this.spcRight = new System.Windows.Forms.SplitContainer();
             this.spcVertical = new System.Windows.Forms.SplitContainer();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.column1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.column2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.column3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listView2 = new System.Windows.Forms.ListView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.ftvFolders = new ARControls.FoldersTreeview();
+            this.dlvDocuments = new ARControls.DocumentsListView();
             this.mnsMain.SuspendLayout();
             this.stsMain.SuspendLayout();
             this.tstMain.SuspendLayout();
@@ -304,22 +289,6 @@
             this.spcLeft.SplitterDistance = 100;
             this.spcLeft.TabIndex = 5;
             // 
-            // ftvFolders
-            // 
-            this.ftvFolders.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ftvFolders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ftvFolders.HideSelection = false;
-            this.ftvFolders.ImageIndex = 0;
-            this.ftvFolders.ImageList = this.ilMain;
-            this.ftvFolders.Location = new System.Drawing.Point(0, 0);
-            this.ftvFolders.Name = "ftvFolders";
-            this.ftvFolders.SelectedImageIndex = 0;
-            this.ftvFolders.ShowNodeToolTips = true;
-            this.ftvFolders.Size = new System.Drawing.Size(100, 313);
-            this.ftvFolders.TabIndex = 0;
-            this.ftvFolders.FolderChanged += new System.Windows.Forms.TreeViewEventHandler(this.ftvFolders_FolderChanged);
-            this.ftvFolders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ftvFolders_AfterSelect);
-            // 
             // ilMain
             // 
             this.ilMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilMain.ImageStream")));
@@ -358,7 +327,7 @@
             // spcVertical.Panel1
             // 
             this.spcVertical.Panel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.spcVertical.Panel1.Controls.Add(this.listView1);
+            this.spcVertical.Panel1.Controls.Add(this.dlvDocuments);
             // 
             // spcVertical.Panel2
             // 
@@ -368,51 +337,15 @@
             this.spcVertical.SplitterDistance = 207;
             this.spcVertical.TabIndex = 1;
             // 
-            // listView1
-            // 
-            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.column1,
-            this.column2,
-            this.column3});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.FullRowSelect = true;
-            this.listView1.HideSelection = false;
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3});
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(465, 207);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // column1
-            // 
-            this.column1.Text = "column1";
-            this.column1.Width = 93;
-            // 
-            // column2
-            // 
-            this.column2.Text = "column2";
-            this.column2.Width = 91;
-            // 
-            // column3
-            // 
-            this.column3.Text = "column3";
-            this.column3.Width = 87;
-            // 
             // listView2
             // 
             this.listView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView2.HideSelection = false;
             this.listView2.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem4,
-            listViewItem5,
-            listViewItem6});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
             this.listView2.Location = new System.Drawing.Point(0, 0);
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(465, 102);
@@ -428,6 +361,33 @@
             this.pictureBox1.Size = new System.Drawing.Size(242, 313);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            // 
+            // ftvFolders
+            // 
+            this.ftvFolders.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ftvFolders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftvFolders.HideSelection = false;
+            this.ftvFolders.ImageIndex = 0;
+            this.ftvFolders.ImageList = this.ilMain;
+            this.ftvFolders.Location = new System.Drawing.Point(0, 0);
+            this.ftvFolders.Name = "ftvFolders";
+            this.ftvFolders.SelectedImageIndex = 0;
+            this.ftvFolders.ShowNodeToolTips = true;
+            this.ftvFolders.Size = new System.Drawing.Size(100, 313);
+            this.ftvFolders.TabIndex = 0;
+            this.ftvFolders.FolderChanged += new System.Windows.Forms.TreeViewEventHandler(this.ftvFolders_FolderChanged);
+            this.ftvFolders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ftvFolders_AfterSelect);
+            // 
+            // dlvDocuments
+            // 
+            this.dlvDocuments.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dlvDocuments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dlvDocuments.Location = new System.Drawing.Point(0, 0);
+            this.dlvDocuments.Name = "dlvDocuments";
+            this.dlvDocuments.Size = new System.Drawing.Size(465, 207);
+            this.dlvDocuments.TabIndex = 2;
+            this.dlvDocuments.UseCompatibleStateImageBehavior = false;
+            this.dlvDocuments.View = System.Windows.Forms.View.Details;
             // 
             // frmMain
             // 
@@ -484,11 +444,7 @@
         private System.Windows.Forms.SplitContainer spcRight;
         private System.Windows.Forms.SplitContainer spcVertical;
         private System.Windows.Forms.ToolStripMenuItem mniViewPreview;
-        private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ListView listView2;
-        private System.Windows.Forms.ColumnHeader column1;
-        private System.Windows.Forms.ColumnHeader column2;
-        private System.Windows.Forms.ColumnHeader column3;
         private System.Windows.Forms.PictureBox pictureBox1;
         private ARControls.FoldersTreeview ftvFolders;
         private System.Windows.Forms.ToolStripStatusLabel tslGeneral;
@@ -499,6 +455,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripMenuItem mniOpenDatabase;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private ARControls.DocumentsListView dlvDocuments;
     }
 }
 

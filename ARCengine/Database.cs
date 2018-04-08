@@ -12,7 +12,7 @@ namespace ARCengine
         {
             mSqlConnection = new SqlConnection();
             mSqlCommand = new SqlCommand { Connection = mSqlConnection };
-            mFolders = new FolderCollection(this);
+            mFolders = new FoldersCollection(this);
             Dome.Databases.Add(this);
         }
 
@@ -32,7 +32,7 @@ namespace ARCengine
         private SqlCommand mSqlCommand;
         private string mFriendlyName;
         private bool mAutoConnect;
-        private FolderCollection mFolders;
+        private FoldersCollection mFolders;
         #endregion
 
         #region properties
@@ -140,7 +140,7 @@ namespace ARCengine
             }
         }
 
-        public FolderCollection Folders
+        public FoldersCollection Folders
         {
             get
             {

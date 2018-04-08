@@ -16,6 +16,7 @@ namespace ARCengine
             : this()
         {
             mFolder = folder;
+            mDatabase = folder.Database;
         }
 
         public Field(Folder folder, SqlDataReader dr)
@@ -33,6 +34,8 @@ namespace ARCengine
         private string mDescription;
         private FieldType mType;
         private string mDefVal;
+        private int mWidth;
+        private FieldAlignment mAlignment;
         private int mOrd;
         private int mImageIndex;
         private string mCreator;
@@ -40,6 +43,7 @@ namespace ARCengine
         #endregion
 
         #region properties
+
         public int ID
         {
             get
@@ -142,6 +146,40 @@ namespace ARCengine
             }
         }
 
+        public FieldAlignment Alignment
+        {
+            get
+            {
+                return mAlignment;
+            }
+            set
+            {
+                if(mAlignment == value)
+                {
+                    return;
+                }
+                mAlignment = value;
+                mNeedsSaving = true;
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return mWidth;
+            }
+            set
+            {
+                if(mWidth == value)
+                {
+                    return;
+                }
+                mWidth = value;
+                mNeedsSaving = true;
+            }
+        }
+
         public int Ord
         {
             get
@@ -193,11 +231,15 @@ namespace ARCengine
         public override void Read(SqlDataReader dr)
         {
             mID = GetIntFromDataReader(dr["id"]);
-            mFolderID = GetIntFromDataReader(dr["parentID"]);
+            mFolderID = GetIntFromDataReader(dr["folderID"]);
             mName = GetStringFromDataReader(dr["name"]);
             mDescription = GetStringFromDataReader(dr["description"]);
             mType = FieldTypeUtil.FromChar(GetStringFromDataReader(dr["type"]));
-            mImageIndex = GetIntFromDataReader(dr["imageIndex"]);
+            mWidth = GetIntFromDataReader(dr["width"]);
+            mAlignment = FieldAlignmentUtil.FromChar(GetStringFromDataReader(dr["alignment"]));
+            mDefVal = GetStringFromDataReader(dr["defVal"]);
+            mOrd = GetIntFromDataReader(dr["ord"]);
+            //mImageIndex = GetIntFromDataReader(dr["imageIndex"]);
             mCreator = GetStringFromDataReader(dr["creator"]);
             mCreationDate = GetDateTimeFromDataReader(dr["creationDate"]);
             base.Read(dr);
@@ -210,7 +252,17 @@ namespace ARCengine
 
         protected override object[] GetSaveParameters()
         {
-            return new object[] { mID, mFolder, mName, mDescription };
+            return new object[] {
+                mID,
+                mFolder.ID,
+                mName,
+                mDescription,
+                FieldTypeUtil.ToChar(mType),
+                mDefVal,
+                mWidth,
+                FieldAlignmentUtil.ToChar(mAlignment),
+                mOrd
+            };
         }
 
         protected override object[] GetDeleteParameters()
@@ -221,7 +273,7 @@ namespace ARCengine
     }
 
     public enum FieldType { Text, Number, DateTime, YesNo, Lookup };
-
+    public enum FieldAlignment { Left, Center, Right };
 
     /// <summary>
     /// static class dedicated for FieldType from/to castings
@@ -252,4 +304,37 @@ namespace ARCengine
             }
         }
     }
+
+    public static class FieldAlignmentUtil
+    {
+        /// <summary>
+        /// Converts FieldAlignment to String.
+        /// </summary>
+        /// <param name="fieldalignment"></param>
+        /// <returns></returns>
+        public static string ToChar(FieldAlignment fieldalignment)
+        {
+            switch (fieldalignment)
+            {
+                case FieldAlignment.Left: return "L";
+                case FieldAlignment.Right: return "R";
+                default: return "C";
+            }
+        }
+
+        /// <summary>
+        /// Converts a string to FieldAlignment.
+        /// </summary>
+        /// <param name="fieldalignment"></param>
+        /// <returns></returns>
+        public static FieldAlignment FromChar(string fieldalignment)
+        {
+            switch (fieldalignment)
+            {
+                case "L": return FieldAlignment.Left;
+                case "R": return FieldAlignment.Right;
+                default: return FieldAlignment.Center;
+            }
+        }
+    }   
 }

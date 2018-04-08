@@ -14,7 +14,7 @@
     </RootPath>
     <RootNamespace>ARCdb</RootNamespace>
     <AssemblyName>ARCdb</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
+    <ModelCollation>1025,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -26,6 +26,7 @@
     <TargetDatabase>dac</TargetDatabase>
     <GenerateCreateScript>True</GenerateCreateScript>
     <RecursiveTriggersEnabled>True</RecursiveTriggersEnabled>
+    <DefaultCollation>Arabic_CI_AS</DefaultCollation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -64,6 +65,7 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\User Defined Types\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\images.sql" />
@@ -77,6 +79,12 @@
     <Build Include="dbo\Stored Procedures\prcFolders_delete.sql" />
     <Build Include="dbo\Tables\options.sql" />
     <Build Include="dbo\Functions\fn_fields_inheritsFrom.sql" />
+    <Build Include="dbo\Stored Procedures\prcFieldsValues_read.sql" />
+    <Build Include="dbo\Stored Procedures\prcFieldsValues_delete.sql" />
+    <Build Include="dbo\Stored Procedures\prcDocuments_save.sql" />
+    <Build Include="dbo\Stored Procedures\prcDocuments_read_1.sql" />
+    <Build Include="dbo\Stored Procedures\prcDocuments_delete.sql" />
+    <Build Include="dbo\User Defined Types\typ_documentsFieldsValuesTable.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="db.refactorlog" />

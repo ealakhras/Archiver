@@ -1,12 +1,11 @@
 ﻿namespace ARControls
 {
-    partial class FoldersTreeview
+    partial class DocumentsListView
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        //private AutoScaleMode AutoScaleMode;
 
         /// <summary> 
         /// Clean up any resources being used.

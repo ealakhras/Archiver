@@ -173,7 +173,12 @@ namespace main
 
         private void ftvFolders_FolderChanged(object sender, TreeViewEventArgs e)
         {
-            MessageBox.Show(e.Node.Text);
+            if (e.Node.GetType() == typeof(FolderTreeNode))
+            {
+                dlvDocuments.Folder = ((FolderTreeNode)(e.Node)).Folder;
+            }
+
+            //MessageBox.Show(e.Node.Text);
         }
     }
 }

@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Data.SqlClient;
 
+
 namespace ARCengine.Collections
 {
-    public class FieldsCollection : CollectionBase
+    public class DocumentsCollection : CollectionBase
     {
-        public FieldsCollection(Folder folder)
+        public DocumentsCollection(Folder folder)
         {
             mFolder = folder;
-            mNeedsRefreshing = true;
+            mNeedsRefreshing = false;
         }
 
         #region members
@@ -33,7 +34,7 @@ namespace ARCengine.Collections
             }
         }
 
-        public Field this[int index]
+        public Document this[int index]
         {
             get
             {
@@ -41,7 +42,7 @@ namespace ARCengine.Collections
                 {
                     Read();
                 }
-                return (Field)List[index];
+                return (Document)List[index];
             }
             set
             {
@@ -59,14 +60,9 @@ namespace ARCengine.Collections
         #endregion
 
         #region methods
-        public override string ToString()
+        public void Add(Document document)
         {
-            return base.ToString();
-        }
-
-        public void Add(Field field)
-        {
-            List.Add(field);
+            List.Add(document);
         }
 
         /// <summary>
@@ -75,7 +71,7 @@ namespace ARCengine.Collections
         private void Read()
         {
             Clear();
-            SqlDataReader dr = Database.ExecuteDataReader("exec prcFields_read @folderID = {0}, @showInherited = 1", mFolder.ID);
+            SqlDataReader dr = Database.ExecuteDataReader("exec prcDocuments_read @folderID = {0}", mFolder.ID);
             Read(dr);
             dr.Close();
         }
@@ -84,18 +80,18 @@ namespace ARCengine.Collections
         {
             while (dr.Read())
             {
-                Add(new Field(mFolder, dr));
+                Add(new Document(mFolder, dr));
             }
             mNeedsRefreshing = false;
         }
 
         public void Save()
         {
-            foreach (Field field in List)
+            foreach (Document document in List)
             {
-                if(field.NeedsSaving)
+                if(document.NeedsSaving)
                 {
-                    field.Save();
+                    document.Save();
                 }
             }
         }

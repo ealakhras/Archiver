@@ -42,13 +42,17 @@
   <ItemGroup>
     <Compile Include="Collections\DatabaseCollection.cs" />
     <Compile Include="BaseTable.cs" />
+    <Compile Include="Collections\DocumentsCollection.cs" />
+    <Compile Include="Collections\FieldsValuesCollection.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="Document.cs" />
     <Compile Include="Dome.cs" />
     <Compile Include="Exceptions\MissingDatabaseException.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="Collections\FieldsCollection.cs" />
+    <Compile Include="FieldValue.cs" />
     <Compile Include="Folder.cs" />
-    <Compile Include="Collections\FolderCollection.cs" />
+    <Compile Include="Collections\FoldersCollection.cs" />
     <Compile Include="Interfaces\ICollectionOwner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

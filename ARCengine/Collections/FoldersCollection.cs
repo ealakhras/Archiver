@@ -4,10 +4,10 @@ using ARCengine.Interfaces;
 
 namespace ARCengine.Collections
 {
-    public class FolderCollection : CollectionBase
+    public class FoldersCollection : CollectionBase
     {
         #region constructors
-        public FolderCollection(ICollectionOwner owner)
+        public FoldersCollection(ICollectionOwner owner)
             : base()
         {
             mOwner = owner;
@@ -117,7 +117,7 @@ namespace ARCengine.Collections
             while (dr.Read())
             {
                 // create a folder for current dr record:
-                Folder f = new Folder(dr);
+                Folder f = new Folder(Database, dr);
 
                 // if owner is a Database, or parentID is 0, then it's a root:
                 if ((mOwner is Database) && (f.ParentID == 0))

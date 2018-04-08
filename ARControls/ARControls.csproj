@@ -42,6 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dlv\DocumentsListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dlv\DocumentsListView.Designer.cs">
+      <DependentUpon>DocumentsListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dlv\FieldColumnHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ftv\DatabaseObjectTreeNode.cs" />
     <Compile Include="ftv\DatabaseTreeNode.cs" />
     <Compile Include="ftv\FoldersTreeview.cs">

@@ -11,8 +11,9 @@ namespace ARCengine
         public Folder()
             : base("Folders")
         {
-            mSubFolders = new FolderCollection(this);
+            mSubFolders = new FoldersCollection(this);
             mFields = new FieldsCollection(this);
+            mDocuments = new DocumentsCollection(this);
             mName = "<new>";
         }
 
@@ -22,9 +23,10 @@ namespace ARCengine
             Read(id);
         }
 
-        public Folder(SqlDataReader dr)
+        public Folder(Database database, SqlDataReader dr)
             : this()
         {
+            mDatabase = database;
             Read(dr);
         }
         #endregion
@@ -38,8 +40,9 @@ namespace ARCengine
         private bool mInheritsFields;
         private string mCreator;
         private DateTime mCreationDate;
-        private FolderCollection mSubFolders;
+        private FoldersCollection mSubFolders;
         private ICollectionOwner mParent;
+        private DocumentsCollection mDocuments;
         private FieldsCollection mFields;
         #endregion
 
@@ -178,7 +181,7 @@ namespace ARCengine
             }
         }
 
-        public FolderCollection SubFolders
+        public FoldersCollection SubFolders
         {
             get
             {
@@ -190,6 +193,10 @@ namespace ARCengine
         {
             get
             {
+                if(mFields.NeedsRefreshing)
+                {
+                    mFields.Refresh();
+                }
                 return mFields;
             }
         }

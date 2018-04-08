@@ -23,7 +23,9 @@ namespace ARControls
         #region members
         Timer mTimer;
         TreeNode mOldNode;
+        #endregion
 
+        #region events
         [Category("Action")]
         [Description("Fires after Interval passes from last Folder Change")]
         public event TreeViewEventHandler FolderChanged;
@@ -69,6 +71,12 @@ namespace ARControls
                     DatabaseTreeNode dbTreeNode = new DatabaseTreeNode(database);
                     Nodes.Add(dbTreeNode);
                 }
+
+                if(Nodes.Count != 0)
+                {
+                    SelectedNode = Nodes[0];
+                    SelectedNode.EnsureVisible();
+                }                
             }
             finally
             {
