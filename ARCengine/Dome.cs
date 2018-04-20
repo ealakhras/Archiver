@@ -12,7 +12,6 @@ namespace ARCengine
         static Dome()
         {
             mDatabases = new DatabaseCollection();
-            mDatabases.Init();
         }
 
         private static DatabaseCollection mDatabases;
@@ -36,6 +35,11 @@ namespace ARCengine
             {
                 mCurrentDatabase = value;
             }
+        }
+
+        public static void Init()
+        {
+            mDatabases.Init();
         }
     }
 }

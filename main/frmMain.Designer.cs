@@ -55,13 +55,13 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.spcLeft = new System.Windows.Forms.SplitContainer();
+            this.ftvFolders = new ARControls.FoldersTreeview();
             this.ilMain = new System.Windows.Forms.ImageList(this.components);
             this.spcRight = new System.Windows.Forms.SplitContainer();
             this.spcVertical = new System.Windows.Forms.SplitContainer();
+            this.dlvDocuments = new ARControls.DocumentsListView();
             this.listView2 = new System.Windows.Forms.ListView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.ftvFolders = new ARControls.FoldersTreeview();
-            this.dlvDocuments = new ARControls.DocumentsListView();
             this.mnsMain.SuspendLayout();
             this.stsMain.SuspendLayout();
             this.tstMain.SuspendLayout();
@@ -289,6 +289,22 @@
             this.spcLeft.SplitterDistance = 100;
             this.spcLeft.TabIndex = 5;
             // 
+            // ftvFolders
+            // 
+            this.ftvFolders.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ftvFolders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ftvFolders.HideSelection = false;
+            this.ftvFolders.ImageIndex = 0;
+            this.ftvFolders.ImageList = this.ilMain;
+            this.ftvFolders.Location = new System.Drawing.Point(0, 0);
+            this.ftvFolders.Name = "ftvFolders";
+            this.ftvFolders.SelectedImageIndex = 0;
+            this.ftvFolders.ShowNodeToolTips = true;
+            this.ftvFolders.Size = new System.Drawing.Size(100, 313);
+            this.ftvFolders.TabIndex = 0;
+            this.ftvFolders.FolderChanged += new System.Windows.Forms.TreeViewEventHandler(this.ftvFolders_FolderChanged);
+            this.ftvFolders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ftvFolders_AfterSelect);
+            // 
             // ilMain
             // 
             this.ilMain.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilMain.ImageStream")));
@@ -337,6 +353,18 @@
             this.spcVertical.SplitterDistance = 207;
             this.spcVertical.TabIndex = 1;
             // 
+            // dlvDocuments
+            // 
+            this.dlvDocuments.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dlvDocuments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dlvDocuments.Folder = null;
+            this.dlvDocuments.Location = new System.Drawing.Point(0, 0);
+            this.dlvDocuments.Name = "dlvDocuments";
+            this.dlvDocuments.Size = new System.Drawing.Size(465, 207);
+            this.dlvDocuments.TabIndex = 2;
+            this.dlvDocuments.UseCompatibleStateImageBehavior = false;
+            this.dlvDocuments.View = System.Windows.Forms.View.Details;
+            // 
             // listView2
             // 
             this.listView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -362,33 +390,6 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // ftvFolders
-            // 
-            this.ftvFolders.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ftvFolders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ftvFolders.HideSelection = false;
-            this.ftvFolders.ImageIndex = 0;
-            this.ftvFolders.ImageList = this.ilMain;
-            this.ftvFolders.Location = new System.Drawing.Point(0, 0);
-            this.ftvFolders.Name = "ftvFolders";
-            this.ftvFolders.SelectedImageIndex = 0;
-            this.ftvFolders.ShowNodeToolTips = true;
-            this.ftvFolders.Size = new System.Drawing.Size(100, 313);
-            this.ftvFolders.TabIndex = 0;
-            this.ftvFolders.FolderChanged += new System.Windows.Forms.TreeViewEventHandler(this.ftvFolders_FolderChanged);
-            this.ftvFolders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ftvFolders_AfterSelect);
-            // 
-            // dlvDocuments
-            // 
-            this.dlvDocuments.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dlvDocuments.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dlvDocuments.Location = new System.Drawing.Point(0, 0);
-            this.dlvDocuments.Name = "dlvDocuments";
-            this.dlvDocuments.Size = new System.Drawing.Size(465, 207);
-            this.dlvDocuments.TabIndex = 2;
-            this.dlvDocuments.UseCompatibleStateImageBehavior = false;
-            this.dlvDocuments.View = System.Windows.Forms.View.Details;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -401,6 +402,7 @@
             this.MainMenuStrip = this.mnsMain;
             this.Name = "frmMain";
             this.Text = "Archiver";
+            this.Shown += new System.EventHandler(this.frmMain_Shown);
             this.mnsMain.ResumeLayout(false);
             this.mnsMain.PerformLayout();
             this.stsMain.ResumeLayout(false);

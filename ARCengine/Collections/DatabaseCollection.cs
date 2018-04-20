@@ -51,7 +51,7 @@ namespace ARCengine.Collections
 
         public void Init()
         {
-            string[] connectionStrings = RegistryDome.DBCS;
+            string[] connectionStrings = RegistryDome.DBs;
 
             Clear();
             foreach (string conStr in connectionStrings)

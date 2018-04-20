@@ -42,6 +42,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bo\fmDatabaseProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="bo\fmDatabaseProperties.Designer.cs">
+      <DependentUpon>fmDatabaseProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="bo\frmProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="bo\frmProperties.Designer.cs">
+      <DependentUpon>frmProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="bo\PagesListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="bo\PagesListView.Designer.cs">
+      <DependentUpon>PagesListView.cs</DependentUpon>
+    </Compile>
     <Compile Include="dlv\DocumentsListView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -71,6 +89,11 @@
       <Project>{ec111ecd-8d4b-418d-aa74-ff38fc72f794}</Project>
       <Name>ARCettings</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="bo\frmProperties.resx">
+      <DependentUpon>frmProperties.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

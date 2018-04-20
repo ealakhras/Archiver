@@ -177,7 +177,7 @@ namespace ARCettings
             }
         }
 
-        public static string[] DBCS
+        public static string[] DBs
         {
             get
             {
@@ -215,6 +215,8 @@ namespace ARCettings
 
         private static string[] GetStringArray(string key, string nameStart)
         {
+            //return Registry.CurrentUser.CreateSubKey(key).GetValueNames();
+            
             using (RegistryKey regKey = Registry.CurrentUser.CreateSubKey(key))
             {
                 string[] items = regKey.GetValueNames();
@@ -228,7 +230,6 @@ namespace ARCettings
                 }
                 return result.ToArray();
             }
-
         }
 
         private static void SetString(string key, string name, string value)

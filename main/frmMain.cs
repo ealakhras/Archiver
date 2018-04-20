@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using ARCengine;
 using ARControls;
 using ARCettings;
+using System.Data.SqlClient;
 
 namespace main
 {
@@ -12,21 +13,18 @@ namespace main
         public frmMain()
         {
             InitializeComponent();
-
-            Dome.Databases.Init();
-            ftvFolders.Populate();
         }
 
         public frmMain(string[] args)
             : this()
         {
-            ParseStartupArgs(args);
             try
             {
+                ParseStartupArgs(args);
             }
-            catch
+            catch(Exception e)
             {
-                throw;
+                throw e;
             }
         }
 
@@ -179,6 +177,25 @@ namespace main
             }
 
             //MessageBox.Show(e.Node.Text);
+        }
+
+        private void frmMain_Shown(object sender, EventArgs e)
+        {
+            try
+            {
+                Dome.Init();
+                ftvFolders.Populate();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }

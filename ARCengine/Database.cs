@@ -2,10 +2,13 @@
 using System.Data.SqlClient;
 using ARCengine.Interfaces;
 using ARCengine.Collections;
+using System;
+using System.Windows.Forms;
+
 
 namespace ARCengine
 {
-    public class Database: ICollectionOwner
+    public class Database: ICollectionOwner, IUsesPropertiesForm
     {
         #region constructor
         public Database()
@@ -14,6 +17,7 @@ namespace ARCengine
             mSqlCommand = new SqlCommand { Connection = mSqlConnection };
             mFolders = new FoldersCollection(this);
             Dome.Databases.Add(this);
+            mStatus = "Closed";
         }
 
         public Database(string connectionString)
@@ -33,6 +37,7 @@ namespace ARCengine
         private string mFriendlyName;
         private bool mAutoConnect;
         private FoldersCollection mFolders;
+        private string mStatus;
         #endregion
 
         #region properties
@@ -150,7 +155,7 @@ namespace ARCengine
 
         public override string ToString()
         {
-            return string.Format("Engine: {0}, Database: {1}", Engine, Name);
+            return string.Format("Engine: {0}, Database: {1}, Status: {2}", Engine, Name, Status);
         }
 
         public ConnectionState State
@@ -158,6 +163,14 @@ namespace ARCengine
             get
             {
                 return mSqlConnection.State;
+            }
+        }
+
+        public string Status
+        {
+            get
+            {
+                return mStatus;
             }
         }
         #endregion
@@ -168,8 +181,20 @@ namespace ARCengine
         /// </summary>
         public void Connect()
         {
-            mSqlConnection.Open();
-            mFolders.Read();
+            try
+            {
+                mSqlConnection.Open();
+                mFolders.Read();
+                mStatus = "OK";
+            }
+
+            catch (Exception e)
+            {
+                //throw;
+                mStatus = e.Message;
+                //throw e.InnerException;
+                MessageBox.Show(e.Message);
+            }
         }
 
         /// <summary>
@@ -229,8 +254,14 @@ namespace ARCengine
         /// </summary>
         public void Refresh()
         {
-
+            Disconnect();
+            Connect();
         }   
+
+        public void Save()
+        {
+
+        }
         #endregion
     }
 }
