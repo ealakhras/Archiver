@@ -4,17 +4,21 @@ as begin
 	declare @parentID int
 	declare @inheritsFields bit
 	
-	select
-		@result = f.id,
-		@parentID = f.parentID,
-		@inheritsFields = f.inheritsFields
-	from
-		folders f
-	where
-		f.id = @folderID;
+	if (@folderID = 0)
+	begin
+		set @result = 0;
+	end else begin
+		select
+			@result = f.ID,
+			@parentID = f.parentID,
+			@inheritsFields = f.inheritsFields
+		from
+			folders f
+		where
+			f.id = @folderID;
 
-	if (@inheritsFields != 0)
-		set @result = dbo.fn_fields_inheritsFrom(@parentID);
-
+		if (@inheritsFields != 0)
+			set @result = dbo.fn_fields_inheritsFrom(@parentID);
+	end
 	return @result;
 end
