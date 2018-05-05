@@ -75,9 +75,19 @@ namespace ARCengine.Collections
         private void Read()
         {
             Clear();
-            SqlDataReader dr = Database.ExecuteDataReader("exec prcFields_read @folderID = {0}, @showInherited = 1", mFolder.ID);
-            Read(dr);
-            dr.Close();
+            if (mFolder.InheritsFields)
+            {
+                foreach (Field field in ((Folder)mFolder.Parent).Fields)
+                {
+                    Add(field);
+                }
+            }
+            else
+            {
+                SqlDataReader dr = Database.ExecuteDataReader("exec prcFields_read @folderID = {0}, @showInherited = 1", mFolder.ID);
+                Read(dr);
+                dr.Close();
+            }
         }
 
         private void Read(SqlDataReader dr)

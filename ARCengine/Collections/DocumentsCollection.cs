@@ -9,7 +9,7 @@ namespace ARCengine.Collections
         public DocumentsCollection(Folder folder)
         {
             mFolder = folder;
-            mNeedsRefreshing = false;
+            mNeedsRefreshing = true;
         }
 
         #region members
@@ -82,6 +82,15 @@ namespace ARCengine.Collections
             {
                 Add(new Document(mFolder, dr));
             }
+
+            if (dr.NextResult() && dr.Read())
+            {
+                foreach (Document document in List)
+                {
+                    document.ReadFieldsValues(dr);
+                }
+            }
+
             mNeedsRefreshing = false;
         }
 

@@ -60,6 +60,7 @@
     <Compile Include="bo\PagesListView.Designer.cs">
       <DependentUpon>PagesListView.cs</DependentUpon>
     </Compile>
+    <Compile Include="dlv\DocumentListViewItem.cs" />
     <Compile Include="dlv\DocumentsListView.cs">
       <SubType>Component</SubType>
     </Compile>

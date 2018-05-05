@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using System.ComponentModel;
+﻿using System.Windows.Forms;
 using ARCengine;
-using ARCettings;
+using System.Threading;
+using System.ComponentModel;
 
 namespace ARControls
 {
@@ -14,12 +13,16 @@ namespace ARControls
             InitializeComponent();
             View = View.Details;
             mIsPopulating = false;
+            mBGW = new BackgroundWorker();
+            mBGW.DoWork += new DoWorkEventHandler(bgwDoWork);
         }
         #endregion
 
         #region members
         private Folder mFolder;
         private bool mIsPopulating;
+        //private Thread mThread;
+        private BackgroundWorker mBGW;
         #endregion
 
         #region properties
@@ -36,29 +39,59 @@ namespace ARControls
                     return;
                 }
                 mFolder = value;
-                Populate();
+                mBGW.RunWorkerAsync();
+                //Populate();
             }
         }
         #endregion
 
+        delegate void dodo();
+
         #region methods
+        private void bgwDoWork(object sender, DoWorkEventArgs e)
+        {
+            Populate();
+        }
+
+        private void PopulateSafely()
+        {
+            PopulateDodo();
+        }
+
+        private void PopulateDodo()
+        {
+            if (InvokeRequired)
+            {
+                dodo d = new dodo(Populate);
+                Invoke(d);
+            }
+            else
+            {
+                Populate();
+            }
+        }
+
         private void Populate()
         {
             try
             {
                 mIsPopulating = true;
-                BeginUpdate();
+                //BeginUpdate();
                 Columns.Clear();
-
-                foreach(Field field in mFolder.Fields)
+                foreach (Field field in mFolder.Fields)
                 {
                     Columns.Add(new FieldColumnHeader(field));
+                }
+                Items.Clear();
+                foreach(Document document in mFolder.Documents)
+                {
+                    Items.Add(new DocumentListViewItem(document));
                 }
             }
             finally
             {
                 mIsPopulating = false;
-                EndUpdate();
+                //EndUpdate();
             }
         }
 

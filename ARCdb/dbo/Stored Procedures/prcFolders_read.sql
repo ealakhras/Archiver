@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[prcFolders_read]
-	@id int = 0,
-	@parentID int = 0
+	@id int = null,
+	@parentID int = null
 AS
 	select
 		f.id,
@@ -15,6 +15,6 @@ AS
 	from
 		folders f
 	where
-		(f.id = @id or @id = 0)
-		and (f.parentID = @parentID or @parentID = 0);
+		(@id is null or f.id = @id)
+		and (@parentID is null or f.parentID = @parentID);
 

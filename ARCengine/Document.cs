@@ -85,6 +85,19 @@ namespace ARCengine
                 return mCreationDate;
             }
         }
+
+        public FieldsValuesCollection FieldsValues
+        {
+            get
+            {
+                if(mFieldsValues.NeedsRefreshing)
+                {
+                    mFieldsValues.Refresh();
+                }
+                return mFieldsValues;
+            }
+        }
+
         #endregion
 
         #region method
@@ -115,6 +128,11 @@ namespace ARCengine
             mCreator = GetStringFromDataReader(dr["creator"]);
             mCreationDate = GetDateTimeFromDataReader(dr["creationDate"]);
             base.Read(dr);
+        }
+
+        public void ReadFieldsValues(SqlDataReader dr)
+        {
+            mFieldsValues.Read(dr);
         }
         #endregion
     }

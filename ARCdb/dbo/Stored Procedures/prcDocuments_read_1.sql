@@ -1,6 +1,7 @@
-﻿CREATE procedure dbo.prcDocuments_read
-	@id int = 0,
-	@folderID int = 0
+﻿CREATE procedure [dbo].[prcDocuments_read]
+	@id int = null,
+	@folderID int = null,
+	@withFieldsValues bit = 1
 AS
 	select
 		d.id,
@@ -11,7 +12,11 @@ AS
 	from
 		documents d
 	where
-		(@id = 0 or d.id = @id)
-		and (@folderID = 0 or d.folderID = @folderID)
+		(@id is null or d.id = @id)
+		and (@folderID is null or d.folderID = @folderID)
 	order by
 		d.id;
+		
+	if (@withFieldsValues != 0) begin
+		exec prcFieldsValues_read @documentID = @id, @folderID = @folderID;
+	end;

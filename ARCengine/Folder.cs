@@ -200,6 +200,18 @@ namespace ARCengine
                 return mFields;
             }
         }
+
+        public DocumentsCollection Documents
+        {
+            get
+            {
+                if(mDocuments.NeedsRefreshing)
+                {
+                    mDocuments.Refresh();
+                }
+                return mDocuments;
+            }
+        }
         #endregion
 
         #region methods

@@ -12,7 +12,7 @@ namespace ARCengine.Collections
         public FieldsValuesCollection(Document document)
         {
             mDocument = document;
-            mNeedsRefreshing = false;
+            mNeedsRefreshing = true;
         }
         #endregion
 
@@ -75,17 +75,35 @@ namespace ARCengine.Collections
         /// </summary>
         private void Read()
         {
-            Clear();
             SqlDataReader dr = Database.ExecuteDataReader("exec prcFieldsValues_read @documentID = {0}", mDocument.ID);
-            Read(dr);
+
+            // do a beforehand-read. This is to make Read(dr) compatible
+            // with DocumentsCollection.Read(dr)
+            if (dr.Read())
+            {
+                Read(dr);
+            }
             dr.Close();
         }
 
-        private void Read(SqlDataReader dr)
+        protected internal void Read(SqlDataReader dr)
         {
+            Clear();
+            /*
             while (dr.Read())
             {
                 Add(new FieldValue(mDocument, dr));
+            }
+            */
+
+            // check that it's for my document:
+            while (dr.GetInt32(0) == mDocument.ID)
+            {
+                Add(new FieldValue(mDocument, dr));
+                if (!dr.Read())
+                {
+                    break;
+                }
             }
             mNeedsRefreshing = false;
         }

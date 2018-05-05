@@ -106,20 +106,12 @@ namespace main
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            /*
-            Folder f = new Folder(1);
-            f.SubFolders.Populate();
-            ftvFolders.Populate(f);
-            */
+            dlvDocuments.Folder = ((FolderTreeNode)(ftvFolders.Nodes[0].Nodes[0].Nodes[2].Nodes[1])).Folder;
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            /*
-            Folder f = new Folder(14);
-            f.SubFolders.Populate();
-            ftvFolders.Populate(f);
-            */
+            dlvDocuments.Folder = ((FolderTreeNode)(ftvFolders.Nodes[0].Nodes[0].Nodes[2].Nodes[0])).Folder;
         }
 
         private void LoadUI()
@@ -195,6 +187,11 @@ namespace main
             {
                 MessageBox.Show(ex.Message);
             }
+
+        }
+
+        private void bgwMain_DoWork(object sender, DoWorkEventArgs e)
+        {
 
         }
     }
