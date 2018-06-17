@@ -189,7 +189,12 @@ namespace ARCettings
         {
             get
             {
-                return GetInt(REG_KEY_UI, REG_VAL_FOLDERSTREEVIEW_INTERVAL, 450);
+                int i = GetInt(REG_KEY_UI, REG_VAL_FOLDERSTREEVIEW_INTERVAL, 450);
+                if (i <= 0)
+                {
+                    return 1;
+                }
+                return i;
             }
             set
             {

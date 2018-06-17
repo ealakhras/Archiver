@@ -1,4 +1,4 @@
-﻿CREATE function [dbo].[fn_fields_inheritsFrom](@folderID int) returns int
+﻿create function [dbo].[fn_fields_inheritsFrom](@folderID int) returns int
 as begin
 	declare @result int;
 	declare @parentID int

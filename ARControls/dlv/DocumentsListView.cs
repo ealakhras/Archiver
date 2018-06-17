@@ -2,6 +2,7 @@
 using ARCengine;
 using System.Threading;
 using System.ComponentModel;
+using System;
 
 namespace ARControls
 {
@@ -13,16 +14,19 @@ namespace ARControls
             InitializeComponent();
             View = View.Details;
             mIsPopulating = false;
-            mBGW = new BackgroundWorker();
-            mBGW.DoWork += new DoWorkEventHandler(bgwDoWork);
+            //mPopulateThread = new Thread(new ThreadStart(SafelyPopulate));
+            mDocumentAddDelegate = new DocumentAddDelegate(SafelyAddDocument);
+            mPopulateDelegate = new PopulateDelegate(SafelyPopulate2);
         }
         #endregion
 
         #region members
         private Folder mFolder;
         private bool mIsPopulating;
-        //private Thread mThread;
-        private BackgroundWorker mBGW;
+        private /*volatile*/ bool mPopulateThreadAborted;
+        private Thread mPopulateThread;
+        private DocumentAddDelegate mDocumentAddDelegate;
+        private PopulateDelegate mPopulateDelegate;
         #endregion
 
         #region properties
@@ -39,59 +43,85 @@ namespace ARControls
                     return;
                 }
                 mFolder = value;
-                mBGW.RunWorkerAsync();
-                //Populate();
+                Populate();
             }
         }
         #endregion
 
-        delegate void dodo();
+        delegate void DocumentAddDelegate(Document document);
+        delegate void PopulateDelegate();
 
         #region methods
-        private void bgwDoWork(object sender, DoWorkEventArgs e)
-        {
-            Populate();
-        }
 
-        private void PopulateSafely()
-        {
-            PopulateDodo();
-        }
-
-        private void PopulateDodo()
-        {
-            if (InvokeRequired)
-            {
-                dodo d = new dodo(Populate);
-                Invoke(d);
-            }
-            else
-            {
-                Populate();
-            }
-        }
 
         private void Populate()
+        {
+            // signal the thread abort:
+            // and wait for it to gracefully abort:
+            mPopulateThreadAborted = true;
+            if (!(mPopulateThread is null) && (mPopulateThread.IsAlive))
+            {
+                mPopulateThreadAborted = true;
+                mPopulateThread.Join();
+            }
+
+            // add columns here:
+            Columns.Clear();
+            foreach (Field field in mFolder.Fields)
+            {
+                Columns.Add(new FieldColumnHeader(field));
+            }
+
+            // now launch the thread again:
+            mPopulateThreadAborted = false;
+            mPopulateThread = new Thread(new ThreadStart(SafelyPopulate2));
+            mPopulateThread.Start();
+        }
+
+        private void SafelyPopulate()
         {
             try
             {
                 mIsPopulating = true;
                 //BeginUpdate();
-                Columns.Clear();
-                foreach (Field field in mFolder.Fields)
-                {
-                    Columns.Add(new FieldColumnHeader(field));
-                }
                 Items.Clear();
-                foreach(Document document in mFolder.Documents)
+                foreach (Document document in mFolder.Documents)
                 {
-                    Items.Add(new DocumentListViewItem(document));
+                    if (mPopulateThreadAborted)
+                    {
+                        break;
+                    }
+                    SafelyAddDocument(document);
                 }
             }
             finally
             {
-                mIsPopulating = false;
                 //EndUpdate();
+                mIsPopulating = false;
+            }
+        }
+
+        private void SafelyPopulate2()
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(mPopulateDelegate, new object[] { });
+            }
+            else
+            {
+                SafelyPopulate();
+            }
+        }
+
+        private void SafelyAddDocument(Document document)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(mDocumentAddDelegate, new object[] { document });
+            }
+            else
+            {
+                Items.Add(new DocumentListViewItem(document));
             }
         }
 
