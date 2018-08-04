@@ -250,13 +250,7 @@ namespace ARCengine
 
         public override string ToString()
         {
-            string result = string.Format("Name: '{0}'", mName) + '\n';
-            result += string.Format("ID: {0}", mID) + '\n';
-            result += string.Format("ParentID: {0}", mParentID) + '\n';
-            result += string.Format("Description: '{0}'", mDescription) + '\n';
-            result += string.Format("Creator: '{0}'", mCreator) + '\n';
-            result += string.Format("CreationDate: {0}", mCreationDate) + '\n';
-            return result;
+            return $"Name: {mName}\nID: {mID}\nParentID: {mParentID}\nDescription: {mDescription}\nCreator: {mCreator}\nCreationDate: {mCreationDate}";
         }
 
         public ICollectionOwner FindParent(int parentID)

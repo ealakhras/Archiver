@@ -1,43 +1,35 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using ARCengine.Interfaces;
-using ARCengine.Collections;
-using System;
-using System.Windows.Forms;
 
 
-namespace ARCengine
+namespace ARCdataTier
 {
-    public class Database: ICollectionOwner, IUsesPropertiesForm
+    public class Database
     {
-        #region constructor
+        #region constructors
         public Database()
         {
             mSqlConnection = new SqlConnection();
-            mSqlCommand = new SqlCommand { Connection = mSqlConnection };
-            mFolders = new FoldersCollection(this);
-            Dome.Databases.Add(this);
-            mStatus = "Closed";
+            mSqlCommand = new SqlCommand("", mSqlConnection);
+            Folders = new Folders(this);
+            Documents = new Documents(this);
+            Fields = new Fields(this);
+            FieldsValues = new FieldsValues(this);
+            Images = new Images(this);
+            LOVs = new LOVs(this);
         }
 
-        public Database(string connectionString)
-            : this()
+        public Database(string connectionString) : this()
         {
             ConnectionString = connectionString;
-            if (AutoConnect)
-            {
-                Connect();
-            }
         }
         #endregion
 
         #region members
-        private SqlConnection mSqlConnection;
-        private SqlCommand mSqlCommand;
+        private readonly SqlConnection mSqlConnection;
+        private readonly SqlCommand mSqlCommand;
         private string mFriendlyName;
         private bool mAutoConnect;
-        private FoldersCollection mFolders;
-        private string mStatus;
         #endregion
 
         #region properties
@@ -45,9 +37,9 @@ namespace ARCengine
         {
             get
             {
-                return mSqlConnection.ConnectionString
-                            + $";Friendly Name='{mFriendlyName}'"
-                            + $";AutoConnect={(mAutoConnect ? 1 : 0)}";
+                return mSqlConnection.ConnectionString +
+                                $";Friendly Name={mFriendlyName}" +
+                                $"; Auto Connect={(mAutoConnect ? 1 : 0)}";
             }
             set
             {
@@ -76,6 +68,10 @@ namespace ARCengine
                     }
                 }
                 mSqlConnection.ConnectionString = conStr;
+                if (mAutoConnect)
+                {
+                    mSqlConnection.Open();
+                }
             }
         }
 
@@ -83,7 +79,7 @@ namespace ARCengine
         {
             get
             {
-                if(mSqlConnection.State == ConnectionState.Open)
+                if (mSqlConnection.State == ConnectionState.Open)
                 {
                     return $"{mSqlConnection.DataSource} ver {mSqlConnection.ServerVersion}";
                 }
@@ -92,7 +88,7 @@ namespace ARCengine
                 string[] keywords = conStr.Split(';');
                 foreach (string keyword in keywords)
                 {
-                    if(keyword.StartsWith("Data Source"))
+                    if (keyword.StartsWith("Data Source"))
                     {
                         return keyword.Substring(keyword.IndexOf("=") + 1).Trim();
                     }
@@ -145,19 +141,6 @@ namespace ARCengine
             }
         }
 
-        public FoldersCollection Folders
-        {
-            get
-            {
-                return mFolders;
-            }
-        }
-
-        public override string ToString()
-        {
-            return $"Engine: {Engine}, Database: {Name}, Status: {Status}";
-        }
-
         public ConnectionState State
         {
             get
@@ -166,34 +149,29 @@ namespace ARCengine
             }
         }
 
-        public string Status
-        {
-            get
-            {
-                return mStatus;
-            }
-        }
+        public Folders Folders { get; }
+        public Documents Documents { get; }
+        public Images Images { get; }
+        public Fields Fields { get; }
+        public FieldsValues FieldsValues { get; }
+        public LOVs LOVs { get; }
+
         #endregion
 
         #region methods
+        public override string ToString()
+        {
+            return $"Engine: {Engine}, Database: {Name}, State: {(State.ToString())}";
+        }
+
         /// <summary>
         /// Connects database object by activating embedded mSQLConnection
         /// </summary>
         public void Connect()
         {
-            try
+            if (mSqlConnection.State == ConnectionState.Closed)
             {
                 mSqlConnection.Open();
-                mFolders.Read();
-                mStatus = "OK";
-            }
-
-            catch (Exception e)
-            {
-                //throw;
-                mStatus = e.Message;
-                //throw e.InnerException;
-                MessageBox.Show(e.Message);
             }
         }
 
@@ -211,10 +189,15 @@ namespace ARCengine
         /// <summary>
         /// Closes mSqlConnection and dispose of Database components
         /// </summary>
-        public void Disconnect()
+        public void Close()
         {
             mSqlConnection.Close();
-            mFolders.Clear();
+        }
+
+        public void Refresh()
+        {
+            Close();
+            Connect();
         }
 
         /// <summary>
@@ -241,26 +224,6 @@ namespace ARCengine
         {
             mSqlCommand.CommandText = string.Format(sql, parameters);
             return mSqlCommand.ExecuteNonQuery();
-        }
-
-        public void ExecuteNonQueryAsync(string sql, params object[] parameters)
-        {
-            mSqlCommand.CommandText = string.Format(sql, parameters);
-            mSqlCommand.ExecuteNonQueryAsync();
-        }
-
-        /// <summary>
-        /// Refreshes the Database object with all its internal components.
-        /// </summary>
-        public void Refresh()
-        {
-            Disconnect();
-            Connect();
-        }   
-
-        public void Save()
-        {
-
         }
         #endregion
     }

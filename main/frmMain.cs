@@ -189,10 +189,5 @@ namespace main
             }
 
         }
-
-        private void bgwMain_DoWork(object sender, DoWorkEventArgs e)
-        {
-
-        }
     }
 }

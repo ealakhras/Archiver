@@ -42,7 +42,7 @@ namespace ARControls.bo
         protected void Populate(IUsesPropertiesForm owner)
         {
             mOwner = owner;
-            Text = string.Format("{0} Properties", owner.GetType().ToString());
+            Text = $"{(owner.GetType().ToString())} Properties";
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

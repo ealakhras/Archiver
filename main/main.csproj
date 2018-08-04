@@ -238,6 +238,10 @@
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ARCbusinessTier\ARCbusinessTier.csproj">
+      <Project>{dec72875-4bac-4dc2-8235-16eff10ed4cc}</Project>
+      <Name>ARCbusinessTier</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ARCengine\ARCengine.csproj">
       <Project>{6292cfa6-a442-4729-8bea-47b2e6a149ae}</Project>
       <Name>ARCengine</Name>
@@ -249,6 +253,10 @@
     <ProjectReference Include="..\ARControls\ARControls.csproj">
       <Project>{62c6da06-815f-433e-94bb-77dbb85ee245}</Project>
       <Name>ARControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataTier\ARCdataTier.csproj">
+      <Project>{5fe520ee-c5cd-47f7-984e-53a18ce5dad3}</Project>
+      <Name>ARCdataTier</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

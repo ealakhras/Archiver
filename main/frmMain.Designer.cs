@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem("image1");
-            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("image2");
-            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem("image3");
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("image1");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("image2");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("image3");
             this.mnsMain = new System.Windows.Forms.MenuStrip();
             this.mniFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mniOpenDatabase = new System.Windows.Forms.ToolStripMenuItem();
@@ -140,7 +140,7 @@
             this.mniViewToolbar.CheckOnClick = true;
             this.mniViewToolbar.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mniViewToolbar.Name = "mniViewToolbar";
-            this.mniViewToolbar.Size = new System.Drawing.Size(123, 22);
+            this.mniViewToolbar.Size = new System.Drawing.Size(180, 22);
             this.mniViewToolbar.Text = "&Toolbar";
             this.mniViewToolbar.Click += new System.EventHandler(this.mniViewToolbar_Click);
             // 
@@ -150,7 +150,7 @@
             this.mniViewFolders.CheckOnClick = true;
             this.mniViewFolders.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mniViewFolders.Name = "mniViewFolders";
-            this.mniViewFolders.Size = new System.Drawing.Size(123, 22);
+            this.mniViewFolders.Size = new System.Drawing.Size(180, 22);
             this.mniViewFolders.Text = "&Folders";
             this.mniViewFolders.Click += new System.EventHandler(this.mniViewFolders_Click);
             // 
@@ -160,7 +160,7 @@
             this.mniViewPreview.CheckOnClick = true;
             this.mniViewPreview.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mniViewPreview.Name = "mniViewPreview";
-            this.mniViewPreview.Size = new System.Drawing.Size(123, 22);
+            this.mniViewPreview.Size = new System.Drawing.Size(180, 22);
             this.mniViewPreview.Text = "&Preview";
             this.mniViewPreview.Click += new System.EventHandler(this.mniViewActions_Click);
             // 
@@ -170,7 +170,7 @@
             this.mniViewStatusbar.CheckOnClick = true;
             this.mniViewStatusbar.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mniViewStatusbar.Name = "mniViewStatusbar";
-            this.mniViewStatusbar.Size = new System.Drawing.Size(123, 22);
+            this.mniViewStatusbar.Size = new System.Drawing.Size(180, 22);
             this.mniViewStatusbar.Text = "&Statusbar";
             this.mniViewStatusbar.Click += new System.EventHandler(this.statusBarToolStripMenuItem_Click);
             // 
@@ -185,7 +185,7 @@
             // mniAbout
             // 
             this.mniAbout.Name = "mniAbout";
-            this.mniAbout.Size = new System.Drawing.Size(154, 22);
+            this.mniAbout.Size = new System.Drawing.Size(180, 22);
             this.mniAbout.Text = "&About Archiver";
             this.mniAbout.Click += new System.EventHandler(this.mniAbout_Click);
             // 
@@ -371,9 +371,9 @@
             this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView2.HideSelection = false;
             this.listView2.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem10,
-            listViewItem11,
-            listViewItem12});
+            listViewItem4,
+            listViewItem5,
+            listViewItem6});
             this.listView2.Location = new System.Drawing.Point(0, 0);
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(465, 102);
