@@ -112,7 +112,7 @@ namespace ARCengine.Collections
         {
             foreach (Document document in List)
             {
-                if (document.NeedsSaving)
+                if (document.IsDirty)
                 {
                     document.Save();
                 }

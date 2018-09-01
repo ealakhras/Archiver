@@ -30,7 +30,6 @@ namespace ARCengine.Collections
                 List[index] = value;
             }
         }
-
         public ICollectionOwner Owner
         {
             get
@@ -38,7 +37,6 @@ namespace ARCengine.Collections
                 return mOwner;
             }
         }
-        
         public Database Database
         {
             get
@@ -62,7 +60,6 @@ namespace ARCengine.Collections
         /// adds folder to the collection
         /// </summary>
         /// <param name="folder">new folder to add</param>
-
         public override string ToString()
         {
             return ToString(1);
@@ -155,7 +152,7 @@ namespace ARCengine.Collections
         {
             foreach (Field subfolder in List)
             {
-                if (subfolder.NeedsSaving)
+                if (subfolder.IsDirty)
                 {
                     subfolder.Save();
                 }

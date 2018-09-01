@@ -103,7 +103,7 @@ namespace ARCengine.Collections
         {
             foreach (Field field in List)
             {
-                if(field.NeedsSaving)
+                if(field.IsDirty)
                 {
                     field.Save();
                 }

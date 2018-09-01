@@ -93,6 +93,7 @@
   <ItemGroup>
     <None Include="SchemaCompare.scmp" />
     <None Include="dac.publish.xml" />
+    <None Include="dbcreation.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Stored Procedures\prcFolders_read.sql" />

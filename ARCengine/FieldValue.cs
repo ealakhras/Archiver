@@ -1,39 +1,50 @@
-﻿using System;
-using System.Data.SqlClient;
-using ARCengine.Collections;
-
+﻿using System.Data.SqlClient;
 
 namespace ARCengine
 {
-    public class FieldValue:BaseTable
+    public class FieldValue : CoreTable
     {
         #region constructors
-        public FieldValue()
-            : base("FieldsValues")
+        public FieldValue() : base("FieldsValues")
         {
+
         }
 
-        public FieldValue(int id)
-            : this()
+        public FieldValue(Database database) : this()
         {
-            Read(id);
+            Database = database;
         }
 
-        public FieldValue(Document document, SqlDataReader dr)
-            : this()
+        public FieldValue(Database database, int documentID, int fieldID): this(database)
+        {
+            mDocumentID = documentID;
+            mFieldID = FieldID;
+            Read();
+        }
+
+        /*
+        public FieldValue(Document document, SqlDataReader dr) : this()
         {
             mDocument = document;
             Read(dr);
         }
+        */
         #endregion
 
         #region members
-        private Document mDocument;
+        private int mDocumentID;
         private int mFieldID;
         private string mValue;
         #endregion
 
         #region properties
+        public int DocumentID
+        {
+            get
+            {
+                return mDocumentID;
+            }
+        }
         public int FieldID
         {
             get
@@ -41,7 +52,6 @@ namespace ARCengine
                 return mFieldID;
             }
         }
-
         public string Value
         {
             get
@@ -50,49 +60,65 @@ namespace ARCengine
             }
             set
             {
-                if(mValue == value)
+                if (mValue == value)
                 {
                     return;
                 }
                 mValue = value;
-                mNeedsSaving = true;
-            }
-        }
-        public Document Document
-        {
-            get
-            {
-                return mDocument;
+                mIsDirty = true;
             }
         }
         #endregion
 
         #region method
-        protected override object[] GetReadParameters()
+        protected override SqlParameterCollection GetReadParameters()
         {
-            return new object[] { mFieldID };
+            SqlParameterCollection result = base.GetSaveParameters();
+            AddParam(result, "@documentID", SqlParamTypes.Integer, mDocumentID);
+            AddParam(result, "@fieldID", SqlParamTypes.Integer, mFieldID);
+            return result;
         }
 
-        protected override object[] GetSaveParameters()
+        protected override SqlParameterCollection GetSaveParameters()
         {
-            return new object[] { mDocument.ID, mFieldID, mValue };
+            SqlParameterCollection result = base.GetSaveParameters();
+            AddParam(result, "@documentID", SqlParamTypes.Integer, mDocumentID);
+            AddParam(result, "@fieldID", SqlParamTypes.Integer, mFieldID);
+            AddParam(result, "@value", SqlParamTypes.String, mValue);
+            return result;
         }
 
-        protected override object[] GetDeleteParameters()
+        protected override SqlParameterCollection GetDeleteParameters()
         {
-            return new object[] { mDocument.ID, mFieldID };
+            SqlParameterCollection result = base.GetSaveParameters();
+            AddParam(result, "@documentID", SqlParamTypes.Integer, mDocumentID);
+            AddParam(result, "@fieldID", SqlParamTypes.Integer, mFieldID);
+            return result;
         }
 
-        protected override void Read(int id)
+        private void Init(int documentID, int fieldID, string value)
         {
-            base.Read(id);
+            Init();
+            mDocumentID = documentID;
+            mFieldID = fieldID;
+            mValue = value;
         }
 
-        public override void Read(SqlDataReader dr)
+        protected override void Init(SqlDataReader dr)
         {
-            mFieldID = GetIntFromDataReader(dr["fieldID"]);
-            mValue = GetStringFromDataReader(dr["value"]);
-            base.Read(dr);
+            base.Init(dr);
+            Init(
+                GetIntFromDataReader(dr["documentID"]),
+                GetIntFromDataReader(dr["fieldID"]),
+                GetStringFromDataReader(dr["value"]));
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}\n" +
+                    $"DocumentID: {mDocumentID}\n" +
+                    $"FieldID: {mFieldID}\n" +
+                    $"Value: '{mValue}'";
         }
         #endregion
     }

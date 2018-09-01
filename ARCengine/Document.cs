@@ -4,135 +4,110 @@ using ARCengine.Collections;
 
 namespace ARCengine
 {
-    public class Document : BaseTable
+    public class Document : CoreTableWithID
     {
         #region constructors
-        public Document()
-            :base("Documents")
+        public Document() : base("Documents")
         {
             mFieldsValues = new FieldsValuesCollection(this);
         }
 
-        public Document(int id)
-            : this()
+        public Document(Database database) :this()
         {
-            Read(id);
+            Database = database;
         }
 
-        public Document(Folder folder, SqlDataReader dr)
-            :this()
+        public Document(Database database, int id) : this(database)
         {
-            mFolder = folder;
-            Read(dr);
+            mID = id;
+            Read();
         }
+
+        /*
+        public Document(Folder folder, SqlDataReader dr) : this()
+        {
+            mFolderID = folder.ID;
+            mFolder = folder;
+            Init(dr);
+        }
+        */
         #endregion
 
         #region members
         private Folder mFolder;
-        private int mID;
-        private string mDescription;
-        private string mCreator;
-        private DateTime mCreationDate;
+        private int mFolderID;
         private FieldsValuesCollection mFieldsValues;
         #endregion
 
         #region properties
-        public int ID
+        public int FolderID
         {
             get
             {
-                return mID;
+                return mFolderID;
+            }
+            set
+            {
+                if(mFolderID == value)
+                {
+                    return;
+                }
+                mFolderID = value;
+                mIsDirty = true;
             }
         }
-
         public Folder Folder
         {
             get
             {
                 return mFolder;
             }
-        }
-
-        public string Description
-        {
-            get
-            {
-                return mDescription;
-            }
             set
             {
-                if (mDescription == value)
+                if (mFolder == value)
                 {
                     return;
                 }
-                mDescription = value;
-                mNeedsSaving = true;
+                mFolder = value;
+                mFolderID = value.ID;
+                mIsDirty = true;
             }
         }
-
-        public string Creator
-        {
-            get
-            {
-                return mCreator;
-            }
-        }
-
-        public DateTime CreationDate
-        {
-            get
-            {
-                return mCreationDate;
-            }
-        }
-
         public FieldsValuesCollection FieldsValues
         {
             get
             {
-                if(mFieldsValues.NeedsRefreshing)
+                if (mFieldsValues.NeedsRefreshing)
                 {
                     mFieldsValues.Refresh();
                 }
                 return mFieldsValues;
             }
         }
-
         #endregion
 
         #region method
-        protected override object[] GetReadParameters()
+        protected override SqlParameterCollection GetSaveParameters()
         {
-            return new object[] { mID };
+            SqlParameterCollection result = base.GetSaveParameters();
+            AddParam(result, "@folderID", SqlParamTypes.Integer, mFolderID);
+            return result;
         }
 
-        protected override object[] GetSaveParameters()
+        protected override void Init(SqlDataReader dr)
         {
-            return new object[] { mID, mFolder.ID, mDescription };
-        }
-
-        protected override object[] GetDeleteParameters()
-        {
-            return new object[] { mID };
-        }
-
-        protected override void Read(int id)
-        {
-            base.Read(id);
-        }
-
-        public override void Read(SqlDataReader dr)
-        {
-            mID = GetIntFromDataReader(dr["id"]);
-            mDescription = GetStringFromDataReader(dr["description"]);
-            mCreator = GetStringFromDataReader(dr["creator"]);
-            mCreationDate = GetDateTimeFromDataReader(dr["creationDate"]);
-            base.Read(dr);
+            base.Init(dr);
+            mFolderID = GetIntFromDataReader(dr["folderID"]);
         }
 
         public void ReadFieldsValues(SqlDataReader dr)
         {
             mFieldsValues.Read(dr);
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}\nFolderID: {mFolderID}";
         }
         #endregion
     }

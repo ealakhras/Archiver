@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\DatabaseCollection.cs" />
-    <Compile Include="BaseTable.cs" />
+    <Compile Include="CoreObjects.cs" />
     <Compile Include="Collections\DocumentsCollection.cs" />
     <Compile Include="Collections\FieldsValuesCollection.cs" />
     <Compile Include="Database.cs" />
@@ -54,8 +54,10 @@
     <Compile Include="FieldValue.cs" />
     <Compile Include="Folder.cs" />
     <Compile Include="Collections\FoldersCollection.cs" />
+    <Compile Include="Image.cs" />
     <Compile Include="Interfaces\ICollectionOwner.cs" />
     <Compile Include="Interfaces\IUsesPropertiesForm.cs" />
+    <Compile Include="LOV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

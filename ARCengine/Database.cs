@@ -16,28 +16,23 @@ namespace ARCengine
             mSqlConnection = new SqlConnection();
             mSqlCommand = new SqlCommand { Connection = mSqlConnection };
             mFolders = new FoldersCollection(this);
-            Dome.Databases.Add(this);
-            mStatus = "Closed";
+            //Dome.Databases.Add(this);
         }
 
         public Database(string connectionString)
             : this()
         {
             ConnectionString = connectionString;
-            if (AutoConnect)
-            {
-                Connect();
-            }
+            // connectionString will auto-connect, if set.
         }
         #endregion
 
         #region members
-        private SqlConnection mSqlConnection;
-        private SqlCommand mSqlCommand;
+        private readonly SqlConnection mSqlConnection;
+        private readonly SqlCommand mSqlCommand;
         private string mFriendlyName;
         private bool mAutoConnect;
         private FoldersCollection mFolders;
-        private string mStatus;
         #endregion
 
         #region properties
@@ -45,9 +40,9 @@ namespace ARCengine
         {
             get
             {
-                return mSqlConnection.ConnectionString
-                            + $";Friendly Name='{mFriendlyName}'"
-                            + $";AutoConnect={(mAutoConnect ? 1 : 0)}";
+                return mSqlConnection.ConnectionString +
+                                $";Friendly Name={mFriendlyName}" +
+                                $"; Auto Connect={(mAutoConnect ? 1 : 0)}";
             }
             set
             {
@@ -76,9 +71,12 @@ namespace ARCengine
                     }
                 }
                 mSqlConnection.ConnectionString = conStr;
+                if (mAutoConnect)
+                {
+                    mSqlConnection.Open();
+                }
             }
         }
-
         public string Engine
         {
             get
@@ -100,7 +98,6 @@ namespace ARCengine
                 return string.Empty;
             }
         }
-
         public string Name
         {
             get
@@ -108,7 +105,6 @@ namespace ARCengine
                 return mSqlConnection.Database;
             }
         }
-
         public string FriendlyName
         {
             get
@@ -124,7 +120,6 @@ namespace ARCengine
                 mFriendlyName = value;
             }
         }
-
         public bool AutoConnect
         {
             get
@@ -140,11 +135,10 @@ namespace ARCengine
                 mAutoConnect = value;
                 if (mAutoConnect)
                 {
-                    Connect();
+                    Open();
                 }
             }
         }
-
         public FoldersCollection Folders
         {
             get
@@ -152,12 +146,6 @@ namespace ARCengine
                 return mFolders;
             }
         }
-
-        public override string ToString()
-        {
-            return $"Engine: {Engine}, Database: {Name}, Status: {Status}";
-        }
-
         public ConnectionState State
         {
             get
@@ -165,35 +153,37 @@ namespace ARCengine
                 return mSqlConnection.State;
             }
         }
-
-        public string Status
-        {
-            get
-            {
-                return mStatus;
-            }
-        }
         #endregion
 
         #region methods
         /// <summary>
+        /// Sets sql parameter as the SqlCommand Text, and reset SqlCommand Parameters to parameters
+        /// </summary>
+        /// <param name="sql">to be assigned to SqlCommand.Text</param>
+        /// <param name="parameters">parameters to be set to SqlCommand.Parameters</param>
+        private void PrepareSqlCommandParams(SqlParameterCollection parameters)
+        {
+            mSqlCommand.Parameters.Clear();
+            foreach (SqlParameter par in parameters)
+            {
+                mSqlCommand.Parameters.Add(par);
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"Engine: {Engine}, Database: {Name}, Status: {State.ToString()}";
+        }
+
+        /// <summary>
         /// Connects database object by activating embedded mSQLConnection
         /// </summary>
-        public void Connect()
+        public void Open()
         {
-            try
+            if (mSqlConnection.State == ConnectionState.Closed)
             {
                 mSqlConnection.Open();
                 mFolders.Read();
-                mStatus = "OK";
-            }
-
-            catch (Exception e)
-            {
-                //throw;
-                mStatus = e.Message;
-                //throw e.InnerException;
-                MessageBox.Show(e.Message);
             }
         }
 
@@ -202,19 +192,28 @@ namespace ARCengine
         /// using given connectionString
         /// </summary>
         /// <param name="connectionString"></param>
-        public void Connect(string connectionString)
+        public void Open(string connectionString)
         {
             ConnectionString = connectionString;
-            Connect();
+            Open();
         }
 
         /// <summary>
         /// Closes mSqlConnection and dispose of Database components
         /// </summary>
-        public void Disconnect()
+        public void Close()
         {
             mSqlConnection.Close();
             mFolders.Clear();
+        }
+
+        /// <summary>
+        /// Refreshes the Database object with all its internal components.
+        /// </summary>
+        public void Refresh()
+        {
+            Close();
+            Open();
         }
 
         /// <summary>
@@ -224,43 +223,47 @@ namespace ARCengine
         /// <param name="sql">sql script to execute</param>
         /// <param name="parameters">optional sql script parameters</param>
         /// <returns></returns>
-        public SqlDataReader ExecuteDataReader(string sql, params object[] parameters)
+        public SqlDataReader ExecuteDataReader(string sql, SqlParameterCollection parameters)
         {
-            mSqlCommand.CommandText = string.Format(sql, parameters);
+            PrepareSqlCommandParams(parameters);
+            return ExecuteDataReader(sql);
+        }
+
+        /// <summary>
+        /// Generic ExecuteDataReader at embedded mSqlCommand
+        /// using given sql script/command
+        /// </summary>
+        /// <param name="sql">sql script to execute</param>
+        /// <returns></returns>
+        public SqlDataReader ExecuteDataReader(string sql)
+        {
+            mSqlCommand.CommandText = sql;
             return mSqlCommand.ExecuteReader();
         }
 
         /// <summary>
-        /// Generic ExecuteNonReader at embedded mSqlCommand
+        /// Generic ExecuteNonQuery at embedded mSqlCommand
         /// using given sql script and optional paramters
         /// </summary>
         /// <param name="sql">sql script to execute</param>
         /// <param name="parameters">optional sql script parameters</param>
         /// <returns></returns>
-        public int ExecuteNonQuery(string sql, params object[] parameters)
+        public int ExecuteNonQuery(string sql, SqlParameterCollection parameters)
         {
-            mSqlCommand.CommandText = string.Format(sql, parameters);
-            return mSqlCommand.ExecuteNonQuery();
-        }
-
-        public void ExecuteNonQueryAsync(string sql, params object[] parameters)
-        {
-            mSqlCommand.CommandText = string.Format(sql, parameters);
-            mSqlCommand.ExecuteNonQueryAsync();
+            PrepareSqlCommandParams(parameters);
+            return ExecuteNonQuery(sql);
         }
 
         /// <summary>
-        /// Refreshes the Database object with all its internal components.
+        /// Generic ExecuteNonQuery at embedded mSqlCommand
+        /// using given sql script
         /// </summary>
-        public void Refresh()
+        /// <param name="sql">sql script to execute</param>
+        /// <returns></returns>
+        public int ExecuteNonQuery(string sql)
         {
-            Disconnect();
-            Connect();
-        }   
-
-        public void Save()
-        {
-
+            mSqlCommand.CommandText = sql;
+            return mSqlCommand.ExecuteNonQuery();
         }
         #endregion
     }

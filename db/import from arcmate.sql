@@ -1,54 +1,10 @@
-use archiver
-
--- treeDocuments without nodes:
-select * from tblTreeDocuments td where td.arcNodeID not in (select t.arcID from tblTree t);
-
--- treeDocuments without documents:
-select * from tblTreeDocuments td where td.arcDocID not in (select d.arcID from tblDocuments d);
-
--- documents without treeDocuments:
-select * from tblDocuments d where d.arcID not in (select td.arcDocID from tblTreeDocuments td);
-
--- fix missing tblTreeDocuments:
-insert into financeSyria..tblTreeDocuments(arcNodeID, arcDocID)
-	select -1, d.arcID
-	from financeSyria..tblDocuments d
-	where
-		d.arcID not in (select td.arcDocID from financeSyria..tblTreeDocuments td);
-
-
--- add pk to fieldsValues:
-alter table dbo.fieldsValues add constraint pk_fieldsValues primary key clustered (documentID, fieldID)
-	with(
-		statistics_norecompute = off, 
-		ignore_dup_key = off, 
-		allow_row_locks = on, 
-		allow_page_locks = on)
-	on primary;
-
-
--- add filenames columns to images:
-alter table images add
-	fileName1 nvarchar(255),
-	fileName2 nvarchar(255),
-	notesDetails ntext;
-
-
--- create lovs table:
-drop table lovs; -- try !!!
-create table lovs(
-	id int identity(1,1) not null primary key,
-	name nvarchar(50) not null,
-	vals text null,
-	description nvarchar(250) null,
-	creationDate datetime not null default getdate());
+﻿use archiver
 
 -- insert lovs:
 set identity_insert lovs on;
---insert into lovs(id, name, vals)
-select * from financeSyria..TblDesign d where d.arcAttr = 'ITM' order by d.ArcId;
+insert into lovs(id, name, vals)
+	select d.ArcId, 'المحافظات', d.ArcValue from financeSyria..TblDesign d where d.arcAttr = 'ITM' order by d.ArcId;
 set identity_insert lovs off;
-
 
 --
 -- add lovID to fields
@@ -107,11 +63,9 @@ set identity_insert fields off
 
 -- now documents:
 set identity_insert documents on
-
 insert into documents(id, folderID)
 	select d.arcID, case td.arcNodeID when -1 then 0 else td.arcNodeID end
 	from financeSyria..tblDocuments d inner join financeSyria..tblTreeDocuments td on d.arcID = td.arcDocID;
-
 set identity_insert documents off
 
 
@@ -147,15 +101,24 @@ insert into fieldsValues(documentID, fieldID, value)
 
 set identity_insert images on;
 
-insert into images(id, documentID, notes, fileName1, fileName2, notesDetails)
+insert into images(id, documentID, description, fileName, notesDetails, data)
 	select
 		f.arcID,
 		f.arcDocID,
 		f.arcNote,
 		f.arcFileName,
-		f.arcOrgName,
-		f.arcNoteDet
+		f.arcNoteDet,
+		cast('' as varbinary(max))
+--		(select * from openrowset(bulk 'd:\work\archiver\db' + f.arcFileName, single_blob) x
 	from
 		financeSyria..tblFiles f;
 
 set identity_insert images off;
+
+truncate table images
+
+
+select * from folders
+select * from fields
+select * from documents
+select * from images

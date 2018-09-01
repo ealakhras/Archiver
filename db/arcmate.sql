@@ -17,8 +17,8 @@ select * from TblUserQuery;
 
 -- to be imported:
 select * from TblTree; -- folders
-select * from TblDesign;
-select * from TblDocuments;
+select * from TblDesign where arcAttr = 'DB NAME';
+select * from TblDocuments 
 select * from TblFiles;
 select * from TblProjects;
 select * from TblTreeDocuments;

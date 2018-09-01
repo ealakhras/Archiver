@@ -12,6 +12,7 @@ AS
 		f.width,
 		f.alignment,
 		f.defval,
+		f.lovID,
 		f.ord,
 		f.creator,
 		f.creationDate

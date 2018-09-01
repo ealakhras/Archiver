@@ -7,12 +7,13 @@
 	@defVal nvarchar(150) = null,
 	@width int = null,
 	@alignment nchar(1) = null,
+	@lovID int = null,
 	@ord int = null
 AS
 	if (isnull(@id, 0) = 0)
 	begin
 		-- insert records:
-		insert into fields(folderID, name, description, type, defval, width, alignment, ord)
+		insert into fields(folderID, name, description, type, defval, width, alignment, lovID, ord)
 			select
 				@folderID,
 				@name, 
@@ -21,6 +22,7 @@ AS
 				@defVal,
 				@width,
 				@alignment,
+				@lovID,
 				@ord;
 
 		set @id = @@IDENTITY;
@@ -35,6 +37,7 @@ AS
 				defVal = isnull(@defVal, defVal),
 				width = isnull(@width, width),
 				alignment = isnull(@alignment, alignment),
+				lovID = isnull(@lovID, lovID),
 				ord = isnull(@ord, ord)
 			where
 				id = @id;

@@ -1,45 +1,35 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using ARCengine.Interfaces;
 using ARCengine.Collections;
 
 namespace ARCengine
 {
-    public class Folder : BaseTable, ICollectionOwner
+    public class Folder : CoreTableWithID, ICollectionOwner
     {
         #region constructors
-        public Folder()
-            : base("Folders")
+        public Folder() : base("Folders")
         {
             mSubFolders = new FoldersCollection(this);
             mFields = new FieldsCollection(this);
             mDocuments = new DocumentsCollection(this);
-            mName = "<new>";
         }
 
-        public Folder(int id)
-            : this()
+        public Folder(Database database) : this()
         {
-            Read(id);
+            Database = database;
         }
 
-        public Folder(Database database, SqlDataReader dr)
-            : this()
+        public Folder(Database database, int id) : this(database)
         {
-            mDatabase = database;
-            Read(dr);
+            mID = id;
+            Read();
         }
         #endregion
 
         #region members
-        private int mID;
         private int mParentID;
-        private string mName;
-        private string mDescription;
-        private int mImageIndex;
         private bool mInheritsFields;
-        private string mCreator;
-        private DateTime mCreationDate;
+        private int mImageIndex;
         private FoldersCollection mSubFolders;
         private ICollectionOwner mParent;
         private DocumentsCollection mDocuments;
@@ -47,14 +37,6 @@ namespace ARCengine
         #endregion
 
         #region properties
-        public int ID
-        {
-            get
-            {
-                return mID;
-            }
-        }
-
         public int ParentID
         {
             get
@@ -68,61 +50,9 @@ namespace ARCengine
                     return;
                 }
                 mParentID = value;
-                mNeedsSaving = true;
+                mIsDirty = true;
             }
         }
-
-        public string Name
-        {
-            get
-            {
-                return mName;
-            }
-            set
-            {
-                if (mName == value)
-                {
-                    return;
-                }
-                mName = value;
-                mNeedsSaving = true;
-            }
-        }
-
-        public string Description
-        {
-            get
-            {
-                return mDescription;
-            }
-            set
-            {
-                if (mDescription == value)
-                {
-                    return;
-                }
-                mDescription = value;
-                mNeedsSaving = true;
-            }
-        }
-
-        public int ImageIndex
-        {
-            get
-            {
-                return mImageIndex;
-            }
-            set
-            {
-                if (mImageIndex == value)
-                {
-                    return;
-                }
-                mImageIndex = value;
-                mNeedsSaving = true;
-            }
-        }
-
         public bool InheritsFields
         {
             get
@@ -136,26 +66,25 @@ namespace ARCengine
                     return;
                 }
                 mInheritsFields = value;
-                mNeedsSaving = true;
+                mIsDirty = true;
             }
         }
-
-        public string Creator
+        public int ImageIndex
         {
             get
             {
-                return mCreator;
+                return mImageIndex;
             }
-        }
-
-        public DateTime CreationDate
-        {
-            get
+            set
             {
-                return mCreationDate;
+                if(mImageIndex == value)
+                {
+                    return;
+                }
+                mImageIndex = value;
+                mIsDirty = true;
             }
         }
-
         public ICollectionOwner Parent
         {
             get
@@ -177,10 +106,9 @@ namespace ARCengine
                 {
                     mParentID = ((Folder)value).mID;
                 }
-                mNeedsSaving = true;
+                mIsDirty = true;
             }
         }
-
         public FoldersCollection SubFolders
         {
             get
@@ -188,7 +116,6 @@ namespace ARCengine
                 return mSubFolders;
             }
         }
-
         public FieldsCollection Fields
         {
             get
@@ -200,7 +127,6 @@ namespace ARCengine
                 return mFields;
             }
         }
-
         public DocumentsCollection Documents
         {
             get
@@ -215,37 +141,40 @@ namespace ARCengine
         #endregion
 
         #region methods
-        public override void Read(SqlDataReader dr)
+        protected override SqlParameterCollection GetSaveParameters()
         {
-            mID = GetIntFromDataReader(dr["id"]);
+            SqlParameterCollection result = base.GetSaveParameters();
+            AddParam(result, "@parentID", SqlParamTypes.Integer, mParentID);
+            AddParam(result, "@imageIndex", SqlParamTypes.Integer, mImageIndex);
+            AddParam(result, "@inheritsFields", SqlParamTypes.Boolean, mInheritsFields);    
+            return result;
+        }
+
+        protected override void Init(SqlDataReader dr)
+        {
+            base.Init(dr);
             mParentID = GetIntFromDataReader(dr["parentID"]);
-            mName = GetStringFromDataReader(dr["name"]);
-            mDescription = GetStringFromDataReader(dr["description"]);
             mImageIndex = GetIntFromDataReader(dr["imageIndex"]);
             mInheritsFields = GetBoolFromDataReader(dr["inheritsFields"]);
-            mCreator = GetStringFromDataReader(dr["creator"]);
-            mCreationDate = GetDateTimeFromDataReader(dr["creationDate"]);
-            base.Read(dr);
         }
 
-        protected override object[] GetReadParameters()
+        public override void Save()
         {
-            return new object[] { mID };
+            base.Save();
+            mFields.Save();
+            mSubFolders.Save();
         }
 
-        protected override object[] GetSaveParameters()
+        public override void Refresh()
         {
-            return new object[] { mID, mParent, mName, mDescription };
+            base.Refresh();
+            mFields.Refresh();
+            mSubFolders.Refresh();
         }
 
-        protected override object[] GetDeleteParameters()
+        public SqlDataReader Tree(int id = 0)
         {
-            return new object[] { mID };
-        }
-
-        public SqlDataReader Tree(object id = null)
-        {
-            return mDatabase.ExecuteDataReader("exec prcFolders_tree {0}", id);
+            return mDatabase.ExecuteDataReader($"exec prcFolders_tree {id}");
         }
 
         public override string ToString()
@@ -268,20 +197,6 @@ namespace ARCengine
                 }
             }
             return parent;
-        }
-
-        public override void Save()
-        {
-            base.Save();
-            mFields.Save();
-            mSubFolders.Save();
-        }
-
-        public override void Refresh()
-        {
-            base.Refresh();
-            mFields.Refresh();
-            mSubFolders.Refresh();
         }
         #endregion
     }
