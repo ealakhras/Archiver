@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using ARCengine.CoreObjects;
 
 namespace ARCengine
 {
@@ -22,13 +23,11 @@ namespace ARCengine
             Read();
         }
 
-        /*
-        public FieldValue(Document document, SqlDataReader dr) : this()
+        public FieldValue(Document document, SqlDataReader dr) : this(document.Database)
         {
-            mDocument = document;
-            Read(dr);
+            mDocumentID = document.ID;
+            Init(dr);
         }
-        */
         #endregion
 
         #region members

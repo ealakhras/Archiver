@@ -8,10 +8,12 @@ namespace ARCengine.Collections
         public FieldsCollection(Folder folder)
         {
             mFolder = folder;
+            mFolderID = folder.ID;
             mNeedsRefreshing = true;
         }
 
         #region members
+        private int mFolderID;
         private Folder mFolder;
         private bool mNeedsRefreshing;
         #endregion
@@ -24,7 +26,6 @@ namespace ARCengine.Collections
                 return mFolder;
             }
         }
-
         public Database Database
         {
             get
@@ -32,7 +33,6 @@ namespace ARCengine.Collections
                 return mFolder.Database;
             }
         }
-
         public Field this[int index]
         {
             get
@@ -48,7 +48,6 @@ namespace ARCengine.Collections
                 List[index] = value;
             }
         }
-
         public bool NeedsRefreshing
         {
             get
@@ -84,7 +83,7 @@ namespace ARCengine.Collections
             }
             else
             {
-                SqlDataReader dr = Database.ExecuteDataReader("exec prcFields_read @folderID = {0}, @showInherited = 1", mFolder.ID);
+                SqlDataReader dr = Database.ExecuteDataReader($"exec prcFields_read @folderID = {mFolderID}, @showInherited = 1");
                 Read(dr);
                 dr.Close();
             }
@@ -96,7 +95,6 @@ namespace ARCengine.Collections
             {
                 Add(new Field(mFolder, dr));
             }
-            mNeedsRefreshing = false;
         }
 
         public void Save()
@@ -108,6 +106,12 @@ namespace ARCengine.Collections
                     field.Save();
                 }
             }
+        }
+
+        protected override void OnClear()
+        {
+            base.OnClear();
+            mNeedsRefreshing = false;
         }
 
         public void Refresh()

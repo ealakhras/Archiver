@@ -1,18 +1,21 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
+using ARCengine.CoreObjects;
 
 namespace ARCengine
 {
-    public enum FieldTypes { Text, Number, DateTime, YesNo, Lookup };
-    public enum FieldAlignment { Left, Center, Right };
-
-
     public class Field : CoreTableWithID
     {
         #region constructors
         public Field() : base("Fields")
         {
+        }
 
+        /// <summary>
+        /// Creates an instance of Field, and initiates it from id at Dome.CurrentDatabase
+        /// </summary>
+        /// <param name="id">id of Field in Dome.CurrentData to be fetched</param>
+        public Field(int id) : this(Dome.CurrentDatabase, id)
+        {
         }
 
         public Field(Database database) : this()
@@ -26,18 +29,16 @@ namespace ARCengine
             Read();
         }
 
-        /*
-        public Field(Folder folder) : this()
+        public Field(Folder folder) : this(folder.Database)
         {
             mFolder = folder;
-            mDatabase = folder.Database;
+            mFolderID = folder.ID;
         }
 
         public Field(Folder folder, SqlDataReader dr) : this(folder)
         {
-            Read(dr);
+            Init(dr);
         }
-        */
         #endregion
 
         #region members

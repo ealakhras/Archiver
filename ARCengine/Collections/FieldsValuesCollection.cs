@@ -75,7 +75,7 @@ namespace ARCengine.Collections
         /// </summary>
         private void Read()
         {
-            SqlDataReader dr = Database.ExecuteDataReader("exec prcFieldsValues_read @documentID = {0}", mDocument.ID);
+            SqlDataReader dr = Database.ExecuteDataReader($"exec prcFieldsValues_read @documentID = {mDocument}");
 
             // do a beforehand-read. This is to make Read(dr) compatible
             // with DocumentsCollection.Read(dr)

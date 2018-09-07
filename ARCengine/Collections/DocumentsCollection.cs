@@ -25,7 +25,6 @@ namespace ARCengine.Collections
                 return mFolder;
             }
         }
-
         public Database Database
         {
             get
@@ -33,7 +32,6 @@ namespace ARCengine.Collections
                 return mFolder.Database;
             }
         }
-
         public Document this[int index]
         {
             get
@@ -47,14 +45,6 @@ namespace ARCengine.Collections
             set
             {
                 List[index] = value;
-            }
-        }
-
-        public bool NeedsRefreshing
-        {
-            get
-            {
-                return mNeedsRefreshing;
             }
         }
         #endregion
@@ -71,7 +61,7 @@ namespace ARCengine.Collections
         private void Read()
         {
             Clear();
-            SqlDataReader dr = Database.ExecuteDataReader("exec prcDocuments_read @folderID = {0}", mFolder.ID);
+            SqlDataReader dr = Database.ExecuteDataReader($"prcDocuments_read @folderID = {mFolder.ID}");
             Read(dr);
             dr.Close();
         }

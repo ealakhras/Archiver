@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ARCengine.CoreObjects;
 
 namespace ARCengine
 {
@@ -14,6 +10,10 @@ namespace ARCengine
         public Image() : base("Images")
         {
 
+        }
+
+        public Image(int id):this(Dome.CurrentDatabase, id)
+        {
         }
 
         public Image(Database database) : this()

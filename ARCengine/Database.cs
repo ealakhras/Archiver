@@ -156,6 +156,7 @@ namespace ARCengine
         #endregion
 
         #region methods
+        
         /// <summary>
         /// Sets sql parameter as the SqlCommand Text, and reset SqlCommand Parameters to parameters
         /// </summary>
@@ -264,6 +265,11 @@ namespace ARCengine
         {
             mSqlCommand.CommandText = sql;
             return mSqlCommand.ExecuteNonQuery();
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

@@ -7,8 +7,7 @@ namespace ARCengine.Collections
     public class DatabaseCollection : CollectionBase
     {
         #region constructors
-        public DatabaseCollection()
-            : base()
+        public DatabaseCollection(): base()
         {
         }
         #endregion
@@ -24,19 +23,19 @@ namespace ARCengine.Collections
         #endregion
 
         #region methods
-        public void Add(Database item)
+        public void Add(Database database)
         {
             // add if not already there:
-            if (List.IndexOf(item) == -1)
+            if (List.IndexOf(database) == -1)
             {
-                List.Add(item);
+                List.Add(database);
             }
-            Dome.CurrentDatabase = item;
+            Dome.CurrentDatabase = database;
         }
 
-        public void Remove(Database item)
+        public void Remove(Database database)
         {
-            List.Remove(item);
+            List.Remove(database);
             if(Count != 0)
             {
                 Dome.CurrentDatabase = (Database)List[Count];

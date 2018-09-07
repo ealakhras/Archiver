@@ -1,6 +1,7 @@
 ﻿using System.Data.SqlClient;
 using ARCengine.Interfaces;
 using ARCengine.Collections;
+using ARCengine.CoreObjects;
 
 namespace ARCengine
 {
@@ -14,6 +15,14 @@ namespace ARCengine
             mDocuments = new DocumentsCollection(this);
         }
 
+        /// <summary>
+        /// creates a Folder instance of given ID at Dome.CurrentDatabase
+        /// </summary>
+        /// <param name="id">the id of requested folder to be fetched</param>
+        public Folder(int id) : this(Dome.CurrentDatabase, id)
+        {
+        }
+
         public Folder(Database database) : this()
         {
             Database = database;
@@ -23,6 +32,11 @@ namespace ARCengine
         {
             mID = id;
             Read();
+        }
+
+        public Folder(Database database, SqlDataReader dr):this(database)
+        {
+            Init(dr);
         }
         #endregion
 

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using ARCengine.Collections;
+using ARCengine.CoreObjects;
 
 namespace ARCengine
 {
@@ -10,6 +10,10 @@ namespace ARCengine
         public Document() : base("Documents")
         {
             mFieldsValues = new FieldsValuesCollection(this);
+        }
+
+        public Document(int id) : this(Dome.CurrentDatabase, id)
+        {
         }
 
         public Document(Database database) :this()
@@ -23,14 +27,12 @@ namespace ARCengine
             Read();
         }
 
-        /*
-        public Document(Folder folder, SqlDataReader dr) : this()
+        public Document(Folder folder, SqlDataReader dr) : this(folder.Database)
         {
-            mFolderID = folder.ID;
             mFolder = folder;
+            mFolderID = folder.ID;
             Init(dr);
         }
-        */
         #endregion
 
         #region members

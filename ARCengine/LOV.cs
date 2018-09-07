@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using ARCengine.CoreObjects;
 
 namespace ARCengine
 {
@@ -8,6 +9,10 @@ namespace ARCengine
         public LOV(): base("LOV")
         {
 
+        }
+
+        public LOV(int id):this(Dome.CurrentDatabase, id)
+        {
         }
 
         public LOV(Database database):this()
