@@ -158,9 +158,9 @@ namespace ARCengine
         protected override SqlParameterCollection GetSaveParameters()
         {
             SqlParameterCollection result = base.GetSaveParameters();
-            AddParam(result, "@parentID", SqlParamTypes.Integer, mParentID);
-            AddParam(result, "@imageIndex", SqlParamTypes.Integer, mImageIndex);
-            AddParam(result, "@inheritsFields", SqlParamTypes.Boolean, mInheritsFields);    
+            AddParam(result, "@parentID", SqlParamTypesEnum.Integer, mParentID);
+            AddParam(result, "@imageIndex", SqlParamTypesEnum.Integer, mImageIndex);
+            AddParam(result, "@inheritsFields", SqlParamTypesEnum.Boolean, mInheritsFields);    
             return result;
         }
 

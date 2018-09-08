@@ -47,6 +47,13 @@ namespace ARCengine.Collections
                 List[index] = value;
             }
         }
+        public bool NeedsRefreshing
+        {
+            get
+            {
+                return mNeedsRefreshing;
+            }
+        }
         #endregion
 
         #region methods
@@ -80,7 +87,6 @@ namespace ARCengine.Collections
                     document.ReadFieldsValues(dr);
                 }
             }
-
             mNeedsRefreshing = false;
         }
 

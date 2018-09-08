@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ARCengine
 {
-    public enum FieldTypes { Text, Number, DateTime, YesNo, Lookup };
-    public enum FieldAlignment { Left, Center, Right };
-    public enum SqlParamTypes { String, Integer, DateTime, Boolean, Image };
+    public enum FieldTypesEnum { Text, Number, DateTime, YesNo, Lookup };
+    public enum FieldAlignmentEnum { Left, Center, Right };
+    public enum SqlParamTypesEnum { String, Integer, DateTime, Boolean, Image };
+    public enum DatabaseStateEnum { Initializing, Ready, ErrorInConnectionString, ErrorInDBStructure, Opened, Closed}
 }

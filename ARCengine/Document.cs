@@ -92,7 +92,7 @@ namespace ARCengine
         protected override SqlParameterCollection GetSaveParameters()
         {
             SqlParameterCollection result = base.GetSaveParameters();
-            AddParam(result, "@folderID", SqlParamTypes.Integer, mFolderID);
+            AddParam(result, "@folderID", SqlParamTypesEnum.Integer, mFolderID);
             return result;
         }
 

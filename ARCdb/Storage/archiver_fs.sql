@@ -1,0 +1,3 @@
+﻿ALTER DATABASE [$(DatabaseName)]
+    ADD FILEGROUP [archiver_fs] CONTAINS FILESTREAM;
+

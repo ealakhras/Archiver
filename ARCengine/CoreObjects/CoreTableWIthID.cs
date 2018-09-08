@@ -98,23 +98,23 @@ namespace ARCengine.CoreObjects
         protected override SqlParameterCollection GetReadParameters()
         {
             SqlParameterCollection result = base.GetReadParameters();
-            AddParam(result, "@id", SqlParamTypes.Integer, mID);
+            AddParam(result, "@id", SqlParamTypesEnum.Integer, mID);
             return result;
         }
 
         protected override SqlParameterCollection GetSaveParameters()
         {
             SqlParameterCollection result = base.GetSaveParameters();
-            AddParam(result, "@id", SqlParamTypes.Integer, mID);
-            AddParam(result, "@name", SqlParamTypes.String, mName);
-            AddParam(result, "@description", SqlParamTypes.String, mDescription);
+            AddParam(result, "@id", SqlParamTypesEnum.Integer, mID);
+            AddParam(result, "@name", SqlParamTypesEnum.String, mName);
+            AddParam(result, "@description", SqlParamTypesEnum.String, mDescription);
             return result;
         }
 
         protected override SqlParameterCollection GetDeleteParameters()
         {
             SqlParameterCollection result = base.GetDeleteParameters();
-            AddParam(result, "@id", SqlParamTypes.Integer, mID);
+            AddParam(result, "@id", SqlParamTypesEnum.Integer, mID);
             return result;
         }
 

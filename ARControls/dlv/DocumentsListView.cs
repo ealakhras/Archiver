@@ -56,6 +56,7 @@ namespace ARControls
 
         private void Populate()
         {
+            mIsPopulating = true;
             // signal the thread abort:
             // and wait for it to gracefully abort:
             mPopulateThreadAborted = true;
@@ -76,6 +77,7 @@ namespace ARControls
             mPopulateThreadAborted = false;
             mPopulateThread = new Thread(new ThreadStart(SafelyPopulate2));
             mPopulateThread.Start();
+            mIsPopulating = false;
         }
 
         private void SafelyPopulate()

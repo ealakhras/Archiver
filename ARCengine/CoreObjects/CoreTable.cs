@@ -47,6 +47,7 @@ namespace ARCengine.CoreObjects
                 {
                     return;
                 }
+                mDatabase = value;
                 mIsDirty = true;
             }
         }
@@ -61,7 +62,7 @@ namespace ARCengine.CoreObjects
         {
             get
             {
-                return !((mDatabase == null) && (mDatabase.State == ConnectionState.Open));
+                return !((mDatabase == null) && (mDatabase.State == DatabaseStateEnum.Opened));
             }
         }
         #endregion
@@ -185,27 +186,27 @@ namespace ARCengine.CoreObjects
         /// <param name="paramName">new parameter name</param>
         /// <param name="paramType">new parameter type</param>
         /// <param name="paramValue">new parameter value</param>
-        protected void AddParam(SqlParameterCollection destination, string paramName, SqlParamTypes paramType, object paramValue)
+        protected void AddParam(SqlParameterCollection destination, string paramName, SqlParamTypesEnum paramType, object paramValue)
         {
             switch (paramType)
             {
-                case SqlParamTypes.String:
+                case SqlParamTypesEnum.String:
                     destination.Add(paramName, SqlDbType.VarChar).Value = paramValue;
                     break;
 
-                case SqlParamTypes.Integer:
+                case SqlParamTypesEnum.Integer:
                     destination.Add(paramName, SqlDbType.BigInt).Value = paramValue;
                     break;
 
-                case SqlParamTypes.DateTime:
+                case SqlParamTypesEnum.DateTime:
                     destination.Add(paramName, SqlDbType.DateTime).Value = paramValue;
                     break;
 
-                case SqlParamTypes.Boolean:
+                case SqlParamTypesEnum.Boolean:
                     destination.Add(paramName, SqlDbType.Bit).Value = paramValue;
                     break;
 
-                case SqlParamTypes.Image:
+                case SqlParamTypesEnum.Image:
                     destination.Add(paramName, SqlDbType.VarBinary).Value = paramValue;
                     break;
 

@@ -66,6 +66,7 @@
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\Functions\" />
     <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="Storage\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\images.sql" />
@@ -86,6 +87,7 @@
     <Build Include="dbo\Stored Procedures\prcDocuments_delete.sql" />
     <Build Include="dbo\User Defined Types\typ_documentsFieldsValuesTable.sql" />
     <Build Include="dbo\Tables\lovs.sql" />
+    <Build Include="Storage\archiver_fs.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="db.refactorlog" />
@@ -94,6 +96,7 @@
     <None Include="SchemaCompare.scmp" />
     <None Include="dac.publish.xml" />
     <None Include="dbcreation.sql" />
+    <None Include="ARCdb.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Stored Procedures\prcFolders_read.sql" />

@@ -44,10 +44,10 @@ namespace ARCengine
         #region members
         private int mFolderID;
         private Folder mFolder;
-        private FieldTypes mType;
+        private FieldTypesEnum mType;
         private string mDefVal;
         private int mWidth;
-        private FieldAlignment mAlignment;
+        private FieldAlignmentEnum mAlignment;
         private int mLOVID;
         private int mOrd;
         #endregion
@@ -86,7 +86,7 @@ namespace ARCengine
                 mIsDirty = true;
             }
         }
-        public FieldTypes Type
+        public FieldTypesEnum Type
         {
             get
             {
@@ -118,7 +118,7 @@ namespace ARCengine
                 mIsDirty = true;
             }
         }
-        public FieldAlignment Alignment
+        public FieldAlignmentEnum Alignment
         {
             get
             {
@@ -200,13 +200,13 @@ namespace ARCengine
         protected override SqlParameterCollection GetSaveParameters()
         {
             SqlParameterCollection result = base.GetSaveParameters();
-            AddParam(result, "@folderID", SqlParamTypes.Integer, mFolderID);
-            AddParam(result, "@type", SqlParamTypes.String, FieldTypeUtil.ToChar(mType));
-            AddParam(result, "@defVal", SqlParamTypes.String, mDefVal);
-            AddParam(result, "@width", SqlParamTypes.Integer, mWidth);
-            AddParam(result, "@alignment", SqlParamTypes.String, FieldAlignmentUtil.ToChar(mAlignment));
-            AddParam(result, "@lovID", SqlParamTypes.Integer, mLOVID);
-            AddParam(result, "@ord", SqlParamTypes.Integer, mOrd);
+            AddParam(result, "@folderID", SqlParamTypesEnum.Integer, mFolderID);
+            AddParam(result, "@type", SqlParamTypesEnum.String, FieldTypeUtil.ToChar(mType));
+            AddParam(result, "@defVal", SqlParamTypesEnum.String, mDefVal);
+            AddParam(result, "@width", SqlParamTypesEnum.Integer, mWidth);
+            AddParam(result, "@alignment", SqlParamTypesEnum.String, FieldAlignmentUtil.ToChar(mAlignment));
+            AddParam(result, "@lovID", SqlParamTypesEnum.Integer, mLOVID);
+            AddParam(result, "@ord", SqlParamTypesEnum.Integer, mOrd);
             return result;
         }
 
@@ -229,27 +229,27 @@ namespace ARCengine
     /// </summary>
     public static class FieldTypeUtil
     {
-        public static string ToChar(FieldTypes fieldtype)
+        public static string ToChar(FieldTypesEnum fieldtype)
         {
             switch (fieldtype)
             {
-                case FieldTypes.Number: return "N";
-                case FieldTypes.DateTime: return "D";
-                case FieldTypes.YesNo: return "Y";
-                case FieldTypes.Lookup: return "L";
+                case FieldTypesEnum.Number: return "N";
+                case FieldTypesEnum.DateTime: return "D";
+                case FieldTypesEnum.YesNo: return "Y";
+                case FieldTypesEnum.Lookup: return "L";
                 default: return "T";
             }
         }
 
-        public static FieldTypes FromChar(string fieldtype)
+        public static FieldTypesEnum FromChar(string fieldtype)
         {
             switch (fieldtype)
             {
-                case "N": return FieldTypes.Number;
-                case "D": return FieldTypes.DateTime;
-                case "Y": return FieldTypes.YesNo;
-                case "L": return FieldTypes.Lookup;
-                default: return FieldTypes.Text;
+                case "N": return FieldTypesEnum.Number;
+                case "D": return FieldTypesEnum.DateTime;
+                case "Y": return FieldTypesEnum.YesNo;
+                case "L": return FieldTypesEnum.Lookup;
+                default: return FieldTypesEnum.Text;
             }
         }
     }
@@ -261,12 +261,12 @@ namespace ARCengine
         /// </summary>
         /// <param name="fieldalignment"></param>
         /// <returns></returns>
-        public static string ToChar(FieldAlignment fieldalignment)
+        public static string ToChar(FieldAlignmentEnum fieldalignment)
         {
             switch (fieldalignment)
             {
-                case FieldAlignment.Left: return "L";
-                case FieldAlignment.Right: return "R";
+                case FieldAlignmentEnum.Left: return "L";
+                case FieldAlignmentEnum.Right: return "R";
                 default: return "C";
             }
         }
@@ -276,13 +276,13 @@ namespace ARCengine
         /// </summary>
         /// <param name="fieldalignment"></param>
         /// <returns></returns>
-        public static FieldAlignment FromChar(string fieldalignment)
+        public static FieldAlignmentEnum FromChar(string fieldalignment)
         {
             switch (fieldalignment)
             {
-                case "L": return FieldAlignment.Left;
-                case "R": return FieldAlignment.Right;
-                default: return FieldAlignment.Center;
+                case "L": return FieldAlignmentEnum.Left;
+                case "R": return FieldAlignmentEnum.Right;
+                default: return FieldAlignmentEnum.Center;
             }
         }
     }   

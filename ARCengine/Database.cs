@@ -13,10 +13,11 @@ namespace ARCengine
         #region constructor
         public Database()
         {
+            mState = DatabaseStateEnum.Initializing;
             mSqlConnection = new SqlConnection();
             mSqlCommand = new SqlCommand { Connection = mSqlConnection };
             mFolders = new FoldersCollection(this);
-            //Dome.Databases.Add(this);
+            Dome.Databases.Add(this);
         }
 
         public Database(string connectionString)
@@ -28,6 +29,7 @@ namespace ARCengine
         #endregion
 
         #region members
+        private DatabaseStateEnum mState;
         private readonly SqlConnection mSqlConnection;
         private readonly SqlCommand mSqlCommand;
         private string mFriendlyName;
@@ -50,9 +52,13 @@ namespace ARCengine
                 {
                     return;
                 }
+
                 // reset:
                 mSqlConnection.Close();
                 mAutoConnect = false;
+                mState = DatabaseStateEnum.Initializing;
+
+                // strip to formal connection string, and put result into conStr:
                 string conStr = "";
                 string[] keywords = value.Split(';');
                 foreach (string keyword in keywords)
@@ -70,10 +76,25 @@ namespace ARCengine
                         conStr += @keyword + ';';
                     }
                 }
-                mSqlConnection.ConnectionString = conStr;
-                if (mAutoConnect)
+
+                // now try using conStr:
+                try
                 {
-                    mSqlConnection.Open();
+                    // this might raise exceptions:
+                    mSqlConnection.ConnectionString = conStr;
+
+                    // connect if AutoConnect:
+                    if (mAutoConnect)
+                    {
+                        mSqlConnection.Open();
+                    }
+                    mState = DatabaseStateEnum.Ready;
+                }
+                catch (Exception ex)
+                {
+                    mState = DatabaseStateEnum.ErrorInConnectionString;
+                    MessageBox.Show(ex.Message);
+                    //throw;
                 }
             }
         }
@@ -143,20 +164,37 @@ namespace ARCengine
         {
             get
             {
+                if (mFolders.NeedsRefreshing)
+                {
+                    mFolders.Refresh();
+                }
                 return mFolders;
             }
         }
-        public ConnectionState State
+        public DatabaseStateEnum State
         {
             get
             {
-                return mSqlConnection.State;
+                switch (mState)
+                {
+                    case DatabaseStateEnum.Initializing:
+                        return DatabaseStateEnum.Initializing;
+
+                    case DatabaseStateEnum.ErrorInConnectionString:
+                        return DatabaseStateEnum.ErrorInConnectionString;
+
+                    case DatabaseStateEnum.ErrorInDBStructure:
+                        return DatabaseStateEnum.ErrorInDBStructure;
+
+                    default: // Ready, Opened, Closed
+                        return mSqlConnection.State == ConnectionState.Closed ? DatabaseStateEnum.Closed : DatabaseStateEnum.Opened;
+                }
             }
         }
         #endregion
 
         #region methods
-        
+
         /// <summary>
         /// Sets sql parameter as the SqlCommand Text, and reset SqlCommand Parameters to parameters
         /// </summary>
@@ -167,13 +205,15 @@ namespace ARCengine
             mSqlCommand.Parameters.Clear();
             foreach (SqlParameter par in parameters)
             {
-                mSqlCommand.Parameters.Add(par);
+                SqlParameter p = new SqlParameter(par.ParameterName, par.SqlDbType);
+                p.Value = par.Value;
+                mSqlCommand.Parameters.Add(p);
             }
         }
 
         public override string ToString()
         {
-            return $"Engine: {Engine}, Database: {Name}, Status: {State.ToString()}";
+            return $"Engine: {Engine}, Database: {Name}, State: {State.ToString()}";
         }
 
         /// <summary>

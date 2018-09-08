@@ -73,25 +73,25 @@ namespace ARCengine
         protected override SqlParameterCollection GetReadParameters()
         {
             SqlParameterCollection result = base.GetSaveParameters();
-            AddParam(result, "@documentID", SqlParamTypes.Integer, mDocumentID);
-            AddParam(result, "@fieldID", SqlParamTypes.Integer, mFieldID);
+            AddParam(result, "@documentID", SqlParamTypesEnum.Integer, mDocumentID);
+            AddParam(result, "@fieldID", SqlParamTypesEnum.Integer, mFieldID);
             return result;
         }
 
         protected override SqlParameterCollection GetSaveParameters()
         {
             SqlParameterCollection result = base.GetSaveParameters();
-            AddParam(result, "@documentID", SqlParamTypes.Integer, mDocumentID);
-            AddParam(result, "@fieldID", SqlParamTypes.Integer, mFieldID);
-            AddParam(result, "@value", SqlParamTypes.String, mValue);
+            AddParam(result, "@documentID", SqlParamTypesEnum.Integer, mDocumentID);
+            AddParam(result, "@fieldID", SqlParamTypesEnum.Integer, mFieldID);
+            AddParam(result, "@value", SqlParamTypesEnum.String, mValue);
             return result;
         }
 
         protected override SqlParameterCollection GetDeleteParameters()
         {
             SqlParameterCollection result = base.GetSaveParameters();
-            AddParam(result, "@documentID", SqlParamTypes.Integer, mDocumentID);
-            AddParam(result, "@fieldID", SqlParamTypes.Integer, mFieldID);
+            AddParam(result, "@documentID", SqlParamTypesEnum.Integer, mDocumentID);
+            AddParam(result, "@fieldID", SqlParamTypesEnum.Integer, mFieldID);
             return result;
         }
 

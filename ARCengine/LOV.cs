@@ -54,7 +54,7 @@ namespace ARCengine
         protected override SqlParameterCollection GetSaveParameters()
         {
             SqlParameterCollection result = base.GetSaveParameters();
-            AddParam(result, "@vals", SqlParamTypes.String, mVals);
+            AddParam(result, "@vals", SqlParamTypesEnum.String, mVals);
             return result;
         }
 

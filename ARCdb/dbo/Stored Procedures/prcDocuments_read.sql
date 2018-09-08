@@ -6,6 +6,7 @@ AS
 	select
 		d.id,
 		d.folderID,
+		d.name,
 		d.description,
 		d.creator,
 		d.creationDate

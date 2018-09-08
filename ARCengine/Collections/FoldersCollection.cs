@@ -11,11 +11,14 @@ namespace ARCengine.Collections
             : base()
         {
             mOwner = owner;
+            mNeedsRefreshing = true;
         }
         #endregion
 
         #region members
         private ICollectionOwner mOwner;
+        private bool mNeedsRefreshing;
+
         #endregion
 
         #region properties
@@ -23,6 +26,10 @@ namespace ARCengine.Collections
         {
             get
             {
+                if(mNeedsRefreshing)
+                {
+                    Refresh();
+                }
                 return (Folder)List[index];
             }
             set
@@ -51,6 +58,13 @@ namespace ARCengine.Collections
                 }
 
                 return null;
+            }
+        }
+        public bool NeedsRefreshing
+        {
+            get
+            {
+                return mNeedsRefreshing;
             }
         }
         #endregion
@@ -103,6 +117,7 @@ namespace ARCengine.Collections
                 Read(dr);
                 dr.Close();
             }
+            mNeedsRefreshing = false;
         }
 
         /// <summary>

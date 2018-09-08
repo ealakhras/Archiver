@@ -99,20 +99,20 @@ namespace ARCengine
         protected override SqlParameterCollection GetReadParameters()
         {
             SqlParameterCollection result = base.GetReadParameters();
-            AddParam(result, "@documentID", SqlParamTypes.Integer, mDocumentID);
-            AddParam(result, "@fileName", SqlParamTypes.String, mFileName);
-            AddParam(result, "@notesDetails", SqlParamTypes.String, mNotesDetails);
-            AddParam(result, "@ord", SqlParamTypes.Integer, mOrd);
+            AddParam(result, "@documentID", SqlParamTypesEnum.Integer, mDocumentID);
+            AddParam(result, "@fileName", SqlParamTypesEnum.String, mFileName);
+            AddParam(result, "@notesDetails", SqlParamTypesEnum.String, mNotesDetails);
+            AddParam(result, "@ord", SqlParamTypesEnum.Integer, mOrd);
             return result;
         }
 
         protected override SqlParameterCollection GetSaveParameters()
         {
             SqlParameterCollection result = base.GetSaveParameters();
-            AddParam(result, "@documentID", SqlParamTypes.Integer, mDocumentID);
-            AddParam(result, "@fileName", SqlParamTypes.String, mFileName);
-            AddParam(result, "@notesDetails", SqlParamTypes.String, mNotesDetails);
-            AddParam(result, "@ord", SqlParamTypes.Integer, mOrd);
+            AddParam(result, "@documentID", SqlParamTypesEnum.Integer, mDocumentID);
+            AddParam(result, "@fileName", SqlParamTypesEnum.String, mFileName);
+            AddParam(result, "@notesDetails", SqlParamTypesEnum.String, mNotesDetails);
+            AddParam(result, "@ord", SqlParamTypesEnum.Integer, mOrd);
             return result;
         }
 

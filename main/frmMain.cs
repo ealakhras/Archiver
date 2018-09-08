@@ -181,13 +181,11 @@ namespace main
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
     }
 }
