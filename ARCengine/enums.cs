@@ -10,4 +10,6 @@ namespace ARCengine
     public enum FieldAlignmentEnum { Left, Center, Right };
     public enum SqlParamTypesEnum { String, Integer, DateTime, Boolean, Image };
     public enum DatabaseStateEnum { Initializing, Ready, ErrorInConnectionString, ErrorInDBStructure, Opened, Closed}
+    public enum RefreshStateEnum { NeedsRefreshing, CurrentlyRefreshing, HasBeenRefreshed}
+
 }

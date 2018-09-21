@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections;
+﻿using ARCengine.CoreObjects;
 using System.Data.SqlClient;
 
 
 namespace ARCengine.Collections
 {
 
-    public class FieldsValuesCollection : CollectionBase
+    public class FieldsValuesCollection : CoreCollection
     {
         #region constructors
-        public FieldsValuesCollection(Document document)
+        public FieldsValuesCollection(Document document):base(typeof(FieldValue))
         {
             mDocument = document;
-            mNeedsRefreshing = true;
         }
         #endregion
 
         #region members
         private Document mDocument;
-        private bool mNeedsRefreshing;
         #endregion
 
         #region properties
@@ -34,10 +31,7 @@ namespace ARCengine.Collections
         {
             get
             {
-                if (mNeedsRefreshing)
-                {
-                    Read();
-                }
+                Refresh(true);
                 return (FieldValue)List[index];
             }
             set
@@ -53,14 +47,6 @@ namespace ARCengine.Collections
                 return mDocument.Database;
             }
         }
-
-        public bool NeedsRefreshing
-        {
-            get
-            {
-                return mNeedsRefreshing;
-            }
-        }
         #endregion
 
 
@@ -73,20 +59,21 @@ namespace ARCengine.Collections
         /// <summary>
         /// populates fields from Database.
         /// </summary>
-        private void Read()
+        protected override void Read()
         {
-            SqlDataReader dr = Database.ExecuteDataReader($"exec prcFieldsValues_read @documentID = {mDocument}");
-
-            // do a beforehand-read. This is to make Read(dr) compatible
-            // with DocumentsCollection.Read(dr)
-            if (dr.Read())
+            using (SqlDataReader dr = Database.ExecuteDataReader($"exec prcFieldsValues_read @documentID = {mDocument.ID}"))
             {
-                Read(dr);
+                // do a beforehand-read. This is to make Read(dr) compatible
+                // with DocumentsCollection.Read(dr)
+                if (dr.Read())
+                {
+                    Read(dr);
+                }
+                dr.Close();
             }
-            dr.Close();
         }
 
-        protected internal void Read(SqlDataReader dr)
+        public void Read(SqlDataReader dr)
         {
             Clear();
             /*
@@ -105,7 +92,6 @@ namespace ARCengine.Collections
                     break;
                 }
             }
-            mNeedsRefreshing = false;
         }
 
         public void Save()
@@ -117,11 +103,6 @@ namespace ARCengine.Collections
                     document.Save();
                 }
             }
-        }
-
-        public void Refresh()
-        {
-            Read();
         }
         #endregion
     }

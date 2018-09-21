@@ -34,7 +34,7 @@ namespace ARCengine
             Read();
         }
 
-        public Folder(Database database, SqlDataReader dr):this(database)
+        public Folder(Database database, SqlDataReader dr) : this(database)
         {
             Init(dr);
         }
@@ -127,6 +127,7 @@ namespace ARCengine
         {
             get
             {
+                //mSubFolders.Refresh(true);
                 return mSubFolders;
             }
         }
@@ -134,10 +135,7 @@ namespace ARCengine
         {
             get
             {
-                if(mFields.NeedsRefreshing)
-                {
-                    mFields.Refresh();
-                }
+                //mFields.Refresh(true);
                 return mFields;
             }
         }
@@ -145,10 +143,7 @@ namespace ARCengine
         {
             get
             {
-                if(mDocuments.NeedsRefreshing)
-                {
-                    mDocuments.Refresh();
-                }
+                //mDocuments.Refresh(true);
                 return mDocuments;
             }
         }
@@ -176,6 +171,7 @@ namespace ARCengine
         {
             base.Save();
             mFields.Save();
+            mDocuments.Save();
             mSubFolders.Save();
         }
 

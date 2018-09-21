@@ -1,20 +1,18 @@
-﻿using System.Collections;
+﻿using ARCengine.CoreObjects;
 using System.Data.SqlClient;
 
 
-namespace ARCengine.Collections
+namespace ARCengine
 {
-    public class DocumentsCollection : CollectionBase
+    public class DocumentsCollection : CoreCollection
     {
-        public DocumentsCollection(Folder folder)
+        public DocumentsCollection(Folder folder) : base(typeof(Document))
         {
             mFolder = folder;
-            mNeedsRefreshing = true;
         }
 
         #region members
         private Folder mFolder;
-        private bool mNeedsRefreshing;
         #endregion
 
         #region properties
@@ -36,22 +34,12 @@ namespace ARCengine.Collections
         {
             get
             {
-                if (mNeedsRefreshing)
-                {
-                    Read();
-                }
+                Refresh(true);
                 return (Document)List[index];
             }
             set
             {
                 List[index] = value;
-            }
-        }
-        public bool NeedsRefreshing
-        {
-            get
-            {
-                return mNeedsRefreshing;
             }
         }
         #endregion
@@ -65,12 +53,14 @@ namespace ARCengine.Collections
         /// <summary>
         /// populates fields from Database.
         /// </summary>
-        private void Read()
+        protected override void Read()
         {
             Clear();
-            SqlDataReader dr = Database.ExecuteDataReader($"prcDocuments_read @folderID = {mFolder.ID}");
-            Read(dr);
-            dr.Close();
+            using (SqlDataReader dr = Database.ExecuteDataReader($"prcDocuments_read @folderID = {mFolder.ID}"))
+            {
+                Read(dr);
+                dr.Close();
+            }
         }
 
         private void Read(SqlDataReader dr)
@@ -87,7 +77,6 @@ namespace ARCengine.Collections
                     document.ReadFieldsValues(dr);
                 }
             }
-            mNeedsRefreshing = false;
         }
 
         public void Save()
@@ -99,11 +88,6 @@ namespace ARCengine.Collections
                     document.Save();
                 }
             }
-        }
-
-        public void Refresh()
-        {
-            Read();
         }
         #endregion
     }

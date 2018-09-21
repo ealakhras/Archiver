@@ -106,7 +106,7 @@ namespace main
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            dlvDocuments.Folder = ((FolderTreeNode)(ftvFolders.Nodes[0].Nodes[0].Nodes[2].Nodes[1])).Folder;
+            MessageBox.Show(ftvFolders.SelectedNode.ToString());
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)

@@ -1,13 +1,13 @@
-﻿using System.Collections;
+﻿using ARCengine.CoreObjects;
 using ARCettings;
 
 
-namespace ARCengine.Collections
+namespace ARCengine
 {
-    public class DatabaseCollection : CollectionBase
+    public class DatabaseCollection : CoreCollection
     {
         #region constructors
-        public DatabaseCollection(): base()
+        public DatabaseCollection(): base(typeof(Database))
         {
         }
         #endregion
@@ -42,13 +42,13 @@ namespace ARCengine.Collections
             }
         }
 
-        public new void Clear()
+        protected override void OnClear()
         {
-            base.Clear();
+            base.OnClear();
             Dome.CurrentDatabase = null;
         }
 
-        public void Init()
+        protected override void Read()
         {
             string[] connectionStrings = RegistryDome.DBs;
 

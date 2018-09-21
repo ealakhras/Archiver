@@ -79,10 +79,7 @@ namespace ARCengine
         {
             get
             {
-                if (mFieldsValues.NeedsRefreshing)
-                {
-                    mFieldsValues.Refresh();
-                }
+                //mFieldsValues.Refresh(true);
                 return mFieldsValues;
             }
         }

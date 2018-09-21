@@ -41,10 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\DatabaseCollection.cs" />
+    <Compile Include="DatabaseCollection.cs" />
+    <Compile Include="CoreObjects\CoreCollection.cs" />
     <Compile Include="CoreObjects\CoreTable.cs" />
-    <Compile Include="Collections\DocumentsCollection.cs" />
-    <Compile Include="Collections\FieldsValuesCollection.cs" />
+    <Compile Include="DocumentsCollection.cs" />
+    <Compile Include="FieldsValuesCollection.cs" />
     <Compile Include="CoreObjects\CoreTableWIthID.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Document.cs" />
@@ -52,10 +53,10 @@
     <Compile Include="enums.cs" />
     <Compile Include="Exceptions\MissingDatabaseException.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="Collections\FieldsCollection.cs" />
+    <Compile Include="FieldsCollection.cs" />
     <Compile Include="FieldValue.cs" />
     <Compile Include="Folder.cs" />
-    <Compile Include="Collections\FoldersCollection.cs" />
+    <Compile Include="FoldersCollection.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Interfaces\ICollectionOwner.cs" />
     <Compile Include="Interfaces\IUsesPropertiesForm.cs" />

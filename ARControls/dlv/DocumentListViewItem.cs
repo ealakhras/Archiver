@@ -7,25 +7,20 @@ namespace ARControls
     {
         public DocumentListViewItem(Document document)
         {
+            bool firstItem = true;
             mDocument = document;
-            for (int i = 0; i < document.FieldsValues.Count; i++)
+            foreach (FieldValue fv in document.FieldsValues)
             {
-                if (i == 0)
+                if(firstItem)
                 {
-                    Text = document.FieldsValues[i].Value;
+                    firstItem = false;
+                    Text = fv.Value;
                 }
                 else
                 {
-                    SubItems.Add(document.FieldsValues[i].Value);
+                    SubItems.Add(fv.Value);
                 }
             }
-
-            /*
-            foreach (FieldValue fieldValue in document.FieldsValues)
-            {
-                SubItems.Add(fieldValue.Value);
-            }
-            */
         }
 
         #region members

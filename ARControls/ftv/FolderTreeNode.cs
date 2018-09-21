@@ -44,9 +44,16 @@ namespace ARControls
         }
 
         public void Refresh()
-        {
+        
+
+{
             mFolder.Refresh();
             Init();
+        }
+
+        public override string ToString()
+        {
+            return mFolder.ToString();
         }
         #endregion
     }

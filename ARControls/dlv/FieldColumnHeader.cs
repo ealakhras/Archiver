@@ -5,8 +5,7 @@ namespace ARControls
 {
     public class FieldColumnHeader: ColumnHeader
     {
-        public FieldColumnHeader(Field field)
-            : base()
+        public FieldColumnHeader(Field field) : base()
         {
             mField = field;
             Text = field.Name;

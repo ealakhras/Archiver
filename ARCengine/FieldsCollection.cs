@@ -1,21 +1,17 @@
-﻿using System.Collections;
+﻿using ARCengine.CoreObjects;
 using System.Data.SqlClient;
 
-namespace ARCengine.Collections
+namespace ARCengine
 {
-    public class FieldsCollection : CollectionBase
+    public class FieldsCollection : CoreCollection
     {
-        public FieldsCollection(Folder folder)
+        public FieldsCollection(Folder folder) : base(typeof(Field))
         {
             mFolder = folder;
-            mFolderID = folder.ID;
-            mNeedsRefreshing = true;
         }
 
         #region members
-        private int mFolderID;
         private Folder mFolder;
-        private bool mNeedsRefreshing;
         #endregion
 
         #region properties
@@ -37,22 +33,12 @@ namespace ARCengine.Collections
         {
             get
             {
-                if (mNeedsRefreshing)
-                {
-                    Read();
-                }
+                Refresh(true);
                 return (Field)List[index];
             }
             set
             {
                 List[index] = value;
-            }
-        }
-        public bool NeedsRefreshing
-        {
-            get
-            {
-                return mNeedsRefreshing;
             }
         }
         #endregion
@@ -71,19 +57,11 @@ namespace ARCengine.Collections
         /// <summary>
         /// populates fields from Database.
         /// </summary>
-        private void Read()
+        protected override void Read()
         {
             Clear();
-            if (mFolder.InheritsFields)
+            using (SqlDataReader dr = Database.ExecuteDataReader($"exec prcFields_read @folderID = {mFolder.ID}"))
             {
-                foreach (Field field in ((Folder)mFolder.Parent).Fields)
-                {
-                    Add(field);
-                }
-            }
-            else
-            {
-                SqlDataReader dr = Database.ExecuteDataReader($"exec prcFields_read @folderID = {mFolderID}, @showInherited = 1");
                 Read(dr);
                 dr.Close();
             }
@@ -106,17 +84,6 @@ namespace ARCengine.Collections
                     field.Save();
                 }
             }
-        }
-
-        protected override void OnClear()
-        {
-            base.OnClear();
-            mNeedsRefreshing = false;
-        }
-
-        public void Refresh()
-        {
-            Read();
         }
         #endregion
     }

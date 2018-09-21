@@ -68,15 +68,18 @@ namespace ARControls
 
             // add columns here:
             Columns.Clear();
+            mFolder.Fields.Refresh(true);
             foreach (Field field in mFolder.Fields)
             {
                 Columns.Add(new FieldColumnHeader(field));
             }
-
+            SafelyPopulate();
+            /*
             // now launch the thread again:
             mPopulateThreadAborted = false;
             mPopulateThread = new Thread(new ThreadStart(SafelyPopulate2));
             mPopulateThread.Start();
+            */
             mIsPopulating = false;
         }
 
@@ -87,12 +90,13 @@ namespace ARControls
                 mIsPopulating = true;
                 //BeginUpdate();
                 Items.Clear();
+                mFolder.Documents.Refresh(true);
                 foreach (Document document in mFolder.Documents)
                 {
-                    if (mPopulateThreadAborted)
-                    {
-                        break;
-                    }
+                    //if (mPopulateThreadAborted)
+                    //{
+                    //    break;
+                    //}
                     SafelyAddDocument(document);
                 }
             }

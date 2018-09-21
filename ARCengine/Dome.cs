@@ -39,7 +39,7 @@ namespace ARCengine
 
         public static void Init()
         {
-            mDatabases.Init();
+            mDatabases.Refresh();
         }
     }
 }

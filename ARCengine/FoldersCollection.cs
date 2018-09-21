@@ -1,24 +1,21 @@
-﻿using System.Collections;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
+using ARCengine.Collections;
 using ARCengine.Interfaces;
+using ARCengine.CoreObjects;
 
 namespace ARCengine.Collections
 {
-    public class FoldersCollection : CollectionBase
+    public class FoldersCollection : CoreCollection
     {
         #region constructors
-        public FoldersCollection(ICollectionOwner owner)
-            : base()
+        public FoldersCollection(ICollectionOwner owner) : base(typeof(Folder))
         {
             mOwner = owner;
-            mNeedsRefreshing = true;
         }
         #endregion
 
         #region members
         private ICollectionOwner mOwner;
-        private bool mNeedsRefreshing;
-
         #endregion
 
         #region properties
@@ -26,10 +23,7 @@ namespace ARCengine.Collections
         {
             get
             {
-                if(mNeedsRefreshing)
-                {
-                    Refresh();
-                }
+                Refresh(true);
                 return (Folder)List[index];
             }
             set
@@ -58,13 +52,6 @@ namespace ARCengine.Collections
                 }
 
                 return null;
-            }
-        }
-        public bool NeedsRefreshing
-        {
-            get
-            {
-                return mNeedsRefreshing;
             }
         }
         #endregion
@@ -108,16 +95,17 @@ namespace ARCengine.Collections
         /// <summary>
         /// populates folders by calling Database.prcFolders_children() for roots.
         /// </summary>
-        public void Read()
+        protected override void Read()
         {
             Clear();
             if ((mOwner == null) || (mOwner is Database))
             {
-                SqlDataReader dr = Database.ExecuteDataReader("exec prcFolders_tree");
-                Read(dr);
-                dr.Close();
+                using (SqlDataReader dr = Database.ExecuteDataReader("prcFolders_tree"))
+                {
+                    Read(dr);
+                    dr.Close();
+                }
             }
-            mNeedsRefreshing = false;
         }
 
         /// <summary>
@@ -165,7 +153,7 @@ namespace ARCengine.Collections
         /// </summary>
         public void Save()
         {
-            foreach (Field subfolder in List)
+            foreach (Folder subfolder in List)
             {
                 if (subfolder.IsDirty)
                 {
@@ -173,11 +161,6 @@ namespace ARCengine.Collections
                 }
             }
         }
- 
-        public void Refresh()
-        {
-            Read();
-        }
-        #endregion
+         #endregion
     }
 }

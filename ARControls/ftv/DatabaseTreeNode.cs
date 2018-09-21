@@ -25,6 +25,7 @@ namespace ARControls
             {
                 Nodes.Add(new FolderTreeNode(folder));
             }
+            Expand();
         }
 
         private int GetImageIndex(DatabaseStateEnum state)

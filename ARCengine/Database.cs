@@ -53,42 +53,42 @@ namespace ARCengine
                     return;
                 }
 
-                // reset:
-                mSqlConnection.Close();
-                mAutoConnect = false;
-                mState = DatabaseStateEnum.Initializing;
-
-                // strip to formal connection string, and put result into conStr:
-                string conStr = "";
-                string[] keywords = value.Split(';');
-                foreach (string keyword in keywords)
-                {
-                    if (keyword.Trim().StartsWith("Friendly Name"))
-                    {
-                        mFriendlyName = keyword.Substring(keyword.IndexOf('"') + 1).Replace(@"""", "");
-                    }
-                    else if (keyword.Trim().StartsWith("Auto Connect"))
-                    {
-                        mAutoConnect = (keyword.Substring(keyword.IndexOf('=') + 1).Trim()) == "0" ? false : true;
-                    }
-                    else
-                    {
-                        conStr += @keyword + ';';
-                    }
-                }
-
-                // now try using conStr:
                 try
                 {
-                    // this might raise exceptions:
-                    mSqlConnection.ConnectionString = conStr;
 
-                    // connect if AutoConnect:
+                    // reset:
+                    mSqlConnection.Close();
+                    mAutoConnect = false;
+                    mState = DatabaseStateEnum.Initializing;
+
+                    // strip to formal connection string, and put result into conStr:
+                    string conStr = "";
+                    string[] keywords = value.Split(';');
+                    foreach (string keyword in keywords)
+                    {
+                        if (keyword.Trim().StartsWith("Friendly Name"))
+                        {
+                            mFriendlyName = keyword.Substring(keyword.IndexOf('"') + 1).Replace(@"""", "");
+                        }
+                        else if (keyword.Trim().StartsWith("Auto Connect"))
+                        {
+                            mAutoConnect = (keyword.Substring(keyword.IndexOf('=') + 1).Trim()) == "0" ? false : true;
+                        }
+                        else
+                        {
+                            conStr += @keyword + ';';
+                        }
+                    }
+
+                    // now set the connection string:
+                    mSqlConnection.ConnectionString = conStr;
+                    mState = DatabaseStateEnum.Ready;
+
+                    // Open if AutoConnect:
                     if (mAutoConnect)
                     {
-                        mSqlConnection.Open();
+                        Open();
                     }
-                    mState = DatabaseStateEnum.Ready;
                 }
                 catch (Exception ex)
                 {
@@ -164,10 +164,7 @@ namespace ARCengine
         {
             get
             {
-                if (mFolders.NeedsRefreshing)
-                {
-                    mFolders.Refresh();
-                }
+                //mFolders.Refresh(true);
                 return mFolders;
             }
         }
@@ -205,8 +202,10 @@ namespace ARCengine
             mSqlCommand.Parameters.Clear();
             foreach (SqlParameter par in parameters)
             {
-                SqlParameter p = new SqlParameter(par.ParameterName, par.SqlDbType);
-                p.Value = par.Value;
+                SqlParameter p = new SqlParameter(par.ParameterName, par.SqlDbType)
+                {
+                    Value = par.Value
+                };
                 mSqlCommand.Parameters.Add(p);
             }
         }
@@ -224,7 +223,7 @@ namespace ARCengine
             if (mSqlConnection.State == ConnectionState.Closed)
             {
                 mSqlConnection.Open();
-                mFolders.Read();
+                mFolders.Refresh();
             }
         }
 
